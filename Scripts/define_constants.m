@@ -27,7 +27,7 @@ data.C2 = 7.53e-7;  % [C2] = mL/mmHg
 data.C4 = 1.67e-5;  % [C3] = mL/mmHg
 data.C5 = 1.07e-5;  % [C4] = mL/mmHg
 
-data.capacitancies = [data.C1;data.C2;data.C4;data.C5];s
+data.capacitances = [data.C1;data.C2;data.C4;data.C5];
 
 %% Resistances at control state
 data.resistor_control_state.Rin = 2.25e4;   % [R] = mmHg*s/mL

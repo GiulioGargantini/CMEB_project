@@ -14,10 +14,10 @@ persistent data res
 if isempty(data)
     data = define_constants(data);
     res = data.resistor_control_state;
-    P1245 = solve_circuit_1245(data, res);
+    P1245 = solve_circuit_1245(data, res, t);
 end
 
-res = update_res(data,res, P1245);
+res = update_resistors(data,res, P1245);
 
 F = zeros(4,1);
 
@@ -34,6 +34,6 @@ F(3) = (P1245(2) - P1245(3))./(res.R2b + res.R3a + res.R3b + res.R4a) -...
 F(4) = (P1245(3) - P1245(4))./(res.R4b + res.R5a + res.R5b + res.R5c) -...
     (P1245(4) - data.Pout(t))./(res.R5d + res.Rout);
 
-dP1245dt = F./data.capacitances;
+dP1245dt = F./(data.capacitances);
 
 end
