@@ -10,8 +10,10 @@ data.operation = 0; % set operation = 0 if the patient has not undergone trabecu
                     % set operation = 1 if he has
 
 data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure
-data.IOP_after = 15;    % [IOP] = mmHg, Internal Ocular Pressure
+data.IOP_after = 15;    % [IOP] = mmHg, Internal Ocular Pressure (or for a healthy individual)
 data.MAP = 106.7;   % [MAP] = mmHg, Mean Arterial Pressure
+data.RLTp = 7;      % [RLTp] = mmHg, Retro Laminar Tissue pressure
+data.LCp = 10;      % [LCp] = mmHg, Pressure in Lamina Cribrosa.  VALORE INVENTATO!!!!!!!
 
 if data.operation == 1
     data.IOP = data.IOP_after;
@@ -19,7 +21,7 @@ else
     data.IOP = data.IOP_before;
 end
 
-data.Pin = @(t) t.*(1-t);   % [P] = mmHg, inflow pressure
+data.Pin = @(t) t.*(1-t) + 1;   % [P] = mmHg, inflow pressure
 data.Pout = @(t) 0.*t;      % [P] = mmHg, outflow pressure
 %% Capacitancies at control state
 data.C1 = 7.22e-7;  % [C1] = mL/mmHg
@@ -83,5 +85,20 @@ data.CRV.kp = (data.CRV.E*data.CRV.h^3/sqrt(1-data.CRV.nu^2))*...
     (pi/data.CRV.Aref)^(3/2);   % kp
 data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % kl
 
-
+% %% Venules constants
+% data.ven.L_tot = ;    % [L] = mm, length
+% data.ven.L_a = ;     % [L] = mm, length of segment a
+% data.ven.L_b = ;     % [L] = mm, length of segment b
+% data.ven.L_c = ;     % [L] = mm, length of segment c
+% data.ven.L_d = ;     % [L] = mm, length of segment d
+% data.ven.mu = ;      % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
+% data.ven.E = 0.066;       % [E] = MPa = kg/(m*s^2), Young modulus off walls
+% data.ven.nu = 0.49;     % [nu] = 1, wall poisson ratio
+% data.ven.h = 0.05;   % [WtLr] = 1, wall to Lumen ratio
+% 
+% data.ven.Aref = pi * data.ven.D^2 / 4;  % reference section
+% data.ven.krrho = 8*pi*data.ven.mu;      % kr * rho
+% data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
+%     (pi/data.ven.Aref)^(3/2);   % kp
+% data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % kl
 end

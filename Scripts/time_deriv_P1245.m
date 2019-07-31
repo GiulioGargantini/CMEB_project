@@ -10,14 +10,13 @@ function dP1245dt = time_deriv_P1245(t, P1245)
 %output: dP1245dt 4x1 vector, time derivative of P1245 at time = t.
 
 persistent data res
-
 if isempty(data)
     data = define_constants(data);
     res = data.resistor_control_state;
-    P1245 = solve_circuit_1245(data, res, t);
 end
 
-res = update_resistors(data,res, P1245);
+mean_press = mean_pressures(P1245, data.Pin(t), data.Pout(t), res);
+res = update_resistors(data,res, mean_press);
 
 F = zeros(4,1);
 
