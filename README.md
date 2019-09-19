@@ -11,3 +11,5 @@ Giovanna Guidoboni, Alon Harris, Simone Cassani, Julia Arciero, Brent Siesky, An
 Guidoboni G., Harris A., Carichino L., Arieli Y., Siesky BA.
 June 2014
 
+-Notes: notes of the course "Computational Methods for Electronics and Biomathematics" done at Politecnico di Milano, academic year 2018/19.
+Sacco R, Guidoboni G, and Mauri AG.

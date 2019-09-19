@@ -16,11 +16,13 @@ data.AR = 0;    % set AR = 1 if blood flow autoregulation is active
 data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
                     % set operation = 1 if he has
 
-data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure
+%% Pressures
+data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure in case of unhealthy patient
 data.IOP_after = 15;    % [IOP] = mmHg, Internal Ocular Pressure (or for a healthy individual)
 data.MAP = 106.7;   % [MAP] = mmHg, Mean Arterial Pressure
 data.RLTp = 7;      % [RLTp] = mmHg, Retro Laminar Tissue pressure
 data.LCp = 10;      % [LCp] = mmHg, Pressure in Lamina Cribrosa.  VALORE INVENTATO!!!!!!!
+
 
 if data.operation == 1
     data.IOP = data.IOP_after;
@@ -28,8 +30,11 @@ else
     data.IOP = data.IOP_before;
 end
 
+data.OPP = 2/3 * data.MAP - data.IOP;   % [OPP] = mmHg, Ocular Pervasion Pressure
+
 data.Pin = @(t) t.*(1-t) + 1;   % [P] = mmHg, inflow pressure
 data.Pout = @(t) 0.*t;      % [P] = mmHg, outflow pressure
+
 %% Capacitancies at control state
 data.C1 = 7.22e-7;  % [C1] = mL/mmHg
 data.C2 = 7.53e-7;  % [C2] = mL/mmHg
@@ -74,6 +79,14 @@ data.CRA.kp = (data.CRA.E*data.CRA.h^3/sqrt(1-data.CRA.nu^2))*...
     (pi/data.CRA.Aref)^(3/2);   % kp
 data.CRA.kL = 12 * data.CRA.Aref/(pi * data.CRA.h^2);
 
+
+%% Arterioles constants
+data.art.cL = 2.50e-3;  % [cL] = 1, lower bound for variation in resistance
+data.art.cU = 1.5;      % [cU] = 1, upper bound for variation in resistance
+data.art.K = 6.91e4;    % [K] = s/mL, resistance sensitivity to variations in OPP
+data.art.c_hat = log(data.art.cU - 1) - log(1 - data.art.cL);   % [c_hat] = 1
+                                            % normalization constant
+
 %% CRV constants
 data.CRV.D = 238e-3;    % [D] = mm, diameter
 data.CRV.L_tot = 10;    % [L] = mm, length
@@ -108,4 +121,8 @@ data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % kl
 % data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
 %     (pi/data.ven.Aref)^(3/2);   % kp
 % data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % kl
+
+%% Total flow
+data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through 
+                        % the retinal vessels
 end
