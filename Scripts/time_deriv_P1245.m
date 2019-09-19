@@ -18,9 +18,12 @@ end
 mean_press = mean_pressures(P1245, data.Pin(t), data.Pout(t), res);
 res = update_resistors(data,res, mean_press);
 
-F = zeros(4,1);
+F = zeros(4,1); % Bloodflow in each node of P1245. It's equivalent to the
+                % role of the current in the capacitance law.
 
-% Computation of the different components of dP1245dt
+% Computation of the different components of dP1245dt using Kirchhoff
+% Current Law (KCL).
+
 F(1) = (data.Pin(t) - P1245(1))./(res.Rin + res.R1a) -...
     (P1245(1) - P1245(2))./(res.R1b + res.R1c + res.R1d + res.R2a);
 

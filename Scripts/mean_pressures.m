@@ -1,7 +1,8 @@
 function mp = mean_pressures(P1245, Pin, Pout, res)
-% This function returns a struct with the values of the mean pressures
-% in the resistors of the circuit.
-% In this version, only the mean pressures of variable resistors are computed.
+%This function returns a struct with the values of the mean pressures
+%in the resistors of the circuit. Such values are found thanks to
+%Kirchhoff Voltage Law.
+%In this version, only the mean pressures of variable resistors are computed.
 
 mp.R1c = P1245(2) + (P1245(1) - P1245(2)) * (res.R1c/2 + res.R1d + res.R2a) /...
     (res.R1b + res.R1c + res.R1d + res.R2a);
@@ -14,7 +15,7 @@ mp.R2a = P1245(2) + (P1245(1) - P1245(2)) * (res.R2a/2) /...
 
 mp.R2b = P1245(3) + (P1245(2) - P1245(3)) * (res.R2b/2 + res.R3a + res.R3b + res.R4a) /...
     (res.R2b + res.R3a + res.R3b + res.R4a);
-
+ 
 mp.R4a = P1245(3) + (P1245(2) - P1245(3)) * (res.R4a/2) /...
     (res.R2b + res.R3a + res.R3b + res.R4a);
 

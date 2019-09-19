@@ -1,5 +1,5 @@
 function P1245 = solve_circuit_1245(data, res, t)
-% This function is used to solve the circuit.
+%This function is used to solve the circuit using Kirchhoff Voltage Law
 %output: P1245 4x1 vector of the corresponding pressures.
 
 R_tot = res.Rin+res.R1a+res.R1b+res.R1c+res.R1d+res.R2a+res.R2b+res.R3a+...
