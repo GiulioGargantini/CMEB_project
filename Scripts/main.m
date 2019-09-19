@@ -12,12 +12,13 @@ res = data.resistor_control_state;
 P1245 = zeros(4,1);
 
 % Time vector
-tspan = [0,1];
+tspan = [0, 1];
 
 %% Call to the ODE solver
 
 P1245 = solve_circuit_1245(data, res, 0);
-[ttout, PP1245] = ode15s(@time_deriv_P1245, tspan, P1245);
+opt = odeset('Refine',2);
+[ttout, PP1245] = ode15s(@time_deriv_P1245, tspan, P1245, opt);
 
 %% Plots
 figure

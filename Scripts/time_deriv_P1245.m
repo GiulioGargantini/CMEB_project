@@ -15,6 +15,9 @@ if isempty(data)
     res = data.resistor_control_state;
 end
 
+
+
+
 mean_press = mean_pressures(P1245, data.Pin(t), data.Pout(t), res);
 res = update_resistors(data,res, mean_press);
 

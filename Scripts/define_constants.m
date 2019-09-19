@@ -21,7 +21,7 @@ data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure in case of unhe
 data.IOP_after = 15;    % [IOP] = mmHg, Internal Ocular Pressure (or for a healthy individual)
 data.MAP = 106.7;   % [MAP] = mmHg, Mean Arterial Pressure
 data.RLTp = 7;      % [RLTp] = mmHg, Retro Laminar Tissue pressure
-data.LCp = 10;      % [LCp] = mmHg, Pressure in Lamina Cribrosa.  VALORE INVENTATO!!!!!!!
+data.LCp = 50;      % [LCp] = mmHg, Pressure in Lamina Cribrosa.  VALORE INVENTATO!!!!!!!
 
 
 if data.operation == 1
@@ -32,8 +32,9 @@ end
 
 data.OPP = 2/3 * data.MAP - data.IOP;   % [OPP] = mmHg, Ocular Pervasion Pressure
 
-data.Pin = @(t) t.*(1-t) + 1;   % [P] = mmHg, inflow pressure
-data.Pout = @(t) 0.*t;      % [P] = mmHg, outflow pressure
+data.Pin = @(t) Pressure_in(t);   % [P] = mmHg, inflow pressure
+data.Pout = @(t) 12 + 0.*t;      % [P] = mmHg, outflow pressure
+data.convert_MPa_to_mmHg = 1/(133.322e-6);  % = mmHg/MPa 
 
 %% Capacitancies at control state
 data.C1 = 7.22e-7;  % [C1] = mL/mmHg
@@ -69,15 +70,15 @@ data.CRA.L_b = 4.4;     % [L] = mm, length of segment b
 data.CRA.L_c = 0.2;     % [L] = mm, length of segment c
 data.CRA.L_d = 1.0;     % [L] = mm, length of segment d
 data.CRA.mu = 3.0;      % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
-data.CRA.E = 0.3;       % [E] = MPa = kg/(m*s^2), Young modulus off walls
+data.CRA.E = 0.3 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
 data.CRA.nu = 0.49;     % [nu] = 1, wall poisson ratio
 data.CRA.h = 39.7e-3;   % [h] = mm, wall thickness
 
 data.CRA.Aref = pi * data.CRA.D^2 / 4;  % [Aref] = mm^2, reference section
-data.CRA.krrho = 8*pi*data.CRA.mu;      % kr * rho
+data.CRA.krrho = 8*pi*data.CRA.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
 data.CRA.kp = (data.CRA.E*data.CRA.h^3/sqrt(1-data.CRA.nu^2))*...
-    (pi/data.CRA.Aref)^(3/2);   % kp
-data.CRA.kL = 12 * data.CRA.Aref/(pi * data.CRA.h^2);   % kL
+    (pi/data.CRA.Aref)^(3/2);   % [kp] = mmHg
+data.CRA.kL = 12 * data.CRA.Aref/(pi * data.CRA.h^2);   % [kL] = 1
 
 
 %% Arterioles constants
@@ -95,15 +96,15 @@ data.CRV.L_b = 0.2;     % [L] = mm, length of segment b
 data.CRV.L_c = 4.4;     % [L] = mm, length of segment c
 data.CRV.L_d = 4.4;     % [L] = mm, length of segment d
 data.CRV.mu = 3.24;      % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
-data.CRV.E = 0.6;       % [E] = MPa = kg/(m*s^2), Young modulus off walls
+data.CRV.E = 0.6 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
 data.CRV.nu = 0.49;     % [nu] = 1, wall poisson ratio
 data.CRV.h = 10.7e-3;   % [h] = mm, wall thickness
 
-data.CRV.Aref = pi * data.CRV.D^2 / 4;  % reference section
-data.CRV.krrho = 8*pi*data.CRV.mu;      % kr * rho
+data.CRV.Aref = pi * data.CRV.D^2 / 4;  % [Aref] = mm^2, reference section
+data.CRV.krrho = 8*pi*data.CRV.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
 data.CRV.kp = (data.CRV.E*data.CRV.h^3/sqrt(1-data.CRV.nu^2))*...
-    (pi/data.CRV.Aref)^(3/2);   % kp
-data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % kL
+    (pi/data.CRV.Aref)^(3/2);   % [kp] = mmHg
+data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % [kL] = 1
 
 %% Venules constants
 data.ven.D = 230e-3;    % [D] = mm, diameter !!!FOUND IN art2_CMEB (altri dicono 150e-3)
@@ -112,15 +113,15 @@ data.ven.Aref = pi * data.ven.D^2 / 4;  % [Aref] = mm^2, reference section
 data.ven.L_tot = data.ven.volume/ data.ven.Aref;    % [L] = mm, length
 data.ven.L_a = data.ven.L_tot/2;     % [L] = mm, length of segment a
 data.ven.L_b = data.ven.L_a;     % [L] = mm, length of segment b
-data.ven.mu = data.CRV.mu;      % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
-data.ven.E = 0.066;       % [E] = MPa = kg/(m*s^2), Young modulus off walls
+data.ven.mu = data.CRV.mu;      % [mu] = cP = 1e-3 Pa * s, blood viscosity
+data.ven.E = 0.066 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
 data.ven.nu = 0.49;     % [nu] = 1, wall poisson ratio
 data.ven.h = 0.05;   % [WtLr] = 1, wall to Lumen ratio
 
-data.ven.krrho = 8*pi*data.ven.mu;      % kr * rho
+data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
 data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
-    (pi/data.ven.Aref)^(3/2);   % kp
-data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % kl
+    (pi/data.ven.Aref)^(3/2);   % [kp] = mmHg
+data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % [kl] = 1
 
 %% Total flow
 data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through 

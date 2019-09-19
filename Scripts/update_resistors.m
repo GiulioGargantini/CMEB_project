@@ -2,6 +2,9 @@ function res = update_resistors(data,res, mp)
 % This function, given the pressures P1, P2, P4 and P5, and given Pin and
 % Pout through the data and the time t, updates the values of the nonlinear
 % resistors in each portion in-1, 1-2, 2-4, 4-5 and 5-out.
+
+res
+
 %% Compliant tubes
 res.R1c = compliant_resistor(data.CRA.krrho, data.CRA.L_c, data.CRA.Aref,...
     (mp.R1c - data.LCp), data.CRA.kp, data.CRA.kL);
@@ -35,5 +38,7 @@ end
 
 res.R2b = res.R2a;
 
-
+mp
+res
+pause
 end

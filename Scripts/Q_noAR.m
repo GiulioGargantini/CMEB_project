@@ -12,6 +12,6 @@ Y_q = [0.721 0.859 1.005 1.088 1.284]; % Corresponding values of the normalized
                                        % bloodflow from the same graph.
                                        % Y(OPP) = Q(OPP)/Q_bar
 
-Q = Q_bar * interpl(OPP,Y_q, OPPs_q);
+Q = Q_bar * interp1(OPPs_q,Y_q, OPP);
 
 end
