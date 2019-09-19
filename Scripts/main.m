@@ -24,4 +24,4 @@ figure
 hold on
 plot(ttout,data.Pin(ttout),'r-',ttout,data.Pout(ttout),'k-')
 plot(ttout,PP1245(:,1),ttout,PP1245(:,2),ttout,PP1245(:,3),ttout,PP1245(:,4))
-legend('P_{in}', 'P_{out}', 'P_1', 'P_2', 'P_3', 'P_4')
+legend('P_{in}', 'P_{out}', 'P_1', 'P_2', 'P_4', 'P_5')

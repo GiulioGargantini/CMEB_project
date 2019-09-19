@@ -73,11 +73,11 @@ data.CRA.E = 0.3;       % [E] = MPa = kg/(m*s^2), Young modulus off walls
 data.CRA.nu = 0.49;     % [nu] = 1, wall poisson ratio
 data.CRA.h = 39.7e-3;   % [h] = mm, wall thickness
 
-data.CRA.Aref = pi * data.CRA.D^2 / 4;  % reference section
+data.CRA.Aref = pi * data.CRA.D^2 / 4;  % [Aref] = mm^2, reference section
 data.CRA.krrho = 8*pi*data.CRA.mu;      % kr * rho
 data.CRA.kp = (data.CRA.E*data.CRA.h^3/sqrt(1-data.CRA.nu^2))*...
     (pi/data.CRA.Aref)^(3/2);   % kp
-data.CRA.kL = 12 * data.CRA.Aref/(pi * data.CRA.h^2);
+data.CRA.kL = 12 * data.CRA.Aref/(pi * data.CRA.h^2);   % kL
 
 
 %% Arterioles constants
@@ -103,7 +103,7 @@ data.CRV.Aref = pi * data.CRV.D^2 / 4;  % reference section
 data.CRV.krrho = 8*pi*data.CRV.mu;      % kr * rho
 data.CRV.kp = (data.CRV.E*data.CRV.h^3/sqrt(1-data.CRV.nu^2))*...
     (pi/data.CRV.Aref)^(3/2);   % kp
-data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % kl
+data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % kL
 
 %% Venules constants
 data.ven.D = 230e-3;    % [D] = mm, diameter !!!FOUND IN art2_CMEB (altri dicono 150e-3)

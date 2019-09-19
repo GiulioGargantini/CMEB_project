@@ -4,10 +4,10 @@ function dP1245dt = time_deriv_P1245(t, P1245)
 %IOP and RLTp are assumed to be constant.
 %TIME_DERIV_P1245 is to be used by ode15s
 %
-%input: t scalar for time
+%INPUT: t scalar for time
 %       P1245 4x1 vector of the pressures P1, P2, P4, P5.
 %
-%output: dP1245dt 4x1 vector, time derivative of P1245 at time = t.
+%OUTPUT: dP1245dt 4x1 vector, time derivative of P1245 at time = t.
 
 persistent data res
 if isempty(data)

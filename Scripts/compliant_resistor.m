@@ -12,7 +12,7 @@ function R = compliant_resistor(krrho, L, Aref, delP, kp, kL)
 %
 %OUTPUT R = value of the resistance.
 %
-%The formula used is the one found in the notes (????)
+%The formula used is the one found in the notes (4.52) and in art1_CMEB (2)
 
     R = krrho * L /Aref^2 * (1+ delP/(kp * kL))^(-4);
     
