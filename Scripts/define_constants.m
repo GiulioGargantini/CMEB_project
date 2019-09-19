@@ -105,22 +105,22 @@ data.CRV.kp = (data.CRV.E*data.CRV.h^3/sqrt(1-data.CRV.nu^2))*...
     (pi/data.CRV.Aref)^(3/2);   % kp
 data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % kl
 
-% %% Venules constants
-% data.ven.L_tot = ;    % [L] = mm, length
-% data.ven.L_a = ;     % [L] = mm, length of segment a
-% data.ven.L_b = ;     % [L] = mm, length of segment b
-% data.ven.L_c = ;     % [L] = mm, length of segment c
-% data.ven.L_d = ;     % [L] = mm, length of segment d
-% data.ven.mu = ;      % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
-% data.ven.E = 0.066;       % [E] = MPa = kg/(m*s^2), Young modulus off walls
-% data.ven.nu = 0.49;     % [nu] = 1, wall poisson ratio
-% data.ven.h = 0.05;   % [WtLr] = 1, wall to Lumen ratio
-% 
-% data.ven.Aref = pi * data.ven.D^2 / 4;  % reference section
-% data.ven.krrho = 8*pi*data.ven.mu;      % kr * rho
-% data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
-%     (pi/data.ven.Aref)^(3/2);   % kp
-% data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % kl
+%% Venules constants
+data.ven.D = 230e-3;    % [D] = mm, diameter !!!FOUND IN art2_CMEB (altri dicono 150e-3)
+data.ven.volume = 6.12 * 1e3; % [volume] = mm^3
+data.ven.Aref = pi * data.ven.D^2 / 4;  % [Aref] = mm^2, reference section
+data.ven.L_tot = data.ven.volume/ data.ven.Aref;    % [L] = mm, length
+data.ven.L_a = data.ven.L_tot/2;     % [L] = mm, length of segment a
+data.ven.L_b = data.ven.L_a;     % [L] = mm, length of segment b
+data.ven.mu = data.CRV.mu;      % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
+data.ven.E = 0.066;       % [E] = MPa = kg/(m*s^2), Young modulus off walls
+data.ven.nu = 0.49;     % [nu] = 1, wall poisson ratio
+data.ven.h = 0.05;   % [WtLr] = 1, wall to Lumen ratio
+
+data.ven.krrho = 8*pi*data.ven.mu;      % kr * rho
+data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
+    (pi/data.ven.Aref)^(3/2);   % kp
+data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % kl
 
 %% Total flow
 data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through 
