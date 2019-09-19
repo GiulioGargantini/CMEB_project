@@ -5,9 +5,8 @@ function data = define_constants(data)
 %Set the parameter AR = 1 to study the case with blood flow autoregulation
 %                  AR = 0 if autoregulation is absent.
 %
-%Set the parameter operation = 1 to study the case where the patient has
-%                                undergone trabeculectomy
-%                  operation = 0 if not.
+%Set the parameter operation = 1 to study the ca
+%
 
 %% Properties
 data.AR = 0;    % set AR = 1 if blood flow autoregulation is active
