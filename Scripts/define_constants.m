@@ -21,7 +21,7 @@ data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure in case of unhe
 data.IOP_after = 15;    % [IOP] = mmHg, Internal Ocular Pressure (or for a healthy individual)
 data.MAP = 106.7;   % [MAP] = mmHg, Mean Arterial Pressure
 data.RLTp = 7;      % [RLTp] = mmHg, Retro Laminar Tissue pressure
-data.LCp = 50;      % [LCp] = mmHg, Pressure in Lamina Cribrosa.  VALORE INVENTATO!!!!!!!
+data.LCp = 50;      % [LCp] = mmHg, dummy Pressure in Lamina Cribrosa. It is initialized later in the code
 
 
 if data.operation == 1
@@ -35,6 +35,7 @@ data.OPP = 2/3 * data.MAP - data.IOP;   % [OPP] = mmHg, Ocular Pervasion Pressur
 data.Pin = @(t) Pressure_in(t);   % [P] = mmHg, inflow pressure
 data.Pout = @(t) 12 + 0.*t;      % [P] = mmHg, outflow pressure
 data.convert_MPa_to_mmHg = 1/(133.322e-6);  % = mmHg/MPa 
+data.P_LC_art = 40.5;   %[P] = mmHg, control pressure in the Lamina Cribrosa
 
 %% Capacitancies at control state
 data.C1 = 7.22e-7;  % [C1] = mL/mmHg
@@ -122,6 +123,13 @@ data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] 
 data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
     (pi/data.ven.Aref)^(3/2);   % [kp] = mmHg
 data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % [kl] = 1
+
+%% Lamina Cribrosa constants
+% see art3_CMEB.pdf
+data.LC.L = 1.5;    % [L] = mm
+data.LC.zlc = data.LC.L - 0.75; % [zlc] = mm
+data.LC.zlc_minus_hl = data.LC.zlc - data.CRA.L_c;  % [zlc] = mm
+
 
 %% Total flow
 data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through 
