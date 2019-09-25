@@ -117,7 +117,8 @@ data.ven.L_b = data.ven.L_a;     % [L] = mm, length of segment b
 data.ven.mu = data.CRV.mu;      % [mu] = cP = 1e-3 Pa * s, blood viscosity
 data.ven.E = 0.066 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
 data.ven.nu = 0.49;     % [nu] = 1, wall poisson ratio
-data.ven.h = 0.05;   % [WtLr] = 1, wall to Lumen ratio
+data.ven.wtlr = 0.05;   % [wtlr] = 1, wall to Lumen ratio
+data.ven.h = data.ven.wtlr * data.ven.D / 2;    % [h] = mm, wall thickness
 
 data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
 data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
@@ -129,9 +130,14 @@ data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % [kl] = 1
 data.LC.L = 1.5;    % [L] = mm
 data.LC.zlc = data.LC.L - 0.75; % [zlc] = mm
 data.LC.zlc_minus_hl = data.LC.zlc - data.CRA.L_c;  % [zlc] = mm
+data.LCp = mean_LC_pressure(data);
 
 
 %% Total flow
 data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through 
                         % the retinal vessels
+            
+formatspec = 'CRV Area = %3.5f ; venules Area = %3.5f; \n';
+fprintf(formatspec, data.CRV.Aref, data.ven.Aref);
+                    
 end

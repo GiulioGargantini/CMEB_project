@@ -12,7 +12,6 @@ function dP1245dt = time_deriv_P1245(t, P1245)
 persistent data res
 if isempty(data)
     data = define_constants(data);
-    data.LCp = mean_LC_pressure(data);
     res = data.resistor_control_state;
 end
 

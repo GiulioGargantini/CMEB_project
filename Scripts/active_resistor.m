@@ -1,26 +1,21 @@
-function R = active_resistor(R2_avg, cL, cU, K, OPP, Q_bar, c_hat)
+function R = active_resistor(OPP)
 %Computes the resistance of the arterioles with an active mechanism of
-%autoregulation according to the formula (4) of art1_CMEB.
-%INPUT: 1) R2_avg = average value for R2a and R2b, found in data
-%       2) cL = lower bound for the variation in resistance, found in data
-%       3) cU = upper bound for the variation in resistance, found in data
-%       4) K = sensitivity of the resistance to changes in OPP, found in data
-%       5) OPP = Optical Perfusion Pressure, constant throughout the
-%       simulation. MAP is the Mean Arterial Pressure in the brachial artery
-%       and IOP the Internal Ocular Pressure.
-%           OPP = 2/3 MAP - IOP  (see pg 4107 of art1_CMEB).
-%           MAP = 2/3 DP + 1/3 SP.
-%           IOP is a parameter found in data
-%       6) Q_bar = physiological value of the bloodflow in the retinal
-%           vessels. It can be found in data.
-%       7) c_hat = normalization parameter (see pg 4116 of art1_CMEB)
-%           c_hat = log(cU - 1) - log(1 - cL)
-%           This parameter is computed once and is found in data.
+%autoregulation according to figure (A2) of art1_CMEB.
+%INPUT: OPP = Optical Perfusion Pressure, constant throughout the
+%           simulation. MAP is the Mean Arterial Pressure in the brachial artery
+%           and IOP the Internal Ocular Pressure.
+%               OPP = 2/3 MAP - IOP  (see pg 4107 of art1_CMEB).
+%               MAP = 2/3 DP + 1/3 SP.
+%               IOP is a parameter found in data
 %
 %OUTPUT R = value of the resistance.
+%
+%Data have been read thanks to http://www.graphreader.com/
     
-    Q_noAR_OPP = Q_noAR(OPP, Q_bar);
-    val_exp = exp(K .* (Q_noAR_OPP - Q_bar) - c_hat);
-    R = R2_avg * (cL + cU .* val_exp )./(1 + val_exp);
+x_OPP =[30.0 31.58 38.993 41.262 43.125 45.231 47.176 49.201 51.227 53.414 60.99 65.0];
+y_R = [90.0 91.463 73.171 164.634 493.902 2176.829 5981.707 8268.293 8798.78 8926.829 8926.829 8926.829];
+
+R = interp1(x_OPP, y_R, OPP);
     
 end
+

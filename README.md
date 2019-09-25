@@ -18,5 +18,7 @@ June 2014
 William H. Morgan, Dao-Yi Yu, Valerie A. Alder, Stephen J. Cringle, Richard L Cooper,
 Phillip H. House, and Ian J. Constable
 
+-art5_CMEB: "MATHEMATICAL ANDCOMPUTATIONALMODELS FOR THE STUDYOF AUTOREGULATIONPHENOMENAIN THE HUMAN RETINALMICROVASCULAR NETWORK", Tesi di laurea di Laura Origgi, Relatore Prof.ssa Paola Causin, Correlatore Prof. Riccardo Sacco, A.A 2010/2011
+
 -Notes: notes of the course "Computational Methods for Electronics and Biomathematics" done at Politecnico di Milano, academic year 2018/19.
 Sacco R, Guidoboni G, and Mauri AG.

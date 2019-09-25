@@ -15,7 +15,6 @@ P1245 = zeros(4,1);
 tspan = [0, 1];
 
 % Initialise external pressure at Lamina Cribrosa
-data.LCp = mean_LC_pressure(data);
 
 %% Call to the ODE solver
 
