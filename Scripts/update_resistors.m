@@ -1,4 +1,4 @@
-function res = update_resistors(data,res, mp)
+function res = update_resistors(data, res, mp)
 % This function, given the pressures P1, P2, P4 and P5, and given Pin and
 % Pout through the data and the time t, updates the values of the nonlinear
 % resistors in each portion in-1, 1-2, 2-4, 4-5 and 5-out.
@@ -12,11 +12,11 @@ res.R1d = compliant_resistor(data.CRA.krrho, data.CRA.L_d, data.CRA.Aref,...
     (mp.R1d - data.IOP), data.CRA.kp, data.CRA.kL);
 
 %% Collapsible tubes
-res.R4a = starling_resistor(data.ven.krrho, data.ven.L_a, data.ven.Aref,...
-   (mp.R4a - data.IOP), data.ven.kp, data.ven.kL);
-
-res.R4b = starling_resistor(data.ven.krrho, data.ven.L_b, data.ven.Aref,...
-   (mp.R4b - data.IOP), data.ven.kp, data.ven.kL);
+% res.R4a = starling_resistor(data.ven.krrho, data.ven.L_a, data.ven.Aref,...
+%    (mp.R4a - data.IOP), data.ven.kp, data.ven.kL);
+% 
+% res.R4b = starling_resistor(data.ven.krrho, data.ven.L_b, data.ven.Aref,...
+%    (mp.R4b - data.IOP), data.ven.kp, data.ven.kL);
 
 res.R5a = starling_resistor(data.CRV.krrho, data.CRV.L_a, data.CRV.Aref,...
     (mp.R5a - data.IOP), data.CRV.kp, data.CRV.kL);
@@ -37,7 +37,7 @@ end
 
 res.R2b = res.R2a;
 
-mp
-res
+% mp
+% res
 % pause
 end

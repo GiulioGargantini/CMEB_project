@@ -10,11 +10,11 @@ function data = define_constants(data)
 %                  operation = 0 if not.
 
 %% Properties
-data.AR = 0;    % set AR = 1 if blood flow autoregulation is active
+data.AR = 1;    % set AR = 1 if blood flow autoregulation is active
                 % set AR = 0 if it is not
            
-data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
-                    % set operation = 1 if he has
+data.operation = 1; % set operation = 0 if the patient has not undergone trabeculectomy
+                    % set operation = 1 if he has, or if he is healthy
 
 %% Pressures
 data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure in case of unhealthy patient
@@ -35,7 +35,7 @@ data.OPP = 2/3 * data.MAP - data.IOP;   % [OPP] = mmHg, Ocular Pervasion Pressur
 data.Pin = @(t) Pressure_in(t);   % [P] = mmHg, inflow pressure
 data.Pout = @(t) 12 + 0.*t;      % [P] = mmHg, outflow pressure
 data.convert_MPa_to_mmHg = 1/(133.322e-6);  % = mmHg/MPa 
-data.P_LC_art = 40.5;   %[P] = mmHg, control pressure in the Lamina Cribrosa
+data.LCp_art = 40.5;   %[P] = mmHg, control pressure in the Lamina Cribrosa
 
 %% Capacitancies at control state
 data.C1 = 7.22e-7;  % [C1] = mL/mmHg
@@ -137,7 +137,10 @@ data.LCp = mean_LC_pressure(data);
 data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through 
                         % the retinal vessels
             
-formatspec = 'CRV Area = %3.5f ; venules Area = %3.5f; \n';
-fprintf(formatspec, data.CRV.Aref, data.ven.Aref);
-                    
+% formatspec = 'CRV Area = %3.5f ; venules Area = %3.5f; \n';
+% fprintf(formatspec, data.CRV.Aref, data.ven.Aref);
+               
+%% Cycle while in time_deriv_P1245
+data.tdev.tol = 1e-5;    % relative tolerance for the convergence
+data.tdev.upper_bound = 1e8;    % if the norm reaches this value, stop everything
 end
