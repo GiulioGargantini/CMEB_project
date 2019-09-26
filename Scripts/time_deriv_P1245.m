@@ -32,7 +32,7 @@ while err > data.tdev.tol && norm_res < data.tdev.upper_bound
     counter = counter + 1;
 end
 
-fprintf("t = %2.9f, cycle iterations = %d, err = %2.6f ;\n", t, counter, err);
+%fprintf("t = %2.9f, cycle iterations = %d, err = %2.6f ;\n", t, counter, err);
 
 if norm_res >= data.tdev.upper_bound
     error('The cycle to define the pressures does not converge\n');

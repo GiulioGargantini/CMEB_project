@@ -81,6 +81,7 @@ title('CRV')
 xlabel('time [s]')
 ylabel('Resistance [mmHg*s/mL]')
 
+% Blood flow
 figure
 hold on
 plot(resistors.time ,resistors.flow_CRA,resistors.time ,resistors.flow_CRV)
@@ -88,3 +89,14 @@ legend('blood flow in CRA', 'blood flow in CRV')
 title('Blood flows')
 xlabel('time [s]')
 ylabel('Flow [mL / s]')
+
+% Velocity
+% V = (8*Q(t))/(pi * D^2)
+figure
+hold on
+plot(resistors.time ,(8.*resistors.flow_CRA)./(pi * data.CRA.D^2) * data.convert_mL_mm2s_to_cm_s,...
+    resistors.time ,-(8.*resistors.flow_CRV)./(pi * data.CRV.D^2) * data.convert_mL_mm2s_to_cm_s)
+legend('blood velocity in CRA', 'blood velocity in CRV')
+title('Velocities')
+xlabel('time [s]')
+ylabel('Velocity [cm / s]')

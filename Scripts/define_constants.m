@@ -139,6 +139,7 @@ data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through
             
 % formatspec = 'CRV Area = %3.5f ; venules Area = %3.5f; \n';
 % fprintf(formatspec, data.CRV.Aref, data.ven.Aref);
+data.convert_mL_mm2s_to_cm_s = 1e2;    % Converts mL/(s * mm^2) to cm/s
                
 %% Cycle while in time_deriv_P1245
 data.tdev.tol = 1e-5;    % relative tolerance for the convergence
