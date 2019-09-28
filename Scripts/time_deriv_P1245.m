@@ -41,6 +41,7 @@ end
 flows = compute_flows(data, res, P1245, t);
 
 resistors = report_global_resistors(t, res, resistors, flows);
+
 %% Computation of the different components of dP1245dt using Kirchhoff Current Law (KCL).
 
 F = zeros(4,1); % Bloodflow in each node of P1245. It's equivalent to the
