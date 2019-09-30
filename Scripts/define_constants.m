@@ -9,17 +9,27 @@ function data = define_constants(data)
 %                                undergone trabeculectomy
 %                  operation = 0 if not.
 
+%% Settings
+data.plots = 1; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
+
 %% Properties
-data.AR = 1;    % set AR = 1 if blood flow autoregulation is active
+data.AR = 0;    % set AR = 1 if blood flow autoregulation is active
                 % set AR = 0 if it is not
            
-data.operation = 1; % set operation = 0 if the patient has not undergone trabeculectomy
+data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
                     % set operation = 1 if he has, or if he is healthy
+                
+data.blood_pressure = 2;    % set blood_pressure = 0 for low pressure
+                            %                    = 1 for medium pressure
+                            %                    = 2 for high pressure
 
 %% Pressures
+data.ratio_maxPin_SP = 0.7683;  % [ratio] = 1, ratio = max(P_in) / Systolic_Pressure
+data.ratio_minPin_DP = 0.4945;  % [ratio] = 1, ratio = min(P_in) / Diastolic_Pressure
+data.min_fct_Pressure_in = 36.8061; % [min_Pin] = mmHg, minimum of data.Pin
+data.max_fct_Pressure_in = 92.3260; % [max_Pin] = mmHg, maximum of data.Pin
 data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure in case of unhealthy patient
 data.IOP_after = 15;    % [IOP] = mmHg, Internal Ocular Pressure (or for a healthy individual)
-data.MAP = 106.7;   % [MAP] = mmHg, Mean Arterial Pressure
 data.RLTp = 7;      % [RLTp] = mmHg, Retro Laminar Tissue pressure
 data.LCp = 50;      % [LCp] = mmHg, dummy Pressure in Lamina Cribrosa. It is initialized later in the code
 
@@ -30,9 +40,29 @@ else
     data.IOP = data.IOP_before;
 end
 
+% Blood pressures: SP = Systolic Pressure, DP = Diastolic Pressure
+if data.blood_pressure == 0 % Low pressure
+    data.SP = 100;  % [SP] = mmHg
+    data.DP = 70;   % [DP] = mmHg
+elseif data.blood_pressure == 1 % Medium pressure
+    data.SP = 120;  % [SP] = mmHg
+    data.DP = 80;   % [DP] = mmHg
+else                            % High pressure
+    data.SP = 140;  % [SP] = mmHg
+    data.DP = 90;   % [DP] = mmHg
+end
+
+data.max_Pin = data.SP * data.ratio_maxPin_SP;  % [max_Pin] = mmHg, maximum value of Pin
+data.min_Pin = data.DP * data.ratio_minPin_DP;  % [max_Pin] = mmHg, minimum value of Pin
+
+data.MAP = 2/3 * data.DP + 1/3 * data.SP;    % [MAP] = mmHg, Mean Arterial Pressure
 data.OPP = 2/3 * data.MAP - data.IOP;   % [OPP] = mmHg, Ocular Pervasion Pressure
 
-data.Pin = @(t) Pressure_in(t);   % [P] = mmHg, inflow pressure
+% Pin(t) = alpha Pressure_in(t) + beta
+data.press_coeff_alpha = (data.max_Pin - data.min_Pin) /...
+    (data.max_fct_Pressure_in - data.min_fct_Pressure_in);
+data.press_coeff_beta = data.max_Pin - data.press_coeff_alpha * data.max_fct_Pressure_in;
+data.Pin = @(t) data.press_coeff_alpha .* Pressure_in(t) + data.press_coeff_beta;   % [P] = mmHg, inflow pressure
 data.Pout = @(t) 12 + 0.*t;      % [P] = mmHg, outflow pressure
 data.convert_MPa_to_mmHg = 1/(133.322e-6);  % = mmHg/MPa 
 data.LCp_art = 40.5;   %[P] = mmHg, control pressure in the Lamina Cribrosa
@@ -96,7 +126,7 @@ data.CRV.L_a = 1.0;     % [L] = mm, length of segment a
 data.CRV.L_b = 0.2;     % [L] = mm, length of segment b
 data.CRV.L_c = 4.4;     % [L] = mm, length of segment c
 data.CRV.L_d = 4.4;     % [L] = mm, length of segment d
-data.CRV.mu = 3.24;      % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
+data.CRV.mu = 3.24;     % [mu] = cP = 1e-3*kg/(m*s), blood viscosity
 data.CRV.E = 0.6 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
 data.CRV.nu = 0.49;     % [nu] = 1, wall poisson ratio
 data.CRV.h = 10.7e-3;   % [h] = mm, wall thickness
@@ -108,22 +138,41 @@ data.CRV.kp = (data.CRV.E*data.CRV.h^3/sqrt(1-data.CRV.nu^2))*...
 data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % [kL] = 1
 
 %% Venules constants
-data.ven.D = 230e-3;    % [D] = mm, diameter !!!FOUND IN art2_CMEB (altri dicono 150e-3)
-data.ven.volume = 6.12 * 1e3; % [volume] = mm^3
-data.ven.Aref = pi * data.ven.D^2 / 4;  % [Aref] = mm^2, reference section
-data.ven.L_tot = data.ven.volume/ data.ven.Aref;    % [L] = mm, length
-data.ven.L_a = data.ven.L_tot/2;     % [L] = mm, length of segment a
-data.ven.L_b = data.ven.L_a;     % [L] = mm, length of segment b
-data.ven.mu = data.CRV.mu;      % [mu] = cP = 1e-3 Pa * s, blood viscosity
-data.ven.E = 0.066 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
-data.ven.nu = 0.49;     % [nu] = 1, wall poisson ratio
-data.ven.wtlr = 0.05;   % [wtlr] = 1, wall to Lumen ratio
-data.ven.h = data.ven.wtlr * data.ven.D / 2;    % [h] = mm, wall thickness
 
-data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
-data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
-    (pi/data.ven.Aref)^(3/2);   % [kp] = mmHg
-data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % [kl] = 1
+% Small Venulus vessel (SV)
+data.ven.SV.L = 0.52 * 1e1;             % [L] = mm, Length of the SV vessel
+data.ven.SV.mu = 2.09;                  % [mu] = cP = 1e-3 kg/(m*s), Dynamical viscosity of blood in SV 
+data.ven.SV.n = 40;                     % [n] = 1,equivalent number of small venulus
+data.ven.SV.D = 68.5*1e-3;              % [D] = mm, SV diameter
+data.ven.SV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
+data.ven.SV.Aref = pi * data.ven.SV.D^2 / 4; % [Aref] = mm^2, reference section
+
+% Large Venulus vessel (LV)
+data.ven.LV.L = 0.73 * 1e1;             % [L] = mm, Length of the LV vessel
+data.ven.LV.mu = 2.44;                  % [mu] = cP P 1e-3 kg/(m*s), Dynamical viscosity of blood in SV 
+data.ven.LV.n = 4;                      % [n] = 1,equivalent number of small venulus
+data.ven.LV.D = 154.9*1e-3;             % [D] = mm, SV diameter
+data.ven.LV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
+data.ven.LV.Aref = pi * data.ven.LV.D^2 / 4; % [Aref] = mm^2, reference section
+
+
+% OLD VENULES PARAMETERS
+% data.ven.D = 230e-3;    % [D] = mm, diameter !!!FOUND IN art2_CMEB (altri dicono 150e-3)
+% data.ven.volume = 6.12 * 1e3; % [volume] = mm^3
+% data.ven.Aref = pi * data.ven.D^2 / 4;  % [Aref] = mm^2, reference section
+% data.ven.L_tot = data.ven.volume/ data.ven.Aref;    % [L] = mm, length
+% data.ven.L_a = data.ven.L_tot/2;     % [L] = mm, length of segment a
+% data.ven.L_b = data.ven.L_a;     % [L] = mm, length of segment b
+% data.ven.mu = data.CRV.mu;      % [mu] = cP = 1e-3 Pa * s, blood viscosity
+% data.ven.E = 0.066 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
+% data.ven.nu = 0.49;     % [nu] = 1, wall poisson ratio
+% data.ven.wtlr = 0.05;   % [wtlr] = 1, wall to Lumen ratio
+% data.ven.h = data.ven.wtlr * data.ven.D / 2;    % [h] = mm, wall thickness
+% 
+% data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
+% data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
+%     (pi/data.ven.Aref)^(3/2);   % [kp] = mmHg
+% data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % [kl] = 1
 
 %% Lamina Cribrosa constants
 % see art3_CMEB.pdf
@@ -140,6 +189,7 @@ data.Q_bar = 6.8178e-4; % [Q_bar] = mL/s, physiological bloodflow through
 % formatspec = 'CRV Area = %3.5f ; venules Area = %3.5f; \n';
 % fprintf(formatspec, data.CRV.Aref, data.ven.Aref);
 data.convert_mL_mm2s_to_cm_s = 1e2;    % Converts mL/(s * mm^2) to cm/s
+data.convert_mL_s_to_muL_min = 1e3 * 60;    % Converts mL/s to μL/min
                
 %% Cycle while in time_deriv_P1245
 data.tdev.tol = 1e-5;    % relative tolerance for the convergence

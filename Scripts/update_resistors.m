@@ -11,19 +11,22 @@ res.R1c = compliant_resistor(data.CRA.krrho, data.CRA.L_c, data.CRA.Aref,...
 res.R1d = compliant_resistor(data.CRA.krrho, data.CRA.L_d, data.CRA.Aref,...
     (mp.R1d - data.IOP), data.CRA.kp, data.CRA.kL);
 
-%% Collapsible tubes
-% res.R4a = starling_resistor(data.ven.krrho, data.ven.L_a, data.ven.Aref,...
-%    (mp.R4a - data.IOP), data.ven.kp, data.ven.kL);
-% 
-% res.R4b = starling_resistor(data.ven.krrho, data.ven.L_b, data.ven.Aref,...
-%    (mp.R4b - data.IOP), data.ven.kp, data.ven.kL);
+%% Distensible tubes
+res.R4a = distensible_resistor(data.ven.SV.mu, data.ven.SV.L, data.ven.SV.Aref,...
+   (mp.R4a - data.IOP), data.ven.SV.Dist, data.ven.SV.n, data.convert_MPa_to_mmHg * 1e-6);
+    
 
+res.R4b = distensible_resistor(data.ven.LV.mu, data.ven.LV.L, data.ven.LV.Aref,...
+   (mp.R4b - data.IOP), data.ven.LV.Dist, data.ven.LV.n, data.convert_MPa_to_mmHg * 1e-6);
+
+%% Collapsible tubes
 res.R5a = starling_resistor(data.CRV.krrho, data.CRV.L_a, data.CRV.Aref,...
     (mp.R5a - data.IOP), data.CRV.kp, data.CRV.kL);
 
 res.R5b = starling_resistor(data.CRV.krrho, data.CRV.L_b, data.CRV.Aref,...
     (mp.R5b - data.LCp), data.CRV.kp, data.CRV.kL);
 
+%fprintf ('R5b: res.R5b = %4.4f, delP = %3.4f \n', res.R5b, (mp.R5b - data.LCp));
 
 
 %% Active tubes (arterioles)
