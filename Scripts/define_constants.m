@@ -13,13 +13,13 @@ function data = define_constants(data)
 data.plots = 1; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
 
 %% Properties
-data.AR = 0;    % set AR = 1 if blood flow autoregulation is active
+data.AR = 1;    % set AR = 1 if blood flow autoregulation is active
                 % set AR = 0 if it is not
            
 data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
                     % set operation = 1 if he has, or if he is healthy
                 
-data.blood_pressure = 2;    % set blood_pressure = 0 for low pressure
+data.blood_pressure = 0;    % set blood_pressure = 0 for low pressure
                             %                    = 1 for medium pressure
                             %                    = 2 for high pressure
 
@@ -87,8 +87,8 @@ data.resistor_control_state.R3a = 5.68e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R3b = 5.68e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R4a = 3.11e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R4b = 3.11e3;   % [R] = mmHg*s/mL
-data.resistor_control_state.R5a = 3.08e3;   % [R] = mmHg*s/mL
-data.resistor_control_state.R5b = 6.15e3;   % [R] = mmHg*s/mL
+data.resistor_control_state.R5a = 3.08e2;   % [R] = mmHg*s/mL there is a mistake in art1_CMEB !!!
+data.resistor_control_state.R5b = 6.15e1;   % [R] = mmHg*s/mL there is a mistake in art1_CMEB !!!
 data.resistor_control_state.R5c = 1.35e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R5d = 1.35e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.Rout = 5.74e3;  % [R] = mmHg*s/mL

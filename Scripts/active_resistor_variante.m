@@ -18,7 +18,6 @@ function R = active_resistor_variante(R2_avg, cL, cU, K, OPP, Q_bar, c_hat)
 %           This parameter is computed once and is found in data.
 %
 %OUTPUT R = value of the resistance.
-    
     Q_noAR_OPP = Q_noAR(OPP, Q_bar);
     val_exp = exp(-K .* (Q_noAR_OPP - Q_bar) - c_hat);
     R = R2_avg * (cL + cU .* val_exp )./(1 + val_exp);
