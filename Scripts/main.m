@@ -2,7 +2,7 @@
 
 %% Loading data
 clear all
-close all
+%close all
 
 data = [];
 data = define_constants(data);
@@ -15,7 +15,7 @@ P1245 = zeros(4,1);
 tspan = [0, 1];
 
 % Resistors global variable
-global resistors
+global resistors data
 resistors = initialize_resistors();
 
 
@@ -42,7 +42,7 @@ resistors.flow_CRV = resistors.flow_CRV(I);
 % Computation of the total arterial flow, [flow] = μL / min
 tot_Q = trapz(resistors.time, resistors.flow_CRA) * data.convert_mL_s_to_muL_min;
 
-fprintf('tot_Q = %2.4f, OPP = %3.2f\n', tot_Q, data.OPP)
+fprintf('IOP = %3.2f, tot_Q = %2.4f\n', data.IOP, tot_Q)
 
 %% Plots
 if data.plots == 1

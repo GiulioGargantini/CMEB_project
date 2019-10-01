@@ -11,10 +11,9 @@ function dP1245dt = time_deriv_P1245(t, P1245)
 
 %% Initialization
 
-global resistors
-persistent data res
-if isempty(data)
-    data = define_constants(data);
+global resistors data
+persistent  res
+if isempty(res)
     res = data.resistor_control_state;
 end
 

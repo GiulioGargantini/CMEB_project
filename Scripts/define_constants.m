@@ -1,28 +1,45 @@
-function data = define_constants(data)
+function data = define_constants(data, IOPval, index)
 %This function contains all the constants that are necessary to solve the
 %problem.
 %
-%Set the parameter AR = 1 to study the case with blood flow autoregulation
+%INPUT: 1) data = []
+%       2) IOPval = value of IOP. Not compulsory
+%       3) index is used to study all 6 cases of low, medium and high blood
+%       pressure and active or inactive autoregulation.
+%                
+%          ___|_AR_active_|_AR_inactive_|
+%      low BP |     1     |      2      |
+%   medium BP |     3     |      4      |
+%     high BP |     5     |      6      |
+%    ------------------------------------
+%
+%
+%If nargin is 1 or 2:
+%   Set the parameter AR = 1 to study the case with blood flow autoregulation
 %                  AR = 0 if autoregulation is absent.
 %
-%Set the parameter operation = 1 to study the case where the patient has
+%   Set the parameter operation = 1 to study the case where the patient has
 %                                undergone trabeculectomy
 %                  operation = 0 if not.
 
 %% Settings
-data.plots = 1; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
+data.plots = 0; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
 
 %% Properties
-data.AR = 1;    % set AR = 1 if blood flow autoregulation is active
-                % set AR = 0 if it is not
+if nargin <= 2
+    data.AR = 1;    % set AR = 1 if blood flow autoregulation is active
+                    % set AR = 0 if it is not
            
-data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
-                    % set operation = 1 if he has, or if he is healthy
+    data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
+                        % set operation = 1 if he has, or if he is healthy
+                  
                 
-data.blood_pressure = 0;    % set blood_pressure = 0 for low pressure
-                            %                    = 1 for medium pressure
-                            %                    = 2 for high pressure
-
+    data.blood_pressure = 1;    % set blood_pressure = 0 for low pressure
+                                %                    = 1 for medium pressure
+                                %                    = 2 for high pressure
+else
+    [data.AR, data.blood_pressure] = set_AR_BP(index);
+end
 %% Pressures
 data.ratio_maxPin_SP = 0.7683;  % [ratio] = 1, ratio = max(P_in) / Systolic_Pressure
 data.ratio_minPin_DP = 0.4945;  % [ratio] = 1, ratio = min(P_in) / Diastolic_Pressure
@@ -30,11 +47,14 @@ data.min_fct_Pressure_in = 36.8061; % [min_Pin] = mmHg, minimum of data.Pin
 data.max_fct_Pressure_in = 92.3260; % [max_Pin] = mmHg, maximum of data.Pin
 data.IOP_before = 30;   % [IOP] = mmHg, Internal Ocular Pressure in case of unhealthy patient
 data.IOP_after = 15;    % [IOP] = mmHg, Internal Ocular Pressure (or for a healthy individual)
+
 data.RLTp = 7;      % [RLTp] = mmHg, Retro Laminar Tissue pressure
 data.LCp = 50;      % [LCp] = mmHg, dummy Pressure in Lamina Cribrosa. It is initialized later in the code
 
 
-if data.operation == 1
+if nargin >= 2
+    data.IOP = IOPval;
+elseif data.operation == 1
     data.IOP = data.IOP_after;
 else
     data.IOP = data.IOP_before;
@@ -66,6 +86,11 @@ data.Pin = @(t) data.press_coeff_alpha .* Pressure_in(t) + data.press_coeff_beta
 data.Pout = @(t) 12 + 0.*t;      % [P] = mmHg, outflow pressure
 data.convert_MPa_to_mmHg = 1/(133.322e-6);  % = mmHg/MPa 
 data.LCp_art = 40.5;   %[P] = mmHg, control pressure in the Lamina Cribrosa
+
+%% Parameters for main2 about IOP
+data.IOP_min = 15;  % [IOP] = mmHg
+data.IOP_max = 50;  % [IOP] = mmHg
+data.n_of_simul = 10;   % number of simulations with differents IOPs
 
 %% Capacitancies at control state
 data.C1 = 7.22e-7;  % [C1] = mL/mmHg
@@ -194,4 +219,5 @@ data.convert_mL_s_to_muL_min = 1e3 * 60;    % Converts mL/s to μL/min
 %% Cycle while in time_deriv_P1245
 data.tdev.tol = 1e-5;    % relative tolerance for the convergence
 data.tdev.upper_bound = 1e8;    % if the norm reaches this value, stop everything
+
 end
