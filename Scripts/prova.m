@@ -48,3 +48,4 @@ fprintf('data.CRV.kp = %5.5f\n',data.CRV.kp);
 fprintf('data.CRV.kL = %5.5f\n',data.CRV.kL);
 fprintf('data.CRV.n = %5.5f\n',1);
 fprintf('res.R5a = %5.5f\n',res.R5a);
+fprintf('res_ref.R5a = 5%5f\n', data.resistor_control_state.R5a)

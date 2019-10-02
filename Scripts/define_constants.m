@@ -34,7 +34,7 @@ if nargin <= 2
                         % set operation = 1 if he has, or if he is healthy
                   
                 
-    data.blood_pressure = 1;    % set blood_pressure = 0 for low pressure
+    data.blood_pressure = 0;    % set blood_pressure = 0 for low pressure
                                 %                    = 1 for medium pressure
                                 %                    = 2 for high pressure
 else
@@ -110,8 +110,8 @@ data.resistor_control_state.R2a = 6.00e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R2b = 6.00e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R3a = 5.68e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R3b = 5.68e3;   % [R] = mmHg*s/mL
-data.resistor_control_state.R4a = 3.11e3;   % [R] = mmHg*s/mL, redefined and changed later
-data.resistor_control_state.R4b = 3.11e3;   % [R] = mmHg*s/mL, redefined and changed later
+data.resistor_control_state.R4a = 3.11e3;   % [R] = mmHg*s/mL
+data.resistor_control_state.R4b = 3.11e3;   % [R] = mmHg*s/mL
 data.resistor_control_state.R5a = 3.08e2;   % [R] = mmHg*s/mL there is a mistake in art1_CMEB !!!
 data.resistor_control_state.R5b = 6.15e1;   % [R] = mmHg*s/mL there is a mistake in art1_CMEB !!!
 data.resistor_control_state.R5c = 1.35e3;   % [R] = mmHg*s/mL
@@ -164,46 +164,65 @@ data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % [kL] = 1
 
 %% Venules constants
 
-% Small Venulus vessel (SV)
-data.ven.SV.L = 0.52 * 1e1;             % [L] = mm, Length of the SV vessel
-data.ven.SV.mu = 2.09;                  % [mu] = cP = 1e-3 kg/(m*s), Dynamical viscosity of blood in SV 
-data.ven.SV.n = 40;                     % [n] = 1,equivalent number of small venulus
-data.ven.SV.D = 68.5*1e-3;              % [D] = mm, SV diameter
-data.ven.SV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
-data.ven.SV.Aref = pi * data.ven.SV.D^2 / 4; % [Aref] = mm^2, reference section
-data.ven.SV.res_const = 128 * data.ven.SV.mu * data.ven.SV.L / ...
-    (data.ven.SV.D.^4 * pi) * data.convert_MPa_to_mmHg * 1e-6 / data.ven.SV.n; % [res] = mmHg * s / mL, reference for the resistance
-data.ven.SV.wtlr = 0.05;                % [wtlr] = 1, wall to Lumen ratio = h / radius
-data.ven.SV.E = 0.66 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
-data.ven.SV.nu = 0.49;                   % [nu] = 1, wall poisson ratio
-data.ven.SV.h = data.ven.SV.wtlr * data.ven.SV.D ;    % [h] = mm, wall thickness
-data.ven.SV.krrho = 8*pi*data.ven.SV.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
-data.ven.SV.kp = (data.ven.SV.E*data.ven.SV.h^3/sqrt(1-data.ven.SV.nu^2))*...
-    (pi/data.ven.SV.Aref)^(3/2);   % [kp] = mmHg
-data.ven.SV.kL = 12 * data.ven.SV.Aref/(pi * data.ven.SV.h^2);   % [kL] = 1
+data.ven.mu = 2.44;                 % [mu] = cP P 1e-3 kg/(m*s), Dynamical viscosity of blood
+data.ven.Dist = 8*34.12e-4;         % [Dist] = mmHg ^ -1, Distensibility of the vessel (kp * kL)
+data.ven.L = ((data.C4^2 * data.resistor_control_state.R4a)/...
+    (data.ven.Dist^2 * 8 * pi * data.ven.mu * data.convert_MPa_to_mmHg))...
+    ^(1/3) * 1e4;                   % [L] = mm, Length of the vessel
+data.ven.Aref = ((8 * pi * data.ven.mu * data.C4)/(data.ven.Dist * ...
+    data.resistor_control_state.R4a) * data.convert_MPa_to_mmHg * 1e-3)^(1/3); % [Aref] = mm^2, reference section
+data.ven.D = sqrt(data.ven.Aref * 4 / pi);      % [D] = mm, diameter
+data.ven.wtlr = 0.05;            % [wtlr] = 1, wall to Lumen ratio = h / radius
+data.ven.E = 0.66 * data.convert_MPa_to_mmHg;   % [E] = mmHg, Young modulus off walls
+data.ven.nu = 0.49;                 % [nu] = 1, wall poisson ratio
+data.ven.h = data.ven.wtlr * data.ven.D / 2; % [h] = mm, wall thickness
+data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
+data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
+    (pi/data.ven.Aref)^(3/2);   % [kp] = mmHg
+data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % [kL] = 1
+
+
+% % Small Venulus vessel (SV)
+% data.ven.SV.L = 0.52 * 1e1;             % [L] = mm, Length of the SV vessel
+% data.ven.SV.mu = 2.09;                  % [mu] = cP = 1e-3 kg/(m*s), Dynamical viscosity of blood in SV 
+% data.ven.SV.n = 40;                     % [n] = 1, equivalent number of small venulas
+% data.ven.SV.D = 68.5*1e-3;              % [D] = mm, SV diameter
+% data.ven.SV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
+% data.ven.SV.Aref = pi * data.ven.SV.D^2 / 4; % [Aref] = mm^2, reference section
+% data.ven.SV.res_const = 128 * data.ven.SV.mu * data.ven.SV.L / ...
+%     (data.ven.SV.D.^4 * pi) * data.convert_MPa_to_mmHg * 1e-6 / data.ven.SV.n; % [res] = mmHg * s / mL, reference for the resistance
+% data.ven.SV.wtlr = 0.05;                % [wtlr] = 1, wall to Lumen ratio = h / radius
+% data.ven.SV.E = 0.66 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
+% data.ven.SV.nu = 0.49;                   % [nu] = 1, wall poisson ratio
+% data.ven.SV.h = data.ven.SV.wtlr * data.ven.SV.D ;    % [h] = mm, wall thickness
+% data.ven.SV.krrho = 8*pi*data.ven.SV.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
+% data.ven.SV.kp = (data.ven.SV.E*data.ven.SV.h^3/sqrt(1-data.ven.SV.nu^2))*...
+%     (pi/data.ven.SV.Aref)^(3/2);   % [kp] = mmHg
+% data.ven.SV.kL = 12 * data.ven.SV.Aref/(pi * data.ven.SV.h^2);   % [kL] = 1
 
 
 % Large Venulus vessel (LV)
-data.ven.LV.L = 0.73 * 1e1;             % [L] = mm, Length of the LV vessel
-data.ven.LV.mu = 2.44;                  % [mu] = cP P 1e-3 kg/(m*s), Dynamical viscosity of blood in SV 
-data.ven.LV.n = 4;                      % [n] = 1,equivalent number of small venulus
-data.ven.LV.D = 154.9*1e-3;             % [D] = mm, SV diameter
-data.ven.LV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
-data.ven.LV.Aref = pi * data.ven.LV.D^2 / 4; % [Aref] = mm^2, reference section
-data.ven.LV.res_const = 128 * data.ven.LV.mu * data.ven.LV.L / ...
-    (data.ven.LV.D.^4 * pi) * data.convert_MPa_to_mmHg * 1e-6 / data.ven.LV.n; % [res] = mmHg * s / mL, reference for the resistance
-data.ven.LV.wtlr = 0.05;                % [wtlr] = 1, wall to Lumen ratio = h / radius
-data.ven.LV.E = 0.66 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
-data.ven.LV.nu = 0.49;                   % [nu] = 1, wall poisson ratio
-data.ven.LV.h = data.ven.SV.wtlr * data.ven.LV.D ;    % [h] = mm, wall thickness
-data.ven.LV.krrho = 8*pi*data.ven.LV.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
-data.ven.LV.kp = (data.ven.LV.E*data.ven.LV.h^3/sqrt(1-data.ven.LV.nu^2))*...
-    (pi/data.ven.LV.Aref)^(3/2);   % [kp] = mmHg
-data.ven.LV.kL = 12 * data.ven.LV.Aref/(pi * data.ven.LV.h^2);   % [kL] = 1
 
-
-data.resistor_control_state.R4a = data.ven.SV.res_const;   % [R] = mmHg*s/mL, redefinition
-data.resistor_control_state.R4b = data.ven.LV.res_const;   % [R] = mmHg*s/mL, redefinition
+% data.ven.LV.L = 0.73 * 1e1;             % [L] = mm, Length of the LV vessel
+% data.ven.LV.mu = 2.44;                  % [mu] = cP P 1e-3 kg/(m*s), Dynamical viscosity of blood in SV 
+% data.ven.LV.n = 4;                      % [n] = 1, equivalent number of small venulas
+% data.ven.LV.D = 154.9*1e-3;             % [D] = mm, SV diameter
+% data.ven.LV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
+% data.ven.LV.Aref = pi * data.ven.LV.D^2 / 4; % [Aref] = mm^2, reference section
+% data.ven.LV.res_const = 128 * data.ven.LV.mu * data.ven.LV.L / ...
+%     (data.ven.LV.D.^4 * pi) * data.convert_MPa_to_mmHg * 1e-6 / data.ven.LV.n; % [res] = mmHg * s / mL, reference for the resistance
+% data.ven.LV.wtlr = 0.05;                % [wtlr] = 1, wall to Lumen ratio = h / radius
+% data.ven.LV.E = 0.66 * data.convert_MPa_to_mmHg; % [E] = mmHg, Young modulus off walls
+% data.ven.LV.nu = 0.49;                   % [nu] = 1, wall poisson ratio
+% data.ven.LV.h = data.ven.SV.wtlr * data.ven.LV.D ;    % [h] = mm, wall thickness
+% data.ven.LV.krrho = 8*pi*data.ven.LV.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
+% data.ven.LV.kp = (data.ven.LV.E*data.ven.LV.h^3/sqrt(1-data.ven.LV.nu^2))*...
+%     (pi/data.ven.LV.Aref)^(3/2);   % [kp] = mmHg
+% data.ven.LV.kL = 12 * data.ven.LV.Aref/(pi * data.ven.LV.h^2);   % [kL] = 1
+% 
+% 
+% data.resistor_control_state.R4a = data.ven.SV.res_const;   % [R] = mmHg*s/mL, redefinition
+% data.resistor_control_state.R4b = data.ven.LV.res_const;   % [R] = mmHg*s/mL, redefinition
 % OLD VENULES PARAMETERS
 % data.ven.D = 230e-3;    % [D] = mm, diameter !!!FOUND IN art2_CMEB (altri dicono 150e-3)
 % data.ven.volume = 6.12 * 1e3; % [volume] = mm^3
@@ -240,7 +259,7 @@ data.convert_mL_mm2s_to_cm_s = 1e2;    % Converts mL/(s * mm^2) to cm/s
 data.convert_mL_s_to_muL_min = 1e3 * 60;    % Converts mL/s to μL/min
                
 %% Cycle while in time_deriv_P1245
-data.tdev.tol = 1e-5;    % relative tolerance for the convergence
+data.tdev.tol = 1e-8;    % relative tolerance for the convergence
 data.tdev.upper_bound = 1e8;    % if the norm reaches this value, stop everything
 
 end

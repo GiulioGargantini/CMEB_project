@@ -24,8 +24,8 @@ tspan = [0, 1];
 %% Call to the ODE solver
 
 P1245 = solve_circuit_1245(data, res, 0);
-%opt = odeset('Refine',2);
-[ttout, PP1245] = ode15s(@time_deriv_P1245, tspan, P1245);
+opt = odeset('Refine',3);
+[ttout, PP1245] = ode15s(@time_deriv_P1245, tspan, P1245,opt);
 
 %% Postprocessing 
 % Ordering data
@@ -69,7 +69,9 @@ if data.plots == 1
     figure
     hold on
     plot(resistors.time ,resistors.R2a,resistors.time ,resistors.R2b)
-    legend('R2a', 'R2b')
+%     plot(resistors.time ,data.resistor_control_state.R2a*ones(size(resistors.time)),'b--',...
+%          resistors.time ,data.resistor_control_state.R2b*ones(size(resistors.time)),'r--')
+    legend('R2a', 'R2b');%,'R2a control', 'R2b control')
     title('Arterioles')
     xlabel('time [s]')
     ylabel('Resistance [mmHg*s/mL]')
@@ -77,7 +79,9 @@ if data.plots == 1
     figure
     hold on
     plot(resistors.time ,resistors.R4a,resistors.time ,resistors.R4b)
-    legend('R4a', 'R4b')
+    plot(resistors.time ,data.resistor_control_state.R4a*ones(size(resistors.time)),'b--',...
+         resistors.time ,data.resistor_control_state.R4b*ones(size(resistors.time)),'r--')
+    legend('R4a', 'R4b','R4a control', 'R4b control')
     title('Venules')
     xlabel('time [s]')
     ylabel('Resistance [mmHg*s/mL]')
@@ -85,7 +89,9 @@ if data.plots == 1
     figure
     hold on
     plot(resistors.time ,resistors.R5a,resistors.time ,resistors.R5b)
-    legend('R5a', 'R5b')
+    plot(resistors.time ,data.resistor_control_state.R5a*ones(size(resistors.time)),'b--',...
+         resistors.time ,data.resistor_control_state.R5b*ones(size(resistors.time)),'r--')
+    legend('R5a', 'R5b','R5a control', 'R5b control')
     title('CRV')
     xlabel('time [s]')
     ylabel('Resistance [mmHg*s/mL]')
