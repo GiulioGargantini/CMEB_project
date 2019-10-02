@@ -11,16 +11,24 @@ res.R1c = compliant_resistor(data.CRA.krrho, data.CRA.L_c, data.CRA.Aref,...
 res.R1d = compliant_resistor(data.CRA.krrho, data.CRA.L_d, data.CRA.Aref,...
     (mp.R1d - data.IOP), data.CRA.kp, data.CRA.kL);
 
-%% Distensible tubes (NON HA SENSO!!!)
-% res.R4a = distensible_resistor(data.ven.SV.mu, data.ven.SV.L, data.ven.SV.Aref,...
-%    (mp.R4a - data.IOP), data.ven.SV.Dist, data.ven.SV.n, data.convert_MPa_to_mmHg * 1e-6);
-res.R4a = data.ven.SV.res_const;
-% 
-% res.R4b = distensible_resistor(data.ven.LV.mu, data.ven.LV.L, data.ven.LV.Aref,...
-%    (mp.R4b - data.IOP), data.ven.LV.Dist, data.ven.LV.n, data.convert_MPa_to_mmHg * 1e-6);
-res.R4b = data.ven.LV.res_const;
+% %% Distensible tubes (NON HA SENSO!!!)
+% % res.R4a = distensible_resistor(data.ven.SV.mu, data.ven.SV.L, data.ven.SV.Aref,...
+% %    (mp.R4a - data.IOP), data.ven.SV.Dist, data.ven.SV.n, data.convert_MPa_to_mmHg * 1e-6);
+% res.R4a = data.ven.SV.res_const;
+% % 
+% % res.R4b = distensible_resistor(data.ven.LV.mu, data.ven.LV.L, data.ven.LV.Aref,...
+% %    (mp.R4b - data.IOP), data.ven.LV.Dist, data.ven.LV.n, data.convert_MPa_to_mmHg * 1e-6);
+% res.R4b = data.ven.LV.res_const;
 
 %% Collapsible tubes
+
+res.R4a = starling_resistor(data.ven.SV.krrho, data.ven.SV.L, data.ven.SV.Aref,...
+    (mp.R4a - data.IOP), data.ven.SV.kp, data.ven.SV.kL) / data.ven.SV.n;
+
+res.R4b = starling_resistor(data.ven.LV.krrho, data.ven.LV.L, data.ven.LV.Aref,...
+    (mp.R4b - data.IOP), data.ven.LV.kp, data.ven.LV.kL) / data.ven.LV.n;
+
+
 res.R5a = starling_resistor(data.CRV.krrho, data.CRV.L_a, data.CRV.Aref,...
     (mp.R5a - data.IOP), data.CRV.kp, data.CRV.kL);
 
