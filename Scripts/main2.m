@@ -31,7 +31,7 @@ for ind = 1:6
         resistors.flow_CRA = resistors.flow_CRA(I);
 
         Qs(ind,ii) = trapz(resistors.time, resistors.flow_CRA) * data.convert_mL_s_to_muL_min;
-        fprintf('data.IOP = %3.4f, Q = %2.4f \n',data.IOP, Qs(ii))
+        fprintf('data.IOP = %3.4f, Q = %2.4f \n',data.IOP, Qs(ind,ii))
     end
 end
 

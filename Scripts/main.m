@@ -2,7 +2,12 @@
 
 %% Loading data
 clear all
-%close all
+close all
+
+% Resistors global variable
+global resistors data
+resistors = initialize_resistors();
+
 
 data = [];
 data = define_constants(data);
@@ -14,9 +19,6 @@ P1245 = zeros(4,1);
 % Time vector
 tspan = [0, 1];
 
-% Resistors global variable
-global resistors data
-resistors = initialize_resistors();
 
 
 %% Call to the ODE solver

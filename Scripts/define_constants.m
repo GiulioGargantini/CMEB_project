@@ -23,7 +23,7 @@ function data = define_constants(data, IOPval, index)
 %                  operation = 0 if not.
 
 %% Settings
-data.plots = 0; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
+data.plots = 1; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
 
 %% Properties
 if nargin <= 2
@@ -171,6 +171,9 @@ data.ven.SV.n = 40;                     % [n] = 1,equivalent number of small ven
 data.ven.SV.D = 68.5*1e-3;              % [D] = mm, SV diameter
 data.ven.SV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
 data.ven.SV.Aref = pi * data.ven.SV.D^2 / 4; % [Aref] = mm^2, reference section
+data.ven.SV.res_const = 128 * data.ven.SV.mu * data.ven.SV.L / ...
+    (data.ven.SV.D.^4 * pi) * data.convert_MPa_to_mmHg * 1e-6 / data.ven.SV.n;
+
 
 % Large Venulus vessel (LV)
 data.ven.LV.L = 0.73 * 1e1;             % [L] = mm, Length of the LV vessel
@@ -179,6 +182,8 @@ data.ven.LV.n = 4;                      % [n] = 1,equivalent number of small ven
 data.ven.LV.D = 154.9*1e-3;             % [D] = mm, SV diameter
 data.ven.LV.Dist= 8*34.12e-4;           % [Dist] = mmHg ^ -1, Distensibility of the SV vessel (kp * kL)
 data.ven.LV.Aref = pi * data.ven.LV.D^2 / 4; % [Aref] = mm^2, reference section
+data.ven.LV.res_const = 128 * data.ven.LV.mu * data.ven.LV.L / ...
+    (data.ven.LV.D.^4 * pi) * data.convert_MPa_to_mmHg * 1e-6 / data.ven.LV.n;
 
 
 % OLD VENULES PARAMETERS
