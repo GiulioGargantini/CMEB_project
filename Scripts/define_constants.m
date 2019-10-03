@@ -27,7 +27,7 @@ data.plots = 1; % set plots = 1 if you want graphs to be plotted. set it to 0 el
 
 %% Properties
 if nargin <= 2
-    data.AR = 1;    % set AR = 1 if blood flow autoregulation is active
+    data.AR = 0;    % set AR = 1 if blood flow autoregulation is active
                     % set AR = 0 if it is not
            
     data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
@@ -257,7 +257,7 @@ data.convert_mL_mm2s_to_cm_s = 1e2;    % Converts mL/(s * mm^2) to cm/s
 data.convert_mL_s_to_muL_min = 1e3 * 60;    % Converts mL/s to μL/min
                
 %% Cycle while in time_deriv_P1245
-data.tdev.tol = 1e-10;    % relative tolerance for the convergence
+data.tdev.tol = 1e-8;    % relative tolerance for the convergence
 data.tdev.upper_bound = 1e8;    % if the norm reaches this value, stop everything
 
 end

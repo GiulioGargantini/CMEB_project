@@ -1,0 +1,29 @@
+\begin{thebibliography}{1}
+
+\bibitem{art1}
+G.~Guidoboni, A.~Harris, S.~Cassani, J.~Arciero, B.~Siesky, A.~Amireskandari,
+  L.~Tobe, P.~Egan, I.~Januleviciene, and J.~Park.
+\newblock Intraocular pressure, blood pressure, and retinal blood flow
+  autoregulation: A mathematical model to clarify their relationship and
+  clinical relevance.
+\newblock 2014.
+
+\bibitem{notes}
+R.~Sacco, G.~Guidoboni, and A.G. Mauri.
+\newblock Notes for computational modeling in electronics and biomathematics,
+  2019.
+
+\bibitem{Tesi}
+Laura Origgi, Relatore Prof.ssa~Paola Causin, and Correlatore Prof.~Riccardo
+  Sacco.
+\newblock Mathematical and computational models for the study of autoregulation
+  phenomena in the human retinal microvascular network.
+\newblock Master's thesis, Università degli Studi di Milano, 2011.
+
+\bibitem{Tesimmagine}
+José~Ignacio Orlando.
+\newblock {\em Machine learning for ophthalmic screening and diagnostics from
+  fundus images}.
+\newblock PhD thesis, Medical University of Vienna, 2017.
+
+\end{thebibliography}

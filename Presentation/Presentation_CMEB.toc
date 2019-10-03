@@ -1,3 +1,0 @@
-\beamer@sectionintoc {1}{The model}{2}{0}{1}
-\beamer@sectionintoc {2}{The code}{3}{0}{2}
-\beamer@sectionintoc {3}{The results}{4}{0}{3}

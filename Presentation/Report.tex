@@ -23,8 +23,11 @@
 
 \usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
 \usepackage{graphicx} % Required for the inclusion of images
+\usepackage[utf8]{inputenc}
 \usepackage{natbib} % Required to change bibliography style to APA
 \usepackage{amsmath} % Required for some math elements 
+\renewcommand{\refname}{Bibliografia}
+\renewcommand{\contentsname}{Indice}
 
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
@@ -40,7 +43,7 @@
 
 \author{Giulio Gargantini} % Author name
 
-\date{\today} % Date for the report
+\date{Ottobre 2019} % Date for the report
 
 \begin{document}
 
@@ -54,30 +57,102 @@ A.A. 2018/2019
 
 % If you wish to include an abstract, uncomment the lines below
 \begin{abstract}
-In questo progetto si è voluto simulare la microcircolazione nella retina modellandola come un circuito elettrico a resistenze variabili con l'obiettivo di replicare i risultati di \ref{art1}. L'atttenzione è rivolta in particolare alla stima del flusso sanguigno nella microcircolazione per individui aventi valori diversi di pressione sanguigna e pressione intraoculare.
+In questo progetto si è voluto simulare la microcircolazione nella retina modellandola come un circuito elettrico a resistenze variabili con l'obiettivo di replicare i risultati di \cite{art1}.
+L'attenzione è rivolta in particolare alla stima del flusso sanguigno nella microcircolazione per individui aventi valori diversi di pressione sanguigna e pressione intraoculare.
 \end{abstract}
+
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	INTRO
+%----------------------------------------------------------------------------------------
+
+\section{Introduzione}
+Nello studio della fisiologia dell'apparato visivo e nella ricerca relativa ad alcune sue disfunzioni, una buona comprensione della microcircolazione sanguigna a livello della retina riveste un ruolo fondamentale.
+La retina è irrorata da una rete di vasi esposti alla pressione interna del bulbo oculare, la quale può, se alterata, inibire un corretto afflusso di sangue e favorire l'insorgenza di patologie come il glaucoma.
+Vista l'importanza cruciale dell'individuazione delle cause precise di una malattia tanto invalidante, i ricercatori si sono concentrati sullo sviluppo di modelli capaci di simulare in modo efficace la microcircolazione retinica e le sue interazioni con la struttura dell'occhio.
+
+Il modello su cui si concentra questo progetto è presentato in \cite{art1} e sfrutta l'analogia elettrico-idraulica (cfr. capitolo 4 di \cite{notes}) per modellare la rete di vasi sanguigni come un circuito elettrico a resistenze variabili.
+Ciò permette di prendere in considerazione l'azione della pressione intraoculare (IOP) e della pressione sanguigna sulla larghezza dei vasi, strettamente correlata alla resistenza idraulica degli stessi e al flusso di sangue complessivo in un ciclo cardiaco.
+
+Questo rapporto si articola in tre parti principali.
+Nella prima si illustra il quadro generale del problema partendo dall'anatomia e fisiologia delle porzioni dell'occhio analizzate, per poi procedere alla deduzione di un modello ridotto della microcircolazione secondo l'analogia fluido-elettrica.
+Nella seconda si illustra l'implementazione del modello ricavato nella sezione precedente tramite un codice Matlab e si presentano le relazioni principali tra le diverse funzioni.
+Infine la terza parte è dedicata ai risultati ottenuti e al confronto con quelli ottenuti in \cite{art1}, discutendone il significato fisico e l'importanza.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Objective}
+\section{Modello}
+\subsection{Anatomia e fisiologia}
+In questa sezione si descrivono le componenti dell'occhio che vengono studiate nel modello in esame.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Pictures/occhio.png}
+\caption{Struttura generale dell'occhio \cite{Tesi}}
+\label{eyeball}
+\end{center}
+\end{figure}
+L'occhio ha una forma grossomodo sferica, la cui porzione centrale è occupata dall'umore vitreo, una sostanza gelatinosa e trasparente che mantiene la tonicità del globo oculare. 
+L'umor vitreo è completamente racchiuso dalla sclera, una membrana di tessuto fibroso di colore bianco, ad eccezione della parte anteriore in cui esso è limitato dal cristallino.
+Tra il cristallino e la cornea, la membrana trasparente che separa l'occhio dall'esterno, si trovano due sezioni, dette camera anteriore e posteriore, separate dall'iride e contenenti l'umor acqueo.
+
+Sulla parte posteriore dell'occhio, adagiata sulla sclera, si trova la retina: un tessuto fotosensibile capace di trasformare i segnali luminosi in impulsi nervosi i quali, raccolti dal nervo ottico, vengono inviati al cervello \cite{Tesi}.
+\subsubsection*{Anatomia della retina}
+A differenza della sclera, irrorata da molteplici vasi sanguigni come le arterie e le vene ciliari e le vene vorticose, gli unici collegamenti tra la rete di capillari della retina e il flusso sanguigno sono l'Arteria Retinica Centrale (CRA) e la Vena Retinica Centrale(CRV).
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Pictures/Optic_nerve.png}
+\caption{Principali vasi retinici \cite{Tesi}}
+\label{retina}
+\end{center}
+\end{figure}
+Entrambi i vasi percorrono un tratto all'interno del nervo ottico, circondati dalle fibre nervose e entrano nell'occhio attraverso la Lamina Cribrosa: tale lamina è una porzione della sclera forata in molteplici punti, attraverso la quale passano le fibre innervanti la retina, la CRA e la CRV (cfr. figura \ref{retina}).
+A questo punto l'arteria centrale si divide in molteplici arteriole e capillari, i quali, dopo aver irrorato le cellule della retina, si ricongiungono formando una rete di venule che, a loro volta, si uniscono nella CRV.
+
+I vasi sanguigni non hanno pareti rigide, quindi la loro sezione è soggetta a variazioni dovute alla differenza tra la pressione esterna e interna al vaso: nella zona del nervo ottico i vasi sono soggetti alla pressione del tessuto retrolaminare (RLTp) mentre all'interno del bulbo oculare sono esposti alla pressione intraoculare (IOP).
+Vene e arterie sono costituite da tessuti diversi e hanno una diversa struttura: le prime sono generalmente più fini delle seconde e devono sostenere una pressione interna più debole.
+Per questo motivo esse sono più soggette ad ampie variazioni di volume e al rischio di collassare su loro stesse se la pressione interna non è in grado di controbilanciare quella agente sulle pareti della vena.
+\subsubsection*{Circolazione dell'umor acqueo}
+La pressione interna dell'occhio (IOP) è mantenuta grazie alla produzione di umor acqueo.
+Questo liquido trasparente simile al plasma è prodotto dal corpo ciliare nella camera posteriore dell'occhio, da cui filtra nella camera anteriore attraverso l'iride e la pupilla.
+Dalla camera anteriore esso passa attraverso il trabecolato, una struttura porosa posta tra la sclera e la cornea, per esser drenato nel canale di Schlemm per disperdersi infine nella circolazione venosa (cfr. figura \ref{umoracqueo}).
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Pictures/umor_acqueo.png}
+\caption{Circolazione dell'umor acqueo nelle camere posteriore e anteriore \cite{Tesimmagine}}
+\label{umoracqueo}
+\end{center}
+\end{figure}
+Nel caso in cui non si verifichi un normale drenaggio dell'umor acqueo, ad esempio per l'occlusione del trabecolato, il fluido si accumula nella camera anteriore dell'occhio premendo sul cristallino e trasmettendo la pressione all'umor vitreo, aumentando così l'IOP.
+Tale aumento della pressione esterna può provocare il collasso dei vasi sanguigni della retina, in particolare delle vene, diminuendo l'irrorazione  del tessuto e favorendo l'insorgenza del glaucoma.
+
+Per contrastare gli effetti di un'elevata IOP è stata sviluppata la trabeculectomia: un'operazione chirurgica in cui si effettua un foro nella sclera in corrispondenza della camera anteriore, permettendo all'umor acqueo di drenare in una sacca al di sotto  della congiuntiva.
+Permettendo nuovamente il drenaggio del fluido si osserva una considerevole riduzione del valore dell'OPP nei pazienti, riportandolo ai livelli fisiologici (cfr. tabela 6 di \cite{art1}).
+
+\subsection{Riduzione del modello}
+\subsubsection*{Deduzione del circuito}
+I vasi della microcircolazione retinica si possono dividere in cinque categorie: la CRA, le arteriole, i capillari, le venule e la CRV. 
+--RICORDATI DEL'ODE!!!--
+\subsubsection*{Valore dei resistori}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+\section{Codice}
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+\section{Risultati}
+%----------------------------------------------------------------------------------------
+%	CONCLUSION
+%----------------------------------------------------------------------------------------
+\section{Conclusione}
 
 
-
-\subsection{Definitions}
-
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=0.65\textwidth]{placeholder} % Include the image placeholder.png
-%\caption{Figure caption.}
-%\end{center}
-%\end{figure}
-
-%
-
-\bibliographystyle{apalike}
-
+\addcontentsline{toc}{section}{Bibliografia}
+\bibliographystyle{unsrt}
 \bibliography{sample}
 
 %----------------------------------------------------------------------------------------
