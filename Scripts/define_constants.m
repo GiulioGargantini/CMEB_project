@@ -164,22 +164,20 @@ data.CRV.kL = 12 * data.CRV.Aref/(pi * data.CRV.h^2);   % [kL] = 1
 
 %% Venules constants
 
-data.ven.mu = 2.44;                 % [mu] = cP P 1e-3 kg/(m*s), Dynamical viscosity of blood
-data.ven.Dist = 8*34.12e-4;         % [Dist] = mmHg ^ -1, Distensibility of the vessel (kp * kL)
-data.ven.L = ((data.C4^2 * data.resistor_control_state.R4a)/...
-    (data.ven.Dist^2 * 8 * pi * data.ven.mu * data.convert_MPa_to_mmHg))...
-    ^(1/3) * 1e4;                   % [L] = mm, Length of the vessel
-data.ven.Aref = ((8 * pi * data.ven.mu * data.C4)/(data.ven.Dist * ...
-    data.resistor_control_state.R4a) * data.convert_MPa_to_mmHg * 1e-3)^(1/3); % [Aref] = mm^2, reference section
-data.ven.D = sqrt(data.ven.Aref * 4 / pi);      % [D] = mm, diameter
+% data.ven.mu = 2.44;                 % [mu] = cP P 1e-3 kg/(m*s), Dynamical viscosity of blood
+% data.ven.Dist = 8*34.12e-4;         % [Dist] = mmHg ^ -1, Distensibility of the vessel (kp * kL)
+% data.ven.L = ((data.C4^2 * data.resistor_control_state.R4a)/...
+%     (data.ven.Dist^2 * 8 * pi * data.ven.mu * data.convert_MPa_to_mmHg))...
+%     ^(1/3) * 1e4;                   % [L] = mm, Length of the vessel
+% data.ven.Aref = ((8 * pi * data.ven.mu * data.C4)/(data.ven.Dist * ...
+%     data.resistor_control_state.R4a) * data.convert_MPa_to_mmHg * 1e-3)^(1/3); % [Aref] = mm^2, reference section
+% data.ven.D = sqrt(data.ven.Aref * 4 / pi);      % [D] = mm, diameter
 data.ven.wtlr = 0.05;            % [wtlr] = 1, wall to Lumen ratio = h / radius
 data.ven.E = 0.66 * data.convert_MPa_to_mmHg;   % [E] = mmHg, Young modulus off walls
 data.ven.nu = 0.49;                 % [nu] = 1, wall poisson ratio
-data.ven.h = data.ven.wtlr * data.ven.D / 2; % [h] = mm, wall thickness
-data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
-data.ven.kp = (data.ven.E*data.ven.h^3/sqrt(1-data.ven.nu^2))*...
-    (pi/data.ven.Aref)^(3/2);   % [kp] = mmHg
-data.ven.kL = 12 * data.ven.Aref/(pi * data.ven.h^2);   % [kL] = 1
+% data.ven.krrho = 8*pi*data.ven.mu * 1e-6 * data.convert_MPa_to_mmHg ;%  [krrho] = 1e-3 s * mmHg, kr*rho
+data.ven.kp = (data.ven.E*data.ven.wtlr^3/sqrt(1-data.ven.nu^2)) * 8;   % [kp] = mmHg
+data.ven.kL = 12 /(data.ven.wtlr^2);   % [kL] = 1
 
 
 % % Small Venulus vessel (SV)
@@ -259,7 +257,7 @@ data.convert_mL_mm2s_to_cm_s = 1e2;    % Converts mL/(s * mm^2) to cm/s
 data.convert_mL_s_to_muL_min = 1e3 * 60;    % Converts mL/s to μL/min
                
 %% Cycle while in time_deriv_P1245
-data.tdev.tol = 1e-8;    % relative tolerance for the convergence
+data.tdev.tol = 1e-10;    % relative tolerance for the convergence
 data.tdev.upper_bound = 1e8;    % if the norm reaches this value, stop everything
 
 end
