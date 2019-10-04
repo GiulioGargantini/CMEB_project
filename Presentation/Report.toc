@@ -6,8 +6,8 @@
 \contentsline {subsection}{\numberline {3.1}Analogia fluido - elettrica}{5}
 \contentsline {subsection}{\numberline {3.2}Deduzione del circuito}{5}
 \contentsline {subsection}{\numberline {3.3}Valore dei resistori}{7}
-\contentsline {subsection}{\numberline {3.4}Pressione nella Lamina Cribrosa}{7}
-\contentsline {section}{\numberline {4}Codice}{7}
-\contentsline {section}{\numberline {5}Risultati}{7}
-\contentsline {section}{\numberline {6}Conclusione}{7}
-\contentsline {section}{Bibliografia}{7}
+\contentsline {subsection}{\numberline {3.4}Pressione nella Lamina Cribrosa}{9}
+\contentsline {section}{\numberline {4}Codice}{9}
+\contentsline {section}{\numberline {5}Risultati}{9}
+\contentsline {section}{\numberline {6}Conclusione}{9}
+\contentsline {section}{Bibliografia}{9}

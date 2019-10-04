@@ -198,7 +198,40 @@ Usando la legge di Kirchhoff per le correnti e la definizione di capacità, dal 
 \label{sistema}
 \end{equation}
 \subsection{Valore dei resistori}
+
+In \cite{art1} si possono trovare dei valori standard per i resistori del circuito \ref{circuito} calcolati tramite la legge di Poiseuille per uno stato di controllo.
+Un circuito lineare composto da resistori costanti non è in grado di caratterizzare la natura elastica dei vasi sanguigni e la dipendenza del flusso dal loro diametro e quindi non è indicato per simulare il fenomeno di collasso dei vasi sanguigni in caso di IOP elevata che si riscontra nei pazienti affetti da glaucoma.
+
+L'articolo \cite{art1} propone, oltre ai classici resistori costanti, tre tipi di resistori adatti a modellare particolari sezioni della microcircolazione.
+Tali categorie sono i \textit{compliant resistors}, adatti a modellare vasi la cui pressione media interna è sempre superiore alla pressione esterna (adatti per le sezioni della CRA nella regione intraoculare e in corrispondenza della lamina cribrosa), gli \textit{Starling resistors} o \textit{collapsible resistors} adatti per le vene e le venule, la cui pressione interna può essere inferiore o superiore alla pressione esterna, e infine gli \textit{active resistors} per modellare le arteriole, le quali possono modificare il proprio diametro a seconda delle circostanze secondo il processo di autoregolazione (cfr. \cite{Tesi}). 
+Uno schema che illustra il modello adottato per ciascun resistore del circuito si può trovare alla figura \ref{circuitocolori}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Pictures/circuit2.png}
+\caption{Resistori variabili \cite{art1}}
+\label{circuitocolori}
+\end{center}
+\end{figure}
+
+\subsubsection*{Compliant resistors}
+Nel modello in esame, il sangue arterioso nella CRA è sempre a pressione maggiore rispetto alla pressione esterna al vaso; perciò le varie sezioni dell'arteria avranno generalmente un diametro superiore a quello dello stato di riposo e ad un aumento della pressione nel vaso corrisponderà un aumento del suo diametro e una conseguente riduzione della resistenza idraulica.
+Tale ipotesi è ragionevole: nella circolazione arteriosa la pressione risente direttamente della pulsazione cardiaca, che viene trasmessa lungo i vasi dalle pareti delle arterie, caratterizzate dalla presenza di fibre muscolari.
+Nel modello in esame si prende come valore per la pressione d'ingresso  i $2/3$ del valore della pressione in corrispondenza dell'arteria brachiale per tenere conto della distanza di questa dall'occhio.
+
+Dalla legge di Laplace per un cilindro comprimibile e dalla leggge di Poiseuille (cfr. \cite{art1}, capitolo 4 di \cite{notes} e \cite{Libro}) si ricava la seguente formula per il \textit{compliant resistor},
+\begin{equation}
+R = \frac{k_r \rho L}{\mathcal{A}_{ref}^2}\left( 1 + \frac{\Delta P}{k_p k_L}\right)
+\label{compliantR}
+\end{equation}
+dove $\rho$ è la densità del sangue, $L$ e $\mathcal{A}_{ref}$ rispettivamente la lunghezza e la sezione del vaso a riposo e $\Delta P = P_{int} - P_{ext}$ la differenza di pressione ai due lati della parete.
+I termini restanti sono costanti che dipendono dalla viscosità $\mu$, dal modulo di Young $E$, dal coefficiente di Poisson $\nu$ e dallo spessore $h$ della parete secondo le seguenti relazioni: $k_r = 8 \pi \mu / \rho$, $k_p = E h^3 / \sqrt{1 - \nu^2}\  (\pi/\mathcal{A}_{ref})^{3/2}$, $k_L = 12 \mathcal{A}_{ref} / \pi h^2$.
+\subsubsection*{Starling resistors}
+\subsubsection*{Active resistors}
+
 \subsection{Pressione nella Lamina Cribrosa}
+
+
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
