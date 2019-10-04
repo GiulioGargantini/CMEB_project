@@ -131,6 +131,9 @@ Tale aumento della pressione esterna può provocare il collasso dei vasi sanguig
 
 Per contrastare gli effetti di un'elevata IOP è stata sviluppata la trabeculectomia: un'operazione chirurgica in cui si effettua un foro nella sclera in corrispondenza della camera anteriore, permettendo all'umor acqueo di drenare in una sacca al di sotto  della congiuntiva.
 Permettendo nuovamente il drenaggio del fluido si osserva una considerevole riduzione del valore dell'OPP nei pazienti, riportandolo ai livelli fisiologici (cfr. tabela 6 di \cite{art1}).
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
 
 \section{Derivazione del modello}
 \subsection{Analogia fluido - elettrica}
@@ -221,24 +224,100 @@ Nel modello in esame si prende come valore per la pressione d'ingresso  i $2/3$ 
 
 Dalla legge di Laplace per un cilindro comprimibile e dalla leggge di Poiseuille (cfr. \cite{art1}, capitolo 4 di \cite{notes} e \cite{Libro}) si ricava la seguente formula per il \textit{compliant resistor},
 \begin{equation}
-R = \frac{k_r \rho L}{\mathcal{A}_{ref}^2}\left( 1 + \frac{\Delta P}{k_p k_L}\right)
+R = \frac{k_r \rho L}{\mathcal{A}_{ref}^2}\left( 1 + \frac{\Delta P}{k_p k_L}\right)^{-4}
 \label{compliantR}
 \end{equation}
 dove $\rho$ è la densità del sangue, $L$ e $\mathcal{A}_{ref}$ rispettivamente la lunghezza e la sezione del vaso a riposo e $\Delta P = P_{int} - P_{ext}$ la differenza di pressione ai due lati della parete.
 I termini restanti sono costanti che dipendono dalla viscosità $\mu$, dal modulo di Young $E$, dal coefficiente di Poisson $\nu$ e dallo spessore $h$ della parete secondo le seguenti relazioni: $k_r = 8 \pi \mu / \rho$, $k_p = E h^3 / \sqrt{1 - \nu^2}\  (\pi/\mathcal{A}_{ref})^{3/2}$, $k_L = 12 \mathcal{A}_{ref} / \pi h^2$.
 \subsubsection*{Starling resistors}
+Il modello adottato per modellare le vene è più complesso: il sangue venoso si trova ad una pressione molto inferiore rispetto a quello arterioso, perciò è possibile che la pressione interna al vaso sanguigno sia inferiore a quella esterna, provocando uno schiacciamento della vena.
+Tale deformazione può essere molto accentuata, specialmente visto il sottile spessore delle vene rispetto alle arterie, quindi si possono verificare drastici aumenti della resistenza per tali sezioni di vasi sanguigni.
+Un modello efficace per tali sezioni del circuito è presentato nel capitolo 4 di \cite{notes} e distingue due comportamenti per il resistore: se la differenza di pressione tra l'interno e l'esterno è positiva ($\Delta P > 0$), la resistenza si trova utilizzando la formula del \textit{compliant resistor} (\ref{compliantR}), se invece $\Delta P < 0$ si usa una formula alternativa che tiene conto degli effetti della deformazione della membrana.
+
+\begin{equation}
+R = \begin{dcases}
+\frac{k_r \rho L}{\mathcal{A}_{ref}^2}\left( 1 + \frac{\Delta P}{k_p k_L}\right)^{-4} & \Delta P \ge 0\\
+\frac{k_r \rho L}{\mathcal{A}_{ref}^2}\left( 1- \frac{\Delta P}{k_p}\right)^{4/3} & \Delta P < 0\\
+\end{dcases}
+\label{starlingR}
+\end{equation}
+I parametri presenti nella definizione sono definiti come per il \textit{compliant resistor}.
+
+La modellazione della sezione 4 richiede un'attenzione particolare: infatti, essa non corrisponde a un vaso specifico, ma a un reticolo di venule aventi diametro, sezione e spessore differente; inoltre le venule sono i vasi più esposti all'azione dell'IOP e quindi sono le più soggette a fenomeni di ipercompressione, che questo progetto si propone di simulare.
+Sono stati provati diversi approcci per modellare la struttura complessa della rete di venule; in particolare si segnalano l'approccio gerarchico a due livelli (\textit{small vessels} e \textit{large vessels} adottato in \cite{Libro}), l'approccio mutiscala adottato da \cite{art1} e \cite{Tesi}, dove sono considerati tredici diversi livelli di venule, e l'approccio monolitico in cui la complessità dei vasi è ridotta a un piccolo insieme di parametri mediati (tentativi sono stati fatti con i dati di \cite{art2} e di \cite{Duker}).
+Il metodo ritenuto è una semplificazione del'approccio usato in \cite{art1} usando come valore di base della resistenza per $\Delta P = 0$ il valore di controllo per il resistore riportato nell'articolo, e i parametri $k_r$, $k_p$ e $k_L$ non sono esplicitamente calcolati ma dedotti dai rapporti tra le altre grandezze relative alle venule, come il rapporto tra lume e spessore.
+
 \subsubsection*{Active resistors}
+Nella figura \ref{circuitocolori} si può osservare come per le arteriole non si sia adottato lo stesso modello usato per la CRA.
+Infatti esse sono soggette a un fenomeno di autoregolazione che permette una variazione di volume in risposta a stimoli come la pressione esterna, o la concentrazione di diossido di carbonio.
+Tale meccanismo varia da individuo a individo e talvolta è completamente assente e uno degli obiettivi del progetto è verificarne l'incidenza sul'irrorazione della retina.
+Una trattazione dettagliata dell'autoregolazione nella microcircolazione arteriosa si può trovare in \cite{Tesi}, ma per questo progetto ci si è limitati a un modello semplificato proposto in \cite{art1} che fa dipendere il valore della resistenza delle arteriole $R_{2a}$ e $R_{2b}$ solo dalla pressione di perfusione oculare (OPP) definita come $OPP = 2/3 MAP - IOP$, dove $MAP$ è la pressione arteriosa media.
+Secondo questo modello le resistenze $R_{2a}$ E $R_{2b}$ hanno lo stesso valore e, per individui aventi un meccanismo di autoregulazione funzionale, lo si può calcolare usando la seguente formula.
+
+\begin{equation}
+R = \bar{R}_{2a} \frac{c_L + c_U \exp \left[ K \left(Q_{noAR}(OPP) - \bar{Q}\right) - \hat{c}\right]}{1 + \exp \left[ K \left(Q_{noAR}(OPP) - \bar{Q}\right) - \hat{c}\right]}
+\label{activeR}
+\end{equation}
+
+In questo caso $c_L$ e $c_U$ sono i valori minimo e massimo della resistenza, $K$ è la sensitività della resistenza a variazioni di pressione e $\hat{c}$ è una costante di normalizzazione.
+$\bar{R}_{2a}$ è il valore di controllo per una delle resistenze delle arteriole e corrisponde al valore adottato in assenza di autoregolazione funzionale.
+$\bar{Q}$ rappresenta il flusso medio in stato di controllo e $Q_{noAR}(OPP)$ è il flusso che si avrebbe in caso di autoregolazione assente per un OPP assegnato.
+Operativamente, i valori assunti da $Q_{noAR}(OPP)$ sono stati estratti dalla figura A2 destra di \cite{art1}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Pictures/compare_R2a.png}
+\caption{Confronto tra i risultati della formula (4) di \cite{art1} e il grafico in figura 2A sinistra dello stesso articolo}
+\label{compare_active}
+\end{center}
+\end{figure}
 
 \subsection{Pressione nella Lamina Cribrosa}
+Come accennato nella sezione precedente, pre passare dalla regione retrobulbare a quella intraoculare, le fibre del nervo ottico e l'arteria e la vena retiniche centrali devono attraversare una porzione porosa della sclera detta lamina cribrosa che comprime i vasi esercitando una pressione.
+In \cite{art3} si modella la lamina cribrosa come un disco elastico non lineare soggetto all'IOP e all'RLTp sulle sue facce e alla tensione della sclera sul bordo (si veda fig. \ref{laminacribrosa}).
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Pictures/laminacribrosa.png}
+\caption{1.Anatomia della lamina cribrosa, 2.Modellazione tramite disco elastico soggetto all'IOP, RLTp e alla tensione sclerale, 3.Andamento della pressione lungo l'asse del nervo ottico \cite{art3}}
+\label{laminacribrosa}
+\end{center}
+\end{figure}
 
+Secondo tale modello si può trovare il valore della pressione esercitato dalla lamina cribrosa sulla CRA, che si suppone passare per il suo centro, calcolando il tensore degli sforzi $\mathbf{S}$ e valutandone la componente $\mathbf{S}_{ss} = u_s \cdot \mathbf{S} u_s$ in $s = 0$, dove $s$ è la coordinata radiale e $u_s$ il vettore unitario associato.
+La pressione agente sulle pareti della CRA in ogni punto si ricava quindi tramite la formula
 
-%----------------------------------------------------------------------------------------
-%	SECTION 2
-%----------------------------------------------------------------------------------------
-\section{Codice}
+\begin{equation}
+P_e(z) = \begin{dcases}
+RLTp & \mbox{  se  }  z < z_{lc,c}\\ 
+-S_{ss}(0,z) & \mbox{  se  }  z_{lc,c} < z < z_{lc}\\ 
+IOP & \mbox{  se  }  z > z_{lc,c}
+\end{dcases}
+\label{cribrosa_alt}
+\end{equation}
+dove $z$ è la coordinata assiale, $z_{lc}$ è lo spessore della lamina cribrosa e $z_{lc,c} = \min\left\lbrace z \in (0,z_{lc} \mbox{tc} -S_{ss}(0,z) \geq RLTp\right\rbrace$.
+
+I risultati trovati in \cite{art3} risolvendo numericamente il problema sono riportati nella figura \ref{riscribrosa}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Pictures/riscribrosa.png}
+\caption{Risultati dell'integrazione numerica del tensore degli sforzi della lamina cribrosa in \cite{art3}. Si osservi come l'andamento di $-S_{ss}$ lungo la coordinata assiale sia non lineare e come esso dipenda dall'IOP.}
+\label{riscribrosa}
+\end{center}
+\end{figure}
+
+Tale modello non è compatibile con quello del \textit{compliant resistor} presentato in precedenza, in quanto quello prevede una pressione esterna e interna costanti lungo l'asse del vaso sanguigno.
+Nell'implementazione numerica si è utilizzato come pressione agente sul resistore $R_{3c}$, che corrisponde alla porzione della CRA passante per la lamina cribrosa, la media integrale della funzione (\ref{cribrosa_alt}) lungo l'asse della lamina, ottenuta interpolando i punti della figura \ref{riscribrosa} per l'opportuno valore d'IOP.
+
 %----------------------------------------------------------------------------------------
 %	SECTION 3
+%----------------------------------------------------------------------------------------
+\section{Implementazione numerica}
+\subsection{Dati utilizzati}
+\subsection{Struttura del codice}
+%----------------------------------------------------------------------------------------
+%	SECTION 4
 %----------------------------------------------------------------------------------------
 \section{Risultati}
 %----------------------------------------------------------------------------------------

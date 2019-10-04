@@ -75,7 +75,7 @@ end
 data.max_Pin = data.SP * data.ratio_maxPin_SP * 2 / 3;  % [max_Pin] = mmHg, maximum value of Pin
 data.min_Pin = data.DP * data.ratio_minPin_DP * 2 / 3;  % [max_Pin] = mmHg, minimum value of Pin
 
-data.MAP = 2/3 * data.DP + 1/3 * data.SP;    % [MAP] = mmHg, Mean Arterial Pressure
+data.MAP = (2/3 * data.DP + 1/3 * data.SP);    % [MAP] = mmHg, Mean Arterial Pressure
 data.OPP = 2/3 * data.MAP - data.IOP;   % [OPP] = mmHg, Ocular Pervasion Pressure
 
 % Pin(t) = alpha Pressure_in(t) + beta
