@@ -25,7 +25,7 @@ counter = 0;
 while err > data.tdev.tol && norm_res < data.tdev.upper_bound
     mean_press = mean_pressures(P1245, data.Pin(t), data.Pout(t), res);
     res_new = update_resistors(data, res, mean_press);
-    norm_res = (abs(res_new.R1c) + abs(res_new.R1d) + abs(res_new.R5a) );
+    norm_res = (abs(res_new.R4a) + abs(res_new.R1d) + abs(res_new.R5a) );
     err = (abs(res_new.R1c - res.R1c) + abs(res_new.R1d - res.R1d) + abs(res_new.R5a - res.R5a) );
     res = res_new;
     counter = counter + 1;

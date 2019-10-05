@@ -1,3 +1,5 @@
+\babel@toc {italian}{}
+\babel@toc {italian}{}
 \contentsline {section}{\numberline {1}Introduzione}{2}
 \contentsline {section}{\numberline {2}Anatomia e fisiologia}{2}
 \contentsline {subsection}{\numberline {2.1}Anatomia della retina}{2}
@@ -9,7 +11,7 @@
 \contentsline {subsection}{\numberline {3.4}Pressione nella Lamina Cribrosa}{10}
 \contentsline {section}{\numberline {4}Implementazione numerica}{12}
 \contentsline {subsection}{\numberline {4.1}Struttura del codice}{12}
-\contentsline {subsection}{\numberline {4.2}Dati utilizzati}{14}
-\contentsline {section}{\numberline {5}Risultati}{14}
-\contentsline {section}{\numberline {6}Conclusione}{14}
-\contentsline {section}{Bibliografia}{14}
+\contentsline {subsection}{\numberline {4.2}Dati utilizzati}{15}
+\contentsline {section}{\numberline {5}Risultati}{18}
+\contentsline {section}{\numberline {6}Conclusione}{18}
+\contentsline {section}{Riferimenti bibliografici}{18}

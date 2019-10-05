@@ -23,12 +23,15 @@
 
 \usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
 \usepackage{graphicx} % Required for the inclusion of images
+\usepackage[italian]{babel} 
 \usepackage[utf8]{inputenc}
 \usepackage{natbib} % Required to change bibliography style to APA
 \usepackage{amsmath} % Required for some math elements
 \usepackage{mathtools}
+\usepackage{url}
 \renewcommand{\refname}{Bibliografia}
 \renewcommand{\contentsname}{Indice}
+\DeclareSIUnit{\poise}{P}
 
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
@@ -338,7 +341,13 @@ In \texttt{main2.m} l'intera procedura è ripetuta diverse volte per pazienti av
 I plot delle pressioni non vengono effettuati, ma si registra nella variabile \texttt{Qs} il valore del flusso in funzione dell'OPP per ciascuna delle sei classi di paziente.
 Infine, tali valori sono plottati in un unico grafico che permette di confrontare la dipendenza del flusso sanguigno dalla pressione intraoculare per diversi pazienti.
 
-
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Pictures/class_diagram.pdf}
+\caption{Diagramma delle principali funzioni usate nella simulazione}
+\label{diagramma_classi}
+\end{center}
+\end{figure}
 \subsubsection*{Inizializzazione dei dati}
 
 Per entrambi i main, una delle prime operazioni da effettuare è l'inizializzazione della variabile globale di tipo struct \texttt{data} con i dati del problema.
@@ -350,9 +359,174 @@ In seguito sono inizializzati i valori di controllo per le resistenze e per le c
 
 Si procede con il calcolo della pressione nella lamina cribrosa secondo il modello descritto nella sezione \ref{sez_lamcri}: l'interpolazione dei dati della figura \ref{riscribrosa} è effettuata dalla funzione \texttt{LC\_pressure}, mentre \texttt{mean\_LC\_pressure} si occupa di valutare la funzione (\ref{cribrosa_alt}) e integrarla lungo l'asse della lamina per fornire un valore medio della pressione esercitato dalla lamina cribrosa sui vasi sanguigni.
 \texttt{define\_constants} termina con la definizione di alcuni fattori di conversione tra unità di misura e con la definizione dei criteri d'arresto per il ciclo while in \texttt{time\_deriv\_P1245}.
+
 \subsubsection*{Calcolo della derivata temporale}
+L'integrazione del sistema (\ref{sistema}) si effettua nel main tramite il comando \texttt{[ttout, PP1245] = ode15s(\@time\_deriv\_P1245, tspan, P1245,opt)}, dove \texttt{tspan} è l'intervallo di integrazione, \texttt{P1245} la condizione iniziale, \texttt{opt} le opzioni di integrazione (come il livello di accuratezza) e \texttt{time\_deriv\_P1245} la funzione responsabile del calcolo della derivata temporale di $P_{1245}$ in ogni istante di tempo e per ogni valore di $P_{1245}$.
+
+Nella funzione \texttt{time\_deriv\_P1245} sono in primo luogo importate le variabili globali \texttt{data} e \texttt{resistors}, rispettivamente utilizzate e aggiornate dalla funzione.
+Subito dopo si dichiara la variabile permanente \texttt{res}, contenente l'ultimo valore calcolato per i resistori variabili.
+
+Successivamente si esegue un ciclo while in cui ad ogni iterazione si calcolano le pressioni medie nei resistori variabili tramite \texttt{mean\_pressures} e li si aggiornano con la funzione \texttt{update\_resistors} al fine di ricostruire il valore dei resistori che genera una distribuzione delle pressioni conforme all'input.
+Il ciclo while termina se due iterazioni successive danno valori per le resistenze simili a meno di una tolleranza definita in \texttt{data} o se le resistenze superano una certa soglia, indicando una mancata convergenza del ciclo e seguita da un messaggio di errore.
+
+Al termine del ciclo while si ha quindi nella variabile \texttt{res} un valore per i resistori variabili che genera la distribuzione di pressione attesa $P_{1245}$.
+La funzione procede quindi con il calcolo dei flussi attraverso la CRA e la CRV.
+I valori ottenuti per i resistori variabili e per i flussi sanguigni sono registrati nella variabile globale \texttt{resistors}, in modo che essi siano accessibili dal main.
+La funzione \texttt{time\_deriv\_P1245} termina con il calcolo della derivata temporale di $P_{1245}$ secondo il sistema (\ref{sistema}).
+
 \subsubsection*{Calcolo delle resistenze variabili}
+Il ciclo while di \texttt{time\_deriv\_P1245} ha lo scopo di trovare il valore delle resistenze variabili che producono le distribuzione delle pressioni desiderata nei nodi $P_1$, $P_2$, $P_4$ e $P_5$: per farlo, ad ogni iterazione calcola le pressioni medie in ogni resistore variabile e aggiorna i valori delle resistenze tramite \texttt{update\_resistors} fino a convergenza.
+
+La funzione \texttt{update\_resistors} prende come input le variabili \texttt{data}, contenente i parametri del modello, \texttt{mp}, contenente le pressioni medie nei resistori variabili, e \texttt{res}, la variabile da aggiornare con i valori delle resistenze.
+La funzione chiama i metodi opportuni per aggiornare i valori delle resistenze secondo la loro natura, come descritto in figura \ref{circuitocolori}: \texttt{compliant\_resistor} per $R_{1c}$ e $R_{1d}$, \texttt{starling\_resistor} per $R_{4a}$, $R_{4b}$, $R_{5a}$ e $R_{5b}$ e \texttt{active\_resistor} per $R_2a$ e $R2b$, che implementano rispettivamente le equazioni (\ref{compliantR}), (\ref{starlingR}) e (\ref{activeR}).
+Per il calcolo dei resistori attivi è chiamata anche la funzione \texttt{Q\_noAR} che permette di calcolare il valore di flusso attraverso $R_{2a}$ in caso di autoregolazione assente interpolando i valori della figura A2.b di \citep{art1}.
+Come si vede dalla formula (\ref{activeR}), il valore $Q_{noAR}(OPP)$ è necessario per valutare il valore di $R_{2a}$ e $R_{2b}$ in caso di autoregolazione attiva.
+
 \subsection{Dati utilizzati}
+Si riportano in questa sezione i dati utilizzati nell'implementazione Matlab del modello.
+Tali valori sono stati presi dall'articolo \citep{art1}, fatta eccezione per i parametri riguardanti la lamina cribrosa, che si possono trovare in \cite{art3}.
+Tutti i dati provenienti da grafici sono stati analizzati e convertiti in valori numerici tramite il sito \url{http://www.graphreader.com/} \cite{ricalca}.
+
+\subsubsection*{Parametri fisiologici}
+Nelle simulazioni si distinguono tre casi in funzione della pressione sanguigna: pazienti con pressione alta, pressione media e pressione bassa.
+Per ciascuno dei tre casi sono dati i valori della pressione sistolica e diastolica, misurati in millimetri di mercurio
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+ - & \textbf{Pressione sistolica (SP)} & \textbf{Pressione diastolica (DP)}\\
+\hline
+\textbf{Pressione alta} & $140\ \si{\mmHg}$ & $90\ \si{\mmHg}$\\
+\textbf{Pressione media} & $120\ \si{\mmHg}$ & $80\ \si{\mmHg}$\\
+\textbf{Pressione bassa} & $100\ \si{\mmHg}$ & $70\ \si{\mmHg}$\\
+\hline
+\end{tabular}
+\caption{Valori della pressione sanguigna}
+\label{tab_pressione}
+\end{center}
+\end{table}
+
+I valori di $P_{in}$ e di $P_{out}$ sono importati dalla figura 3c di \cite{art1} e riscalati a seconda della pressione sanguigna secondo i rapporti $\max(P_{in}) / SP = 0.7683$ e $\min(P_{in}) / DP = 0.4945$.
+
+La pressione nel tessuto retrolaminare è fissata a $RLTp = 7 \si{\mmHg}$ mentre la pressione intraoculare in \texttt{main1} è fissata a $IOP = 15 \si{\mmHg}$ per individui sani o sottopostisi a trabeculectomia, mentre è posta a $30 \si{\mmHg}$ per pazienti con IOP anormale.
+In \texttt{main2} l'IOP è fatto variare uniformemente nell'intervallo $15 \si{\mmHg} - 50 \si{\mmHg}$.
+
+\subsubsection*{Capacità e resistenze}
+Nell'articolo \cite{Tesi} i valori di controllo per le capacità e le resistenze delle diverse sezioni della microcircolazione sono stati calcolati a partire dai risultati clinici usando la definizione di capacità e la legge di Poiseuille.
+\begin{center}
+\begin{equation}
+\begin{split}
+Q &= C \ \Delta V \\
+R &= 128 \mu\ L / \pi D^2
+\end{split}
+\label{eqcapacity}
+\end{equation}
+\end{center}
+dove $Q$ è il flusso passante per il vaso, $\Delta V$ la sua variazione di volume, $\mu$ la viscosità del sangue (diversa per sangue arterioso e venoso), $L$ la lunghezza della sezione del vaso e $D$ il suo diametro.
+I risultati sono i seguenti:
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{| c | c |}
+\hline
+\textbf{Compartimento} & \textbf{Capacità}\\
+\hline
+CRA & $ \SI{7.22e-7}{\milli \liter \per \mmHg}$ \\
+Arteriole & $ \SI{7.53e-7}{\milli \liter \per \mmHg}$ \\
+Venule & $\SI{1.67e-5}{\milli \liter \per \mmHg}$ \\
+CRV & $\SI{1.07e-5}{\milli \liter \per \mmHg}$ \\
+\hline
+\end{tabular}
+\caption{Valori di riferimento per le capacità}
+\label{tab_capacita}
+\end{center}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{| c | c || c | c |}
+\hline
+- & \textbf{Resistenza idraulica} & - & \textbf{Resistenza idraulica}\\
+\hline
+$R_{in}$ & $\SI{2.25e4}{\mmHg \sec \per \milli \liter}$ & $R_{3b}$ & $ \SI{5.68e3}{\mmHg \sec \per \milli \liter}$ \\
+$R_{1a}$ & $\SI{4.30e3}{\mmHg \sec \per \milli \liter}$ & $R_{4a}$ & $ \SI{3.11e3}{\mmHg \sec \per \milli \liter}$ \\
+$R_{1b}$ & $ \SI{4.30e3}{\mmHg \sec \per \milli \liter}$ & $R_{4b}$ & $ \SI{3.11e3}{\mmHg \sec \per \milli \liter}$ \\
+$R_{1c}$ & $ \SI{1.96e2}{\mmHg \sec \per \milli \liter}$ & $R_{5a}$ & $ \SI{3.08e2}{\mmHg \sec \per \milli \liter}$ \\
+$R_{1d}$ & $ \SI{9.78e2}{\mmHg \sec \per \milli \liter}$ & $R_{5b}$ & $ \SI{6.15e1}{\mmHg \sec \per \milli \liter}$ \\
+$R_{2a}$ & $ \SI{6.00e3}{\mmHg \sec \per \milli \liter}$ & $R_{5c}$ & $ \SI{1.35e3}{\mmHg \sec \per \milli \liter}$ \\
+$R_{2b}$ & $ \SI{6.00e3}{\mmHg \sec \per \milli \liter}$ & $R_{5d}$ & $ \SI{1.35e3}{\mmHg \sec \per \milli \liter}$ \\
+$R_{3a}$ & $ \SI{5.68e3}{\mmHg \sec \per \milli \liter}$ & $R_{out}$ & $ \SI{5.74e3}{\mmHg \sec \per \milli \liter}$ \\
+
+\hline
+\end{tabular}
+\caption{Valori di riferimento per le resistenze}
+\label{tab_resistori}
+\end{center}
+\end{table}
+
+\subsubsection*{Parametri dei vasi}
+Per determinare la resistenza dei settori deformabili della CRA e della CRV si sono usati i parametri descritti nella tabella \ref{tab_CR}.
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{| l | c | c |}
+\hline
+\textbf{Grandezza} & \textbf{CRA} & \textbf{CRV}\\
+\hline
+Diametro $D$& $\SI{175e-3}{\milli \meter}$ &  $\SI{238e-3}{\milli \meter}$\\
+Lunghezza totale $L$ & $\SI{10}{\milli \meter}$ &  $\SI{10}{\milli \meter}$\\
+--nella zona retrobulbare & $8.8 \SI{8.8}{\milli \meter}$ & $8.8 \SI{8.8}{\milli \meter}$\\
+--nella lamina cribrosa  & $\SI{0.2}{\milli \meter}$ & $\SI{0.2}{\milli \meter}$\\
+--nella zona intraoculare  & $1.0\SI{1.0}{\milli \meter}$ & $1.0\SI{1.0}{\milli \meter}$\\
+Viscosità del sangue $\mu$ & $\SI{3.00}{\centi \poise}$ & $\SI{3.24}{\centi \poise}$\\
+Modulo di Young $E$ & $\SI{0.3}{\mega\pascal}$ & $\SI{0.6}{\mega\pascal}$\\
+Coefficiente di Poisson $\nu$ & $0.49$ & $0.49$\\
+Spessore delle pareti $h$ & $\SI{39.7e-3}{\milli\meter}$ & $\SI{10.7e-3}{\milli\meter}$\\
+\hline
+\end{tabular}
+\caption{Valori di riferimento per CRA e CRV}
+\label{tab_CR}
+\end{center}
+\end{table}
+
+Per le arteriole e le venule i parametri usati sono nelle tabelle \ref{tab_art} e \ref{tab_ven} rispettivamente e sono usati per implementare i modelli di \textit{active resistor} e \textit{Starling resistor}.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{| c | c |}
+\hline
+\textbf{Grandezza} & \textbf{Arteriole}\\
+\hline
+Resistenza di controllo $\bar{R}_{2a}$ & $ \SI{6.00e3}{\mmHg \sec \per \milli \liter}$ \\
+Limite inferiore per la variazione $c_L$ & $\SI{2.50e-3}{}$\\
+Limite superiore per la variazione $c_U$ & $1.5$\\
+Sensitività $K$ & $\SI{6.91e4}{\second \per \milli \liter}$\\
+Flusso di controllo $\bar{Q}$ & $\SI{6.8178e-4}{\milli \liter \per \second}$\\
+\hline
+\end{tabular}
+\caption{Valori di riferimento per le arteriole}
+\label{tab_art}
+\end{center}
+\end{table}
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{| c | c |}
+\hline
+\textbf{Grandezza} & \textbf{Venule}\\
+\hline
+Resistenza di controllo $\bar{R}_{4a}$ & $ \SI{3.11e3}{\mmHg \sec \per \milli \liter}$ \\
+Rapporto lume pareti $\alpha$ & $0.05$\\
+Modulo di Young $E$ & $\SI{0.66}{\mega\pascal}$\\
+Coefficiente di Poisson $\nu$ & $0.49$\\
+\hline
+\end{tabular}
+\caption{Valori di riferimento per le venule}
+\label{tab_ven}
+\end{center}
+\end{table}
+
+
 %----------------------------------------------------------------------------------------
 %	SECTION 4
 %----------------------------------------------------------------------------------------
@@ -363,7 +537,7 @@ Si procede con il calcolo della pressione nella lamina cribrosa secondo il model
 \section{Conclusione}
 
 
-\addcontentsline{toc}{section}{Bibliografia}
+\addcontentsline{toc}{section}{Riferimenti bibliografici}
 \bibliographystyle{unsrt}
 \bibliography{sample}
 
