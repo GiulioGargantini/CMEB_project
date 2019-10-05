@@ -15,13 +15,12 @@ Qs = zeros(6,numel(IOPs)); % total blood flow for each IOP
 
 for ind = 1:6
     for ii = 1:numel(IOPs)
+        
+        resistors = initialize_resistors();
         data = [];
         data = define_constants(data,IOPs(ii),ind);
         res = data.resistor_control_state;
-        P1245 = zeros(4,1);
         tspan = [0, 1];
-        resistors = [];
-        resistors = initialize_resistors();
 
         P1245 = solve_circuit_1245(data, res, 0);
         %opt = odeset('Refine',2);

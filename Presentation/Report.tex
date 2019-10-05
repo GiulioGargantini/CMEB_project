@@ -273,6 +273,7 @@ Operativamente, i valori assunti da $Q_{noAR}(OPP)$ sono stati estratti dalla fi
 \end{figure}
 
 \subsection{Pressione nella Lamina Cribrosa}
+\label{sez_lamcri}
 Come accennato nella sezione precedente, pre passare dalla regione retrobulbare a quella intraoculare, le fibre del nervo ottico e l'arteria e la vena retiniche centrali devono attraversare una porzione porosa della sclera detta lamina cribrosa che comprime i vasi esercitando una pressione.
 In \cite{art3} si modella la lamina cribrosa come un disco elastico non lineare soggetto all'IOP e all'RLTp sulle sue facce e alla tensione della sclera sul bordo (si veda fig. \ref{laminacribrosa}).
 
@@ -314,8 +315,44 @@ Nell'implementazione numerica si è utilizzato come pressione agente sul resisto
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 \section{Implementazione numerica}
-\subsection{Dati utilizzati}
+In questa sezione è discussa l'implementazione del modello presentato nella sezione precedente: in particolare nella prima parte si descrive la struttura del codice Matlab usato per la simulazione, mentre nella seconda si presentano i dati utilizzati.
 \subsection{Struttura del codice}
+I metodi Matlab implementati per la simulazione del modello di microcircolazione si possono dividere in quattro gruppi: le funzioni direttamente chiamate dal main, le funzioni di supporto all'inizializzazione dei dati, quelle chiamate all'interno di \texttt{ode15s} per il calcolo della derivata temporale e quelle necessarie per l'update dei resistori variabili.
+\subsubsection*{Funzioni del main}
+Sono stati scritti due diversi main per simulare aspetti diversi del modello.
+Il \texttt{main1.m} permette di plottare, fissati l'OPP, la pressione arteriosa (bassa, media o alta) e la presenza o meno del meccanismo di autoregolazione delle arteriole, l'evoluzione delle pressioni nei quattro nodi $P_1$, $P_2$, $P_4$ e $P_5$ segnati in figura \ref{circuito},il valore dei vari resistori variabili nel tempo e la velocità e il flusso sanguigno nella CRA e nella CRV, oltre che a calcolare il valore totale del flusso di sangue passante per la CRA nel corso di una pulsazione cardiaca.
+Il secondo, \texttt{main2.m} permette di calcolare il valore del flusso complessivo attraverso la CRA nel corso di una pulsazione per un ampio range di valori di OPP, simulando i casi di pazienti con diverse pressioni arteriose e con meccanismo di autoregolazione regolare o disfunzionante.
+
+Nonostante ciò, \texttt{main1.m} e \texttt{main2.m} presentano una struttura molto simile e chiamano le stesse funzioni nello stesso ordine, quindi è possibile descriverli in un'unica sezione.
+Entrambi i file cominciano con l'introduzione delle variabili globali \texttt{resistors} e \texttt{data}: la prima raccoglie la serie temporale dei valori assunti dai resistori variabili nel tempo e il valore dei flussi sanguigni nella CRA e nella CRV, la seconda riunisce tutti i parametri del problema ed è inizializzata tramite la funzione \texttt{define\char`_constants}, che sarà discussa in dettaglio più avanti.
+È necessario che tali variabili siano globali in quanto devono essere accessibili da tutte le altre funzioni del codice, specialmente dalle funzioni attivate da una chiamata attraverso \texttt{ode15s}.
+Dopo l'inizializzazione, si chiama la funzione \texttt{solve\_circuit\_1245} per ottenere una guess iniziale per il vettore $P_{1245} = [P_1, P_2, P_4, P_5]^T$: per farlo, la funzione \texttt{solve\_circuit\_1245} risolve il circuito elettrico avente le resistenze di controllo costanti al posto dei resistori variabili applicando le leggi di Kirchhoff.
+
+Una volta trovata una guess iniziale e definita la durata della pulsazione cardiaca, si usa il solutore \texttt{ode15s} per risolvere il sistema d'ODE (\ref{sistema}) tramite la chiamata \texttt{[ttout, PP1245] = ode15s(\@time\_deriv\_P1245, tspan, P1245,opt)}.
+
+La funzione \texttt{\@time\_deriv\_P1245}, dato un istante di tempo e una situazione iniziale, calcola la derivata temporale del sistema in quel momento.
+Una volta integrato il sistema (\ref{sistema}) lungo la durata di una pulsazione, la variabile \texttt{PP1245} contiene l'evoluzione nel tempo di $P_1$, $P_2$, $P_4$ e $P_5$, mentre la struct \texttt{resistors} contiene il valore delle resistenze variabili e del flusso attraverso la CRA e la CRV per ogni istante di tempo.
+In \texttt{main1.m}, Dopo una fase di postprocessing, tali valori sono plottati ed è calcolato il valore del flusso totale.
+
+In \texttt{main2.m} l'intera procedura è ripetuta diverse volte per pazienti aventi bassa, media o alta pressione sanguigna e meccanismo di autoregolazione funzionante o alterato e per diversi valori di OPP
+I plot delle pressioni non vengono effettuati, ma si registra nella variabile \texttt{Qs} il valore del flusso in funzione dell'OPP per ciascuna delle sei classi di paziente.
+Infine, tali valori sono plottati in un unico grafico che permette di confrontare la dipendenza del flusso sanguigno dalla pressione intraoculare per diversi pazienti.
+
+
+\subsubsection*{Inizializzazione dei dati}
+
+Per entrambi i main, una delle prime operazioni da effettuare è l'inizializzazione della variabile globale di tipo struct \texttt{data} con i dati del problema.
+Per farlo, si utilizza la funzione \texttt{define\_constants} che può avere uno, due o tre parametri in input: il primo è sempre la variabile in cui si vogliono immagazzinare i dati del problema (qui la variabile globale \texttt{data}), il secondo e il terzo sono facoltativi e permettono di configurare i dati del problema per un valore di IOP dato e per definire lo stato della pressione e del sistema di autoregolazione del paziente.
+
+In primo luogo la funzione \texttt{define\_constants} definisce i parametri generali del paziente, per poi procedere all'inizializzazione dei valori della pressione usati dal programma (IOP, RLTp, pressioni diastolica e sistolica, pressioni all'ingresso e all'uscita del circuito) ad eccezione della pressione nella lamina cribrosa, che è inizializzata a parte in una sezione successiva.
+Per la definizione della pressione in ingresso si utilizza la funzione \texttt{Pressure\_in} che interpola i dati estratti dalla figura 3 di \cite{art1}.
+In seguito sono inizializzati i valori di controllo per le resistenze e per le capacità usati nella simulazione, per poi procedere con la definizione delle costanti caratteristiche della CRA, CRV, arteriole e venule, usate per il calcolo delle resistenze nelle sezioni variabili.
+
+Si procede con il calcolo della pressione nella lamina cribrosa secondo il modello descritto nella sezione \ref{sez_lamcri}: l'interpolazione dei dati della figura \ref{riscribrosa} è effettuata dalla funzione \texttt{LC\_pressure}, mentre \texttt{mean\_LC\_pressure} si occupa di valutare la funzione (\ref{cribrosa_alt}) e integrarla lungo l'asse della lamina per fornire un valore medio della pressione esercitato dalla lamina cribrosa sui vasi sanguigni.
+\texttt{define\_constants} termina con la definizione di alcuni fattori di conversione tra unità di misura e con la definizione dei criteri d'arresto per il ciclo while in \texttt{time\_deriv\_P1245}.
+\subsubsection*{Calcolo della derivata temporale}
+\subsubsection*{Calcolo delle resistenze variabili}
+\subsection{Dati utilizzati}
 %----------------------------------------------------------------------------------------
 %	SECTION 4
 %----------------------------------------------------------------------------------------

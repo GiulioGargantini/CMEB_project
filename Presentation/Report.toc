@@ -8,8 +8,8 @@
 \contentsline {subsection}{\numberline {3.3}Valore dei resistori}{7}
 \contentsline {subsection}{\numberline {3.4}Pressione nella Lamina Cribrosa}{10}
 \contentsline {section}{\numberline {4}Implementazione numerica}{12}
-\contentsline {subsection}{\numberline {4.1}Dati utilizzati}{12}
-\contentsline {subsection}{\numberline {4.2}Struttura del codice}{12}
-\contentsline {section}{\numberline {5}Risultati}{12}
-\contentsline {section}{\numberline {6}Conclusione}{12}
-\contentsline {section}{Bibliografia}{12}
+\contentsline {subsection}{\numberline {4.1}Struttura del codice}{12}
+\contentsline {subsection}{\numberline {4.2}Dati utilizzati}{14}
+\contentsline {section}{\numberline {5}Risultati}{14}
+\contentsline {section}{\numberline {6}Conclusione}{14}
+\contentsline {section}{Bibliografia}{14}
