@@ -538,7 +538,7 @@ In particolare sono riportati nella prima sezione gli andamenti delle pressioni 
 \subsection{Pressioni e resistenze nel tempo}
 Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni nei nodi e delle resistenze variabili nel tempo: di seguito si riportano i risultati per due soggetti con autoregolazione funzionale, pressione arteriosa nella norma ($\SI{80}{\mmHg}$ - $\SI{120}{\mmHg}$) aventi un'IOP di $\SI{15}{\mmHg}$, considerato regolare, e di $\SI{30}{\mmHg}$, considerato anomalo.
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
   % include first image
@@ -553,7 +553,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
 \label{pressioni1530}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
   % include first image
@@ -568,7 +568,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
 \label{CRA1530}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
   % include first image
@@ -583,7 +583,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
 \label{venule1530}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
   % include first image
@@ -598,7 +598,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
 \label{CRV1530}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
   % include first image
@@ -622,7 +622,7 @@ Il collasso della vena è perciò dovuto sia alla maggior pressione esterna, sia
 In questo caso l'azione dell'autoregolazione nelle arteriole contrasta gli effetti dell'IOP anomalo: si può calcolare infatti che il flusso totale nei due casi nel corso della pulsazione è quasi identico ($\SI{38.4554}{\milli \liter \per \minute}$ per $IOP = \SI{15}{\mmHg}$, e $\SI{39.6301}{\milli \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
 I risultati sono molto diversi in assenza di autoregolazione: se il flusso diminuisce leggermente nel caso di IOP normale ($\SI{36.8429}{\milli \liter \per \minute}$), esso diminuisce drasticamente a fronte di un aumento della pressione intraoculare ($\SI{32.4841}{\milli \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
 Si conferma così l'importanza del meccanismo di autoregolazione nel mantenimento di un adeguato flusso di sangue nella microcircolazione retinica.
-
+\FloatBarrier
 \begin{table}[h!]
 \begin{tabular}{|c|cc|cc|}
 \hline
@@ -637,13 +637,40 @@ $R_{2a}$\ $[\si{\mmHg \sec \per \milli \liter}]$ &$\num{4.56e3}$ &$\num{15.00}$ 
 \label{riassunto_res1}
 \end{table}
 
-\FloatBarrier
+
 \subsection{Flusso in funzione dell'IOP}
+Il codice di \texttt{main2.m} permette di studiare l'evoluzione del flusso sanguigno attraverso la CRA per diversi valori della pressione intraoculare.
+Il risultato è riportato nella figura \ref{fluxiop} per i casi di soggetti con pressione arteriosa bassa, medi e alta e con autoregolazione funzionale o disfunzionale.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Pictures/bf_iop.png}
+\caption{Flusso sanguigno in funzione dell'IOP per la CRA per soggetti con bassa, media e alta pressione e autoregolazione funzionale (linea continua) o meno (linea tratteggiata).}
+\label{fluxiop}
+\end{center}
+\end{figure}
+
+Si può osservare come i risultati siano compatibili con la figura 5 di \citep{art1}.
+Si osserva innanzitutto un andamento decrescente del flusso al crescere dell'IOP, segno dell'influenza della deformazione delle venule sotto la pressione dell'occhio.
+L'effetto è più marcato per i soggetti a pressione bassa in quanto, in generale, la pressione interna dei vasi è inferiore e non riesce a sostenere le pareti delle venule e della CRV.
+
+Si osserva inoltre come nei casi di autoregolazione funzionale si ha un'inversione di tendenza per bassi valori dell'IOP: ad un'aumento della pressione esterna corrisponde una diminuzione della resistenza nelle arteriole, e quindi un aumento della pressione interna dei vasi venosi che riescono ad evitare il collasso.
+Gli effetti di tale fenomeno sono tuttavia limitati ai soggetti con pressione sanguigna media o alta e non si osserva alcuna opposizione agli effetti di compressione nel caso di bassa pressione arteriosa.
+Si può notare inoltre che, per IOP sufficientemente elevati, il flusso sanguigno per individui dotati di autoregolazione regolare è sistematicamente superiore a quello di soggetti con meccanismo disfunzionale, rimarcando l'importanza cruciale dell'autoregolazione arteriosa per lo stato di salute della retina.
+
 %--------------------------------------------------------------------------------
 %	CONCLUSION
 %----------------------------------------------------------------------------------------
 \section{Conclusione}
+In questo progetto si è studiato un modello della microcircolazione della retina: tramite l'analogia fludo-elettrica si è rappresentata la microcircolazione sottoforma di circuito, tenendo conto delle proprietà fisiche dei vasi sanguigni tramite condensatori e resistori variabili.
+Le simulazioni hanno messo in luce la relazione tra la pressione sanguigna e la pressione intraoculare nel mantenimento di un corretto afflusso di sangue  ai tessuti della retina, evidenziando in particolare l'influenza esercitata dai meccanismi di autoregolazione.
+I risultati delle simulazioni effettuate sono conformi ai risultati di \cite{art1} i quali sono coerenti con le analisi cliniche, dimostrando l'efficacia del modello elettrico-idraulico per lo studio del sistema circolatorio.
 
+Nel progetto sono state effettuate diverse approssimazioni per semplificare il comportamento di alcuni compartimenti e la loro sostituzione con modelli più complessi potrebbe migliorare ulteriormente i risultati.
+Una possibile direzione di sviluppo può essere l'implementazione di un modello più realistico per le porzioni dei vasi che attraversano la lamina cribrosa, rilassando l'ipotesi di pressione uniforme lungo la membrana e utilizzando i risultati di \cite{art3}, varianti lungo la direzione assiale.
+Un'altra possibilità è l'uso di un modello più articolato per il compartimento delle venule, capace di rappresentare l'esistenza di una struttura di vasi saguigni aventi diametro e spessore diverso.
+La direzione che, a mio avviso, necessita di un approfondimento è la ricerca di un modello efficace per l'autoregolazione: in \cite{Tesi} è fornito un modello più complesso per tale fenomeno che può essere un punto di partenza per migliorare il metodo usato in questo progetto per il calcolo della resistenza delle arteriole.
+Avendo mostrato l'importanza di questo meccanismo nella microcircolazione, ritengo che una sua rappresentazione più vicina alla realtà possa mettere in luce ulteriori aspetti della fisiologia della retina e permettere lo sviluppo di nuove strategie per la salute degli occhi.
 
 \addcontentsline{toc}{section}{Riferimenti bibliografici}
 \bibliographystyle{unsrt}

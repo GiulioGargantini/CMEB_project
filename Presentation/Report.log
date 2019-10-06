@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.9.23)  6 OCT 2019 13:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.9.23)  7 OCT 2019 00:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1157,6 +1157,9 @@ Overfull \hbox (2.22221pt too wide) in paragraph at lines 542--552
 []$[]$ $[]$ 
  []
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 <Pictures/IOP30_part1/CRA_30.png, id=110, 421.575pt x 316.18124pt>
 File: Pictures/IOP30_part1/CRA_30.png Graphic file (type png)
 <use Pictures/IOP30_part1/CRA_30.png>
@@ -1173,6 +1176,9 @@ Package pdftex.def Info: Pictures/IOP15_part1/CRA_15.png  used on input line 56
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 557--567
 []$[]$ $[]$ 
  []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 <Pictures/IOP30_part1/venules_30.png, id=112, 436.63126pt x 316.18124pt>
 File: Pictures/IOP30_part1/venules_30.png Graphic file (type png)
@@ -1191,6 +1197,9 @@ Overfull \hbox (2.22221pt too wide) in paragraph at lines 572--582
 []$[]$ $[]$ 
  []
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 <Pictures/IOP30_part1/CRV_30.png, id=114, 436.63126pt x 316.18124pt>
 File: Pictures/IOP30_part1/CRV_30.png Graphic file (type png)
 <use Pictures/IOP30_part1/CRV_30.png>
@@ -1207,6 +1216,9 @@ Package pdftex.def Info: Pictures/IOP15_part1/CRV_15.png  used on input line 59
 Overfull \hbox (2.22221pt too wide) in paragraph at lines 587--597
 []$[]$ $[]$ 
  []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 <Pictures/IOP30_part1/BF_30.png, id=116, 436.63126pt x 316.18124pt>
 File: Pictures/IOP30_part1/BF_30.png Graphic file (type png)
@@ -1225,46 +1237,52 @@ Overfull \hbox (2.22221pt too wide) in paragraph at lines 602--612
 []$[]$ $[]$ 
  []
 
-[18]
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[19 <./Pictures/IOP30_part1/pressures_30.png (PNG copy)> <./Pictures/IOP15_part
-1/pressures_15.png (PNG copy)> <./Pictures/IOP30_part1/CRA_30.png (PNG copy)> <
-./Pictures/IOP15_part1/CRA_15.png (PNG copy)>] [20 <./Pictures/IOP30_part1/venu
-les_30.png (PNG copy)> <./Pictures/IOP15_part1/venules_15.png (PNG copy)> <./Pi
-ctures/IOP30_part1/CRV_30.png (PNG copy)> <./Pictures/IOP15_part1/CRV_15.png (P
-NG copy)>] [21 <./Pictures/IOP30_part1/BF_30.png (PNG copy)> <./Pictures/IOP15_
-part1/BF_15.png (PNG copy)>] (./Report.bbl) [22
+[18] [19 <./Pictures/IOP30_part1/pressures_30.png (PNG copy)> <./Pictures/IOP15
+_part1/pressures_15.png (PNG copy)> <./Pictures/IOP30_part1/CRA_30.png (PNG cop
+y)> <./Pictures/IOP15_part1/CRA_15.png (PNG copy)>] [20 <./Pictures/IOP30_part1
+/venules_30.png (PNG copy)> <./Pictures/IOP15_part1/venules_15.png (PNG copy)> 
+<./Pictures/IOP30_part1/CRV_30.png (PNG copy)> <./Pictures/IOP15_part1/CRV_15.p
+ng (PNG copy)> <./Pictures/IOP30_part1/BF_30.png (PNG copy)> <./Pictures/IOP15_
+part1/BF_15.png (PNG copy)>]
+<Pictures/bf_iop.png, id=128, 421.575pt x 316.18124pt>
+File: Pictures/bf_iop.png Graphic file (type png)
+<use Pictures/bf_iop.png>
+Package pdftex.def Info: Pictures/bf_iop.png  used on input line 647.
+(pdftex.def)             Requested size: 276.00105pt x 207.00615pt.
+ [21
 
-] (./Report.aux) ) 
+ <./Pictures/bf_iop.png (PNG copy)>]
+(./Report.bbl [22]) [23] (./Report.aux) ) 
 Here is how much of TeX's memory you used:
- 16162 strings out of 492982
- 318741 string characters out of 6134896
- 368696 words of memory out of 5000000
- 19571 multiletter control sequences out of 15000+600000
+ 16168 strings out of 492982
+ 318855 string characters out of 6134896
+ 368706 words of memory out of 5000000
+ 19576 multiletter control sequences out of 15000+600000
  540048 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,20n,50p,10417b,1020s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
-2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-msy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></u
-sr/share/texmf/fonts/type1/public/lm/lmtt9.pfb>
-Output written on Report.pdf (22 pages, 2262519 bytes).
+</usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt9.pfb>
+Output written on Report.pdf (23 pages, 2288402 bytes).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 109 compressed objects within 2 object streams
+ 188 PDF objects out of 1000 (max. 8388607)
+ 111 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 96 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -90,7 +90,7 @@ data.LCp_art = 40.5;   %[P] = mmHg, control pressure in the Lamina Cribrosa
 %% Parameters for main2 about IOP
 data.IOP_min = 15;  % [IOP] = mmHg
 data.IOP_max = 50;  % [IOP] = mmHg
-data.n_of_simul = 10;   % number of simulations with differents IOPs
+data.n_of_simul = 15;   % number of simulations with differents IOPs
 
 %% Capacitancies at control state
 data.C1 = 7.22e-7;  % [C1] = mL/mmHg
