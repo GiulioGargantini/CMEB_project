@@ -29,6 +29,8 @@
 \usepackage{amsmath} % Required for some math elements
 \usepackage{mathtools}
 \usepackage{url}
+\usepackage[section]{placeins}
+\usepackage{subcaption}
 \renewcommand{\refname}{Bibliografia}
 \renewcommand{\contentsname}{Indice}
 \DeclareSIUnit{\poise}{P}
@@ -43,7 +45,7 @@
 %	DOCUMENT INFORMATION
 %----------------------------------------------------------------------------------------
 
-\title{Modellazione della microcircolazione retinica\\tramite analogia fluido - elettrica} % Title
+\title{\vspace{-2cm} Modellazione della microcircolazione retinica\\tramite analogia fluido - elettrica} % Title
 
 \author{Giulio Gargantini} % Author name
 
@@ -456,7 +458,6 @@ $R_{1d}$ & $ \SI{9.78e2}{\mmHg \sec \per \milli \liter}$ & $R_{5b}$ & $ \SI{6.15
 $R_{2a}$ & $ \SI{6.00e3}{\mmHg \sec \per \milli \liter}$ & $R_{5c}$ & $ \SI{1.35e3}{\mmHg \sec \per \milli \liter}$ \\
 $R_{2b}$ & $ \SI{6.00e3}{\mmHg \sec \per \milli \liter}$ & $R_{5d}$ & $ \SI{1.35e3}{\mmHg \sec \per \milli \liter}$ \\
 $R_{3a}$ & $ \SI{5.68e3}{\mmHg \sec \per \milli \liter}$ & $R_{out}$ & $ \SI{5.74e3}{\mmHg \sec \per \milli \liter}$ \\
-
 \hline
 \end{tabular}
 \caption{Valori di riferimento per le resistenze}
@@ -531,7 +532,114 @@ Coefficiente di Poisson $\nu$ & $0.49$\\
 %	SECTION 4
 %----------------------------------------------------------------------------------------
 \section{Risultati}
-%----------------------------------------------------------------------------------------
+I risultati delle simulazioni effettuate mostrano lo stesso andamento dei grafici in \cite{art1}.
+In particolare sono riportati nella prima sezione gli andamenti delle pressioni nei nodi $P_1$, $P_2$, $P_4$ e $P_5$ e delle resistenze variabili nel corso di una pulsazione sanguigna, per poi passare al confronto del flusso sanguigno complessivo in funzione dell'IOP per pazienti con diverse pressioni sanguigne e funzionalità nell'autoregolazione.
+
+\subsection{Pressioni e resistenze nel tempo}
+Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni nei nodi e delle resistenze variabili nel tempo: di seguito si riportano i risultati per due soggetti con autoregolazione funzionale, pressione arteriosa nella norma ($\SI{80}{\mmHg}$ - $\SI{120}{\mmHg}$) aventi un'IOP di $\SI{15}{\mmHg}$, considerato regolare, e di $\SI{30}{\mmHg}$, considerato anomalo.
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include first image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP30_part1/pressures_30.png}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include second image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/pressures_15.png}
+\end{subfigure}
+\caption{Evoluzione del valore della pressione nei nodi  $P_1$, $P_2$, $P_4$ e $P_5$ per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\label{pressioni1530}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include first image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP30_part1/CRA_30.png}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include second image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/CRA_15.png}
+\end{subfigure}
+\caption{Evoluzione della resistenza nella CRA per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\label{CRA1530}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include first image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP30_part1/venules_30.png}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include second image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/venules_15.png}
+\end{subfigure}
+\caption{Evoluzione della resistenza nelle venule per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\label{venule1530}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include first image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP30_part1/CRV_30.png}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include second image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/CRV_15.png}
+\end{subfigure}
+\caption{Evoluzione della resistenza nella CRV per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\label{CRV1530}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include first image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP30_part1/BF_30.png}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  % include second image
+  \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/BF_15.png}
+\end{subfigure}
+\caption{Evoluzione della resistenza nelle venule per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\label{flusso1530}
+\end{figure}
+
+Si osserva come la maggior differenza tra i due casi è dovuta allo schiacciamento delle venule e della CRV.
+Il fenomeno è particolarmente evidente nella figura \ref{venule1530}: infatti per il paziente con un IOP anomalo le venule si comportano per la maggior parte del tempo come \textit{collapsible resistors} in quanto la pressione intraoculare è superiore alla pressione interna dei vasi.
+Ciò non avviene per il soggetto con $IOP = \SI{15}{\mmHg}$ per cui la pressione interna delle venule riesce a compensare quella esterna e impedire lo schiacciamento.
+L'effetto della maggior resistenza nelle venule si ripercuote sulla CRV, implicando una maggior caduta di pressione e quindi un valore inferiore all'interno della CRV.
+Il collasso della vena è perciò dovuto sia alla maggior pressione esterna, sia all'insufficiente perssione interna.
+
+In questo caso l'azione dell'autoregolazione nelle arteriole contrasta gli effetti dell'IOP anomalo: si può calcolare infatti che il flusso totale nei due casi nel corso della pulsazione è quasi identico ($\SI{38.4554}{\milli \liter \per \minute}$ per $IOP = \SI{15}{\mmHg}$, e $\SI{39.6301}{\milli \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
+I risultati sono molto diversi in assenza di autoregolazione: se il flusso diminuisce leggermente nel caso di IOP normale ($\SI{36.8429}{\milli \liter \per \minute}$), esso diminuisce drasticamente a fronte di un aumento della pressione intraoculare ($\SI{32.4841}{\milli \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
+Si conferma così l'importanza del meccanismo di autoregolazione nel mantenimento di un adeguato flusso di sangue nella microcircolazione retinica.
+
+\begin{table}[h!]
+\begin{tabular}{|c|cc|cc|}
+\hline
+ \textbf{autoregolazione}& \multicolumn{2}{c|}{\textbf{funzionale}} & \multicolumn{2}{c|}{\textbf{assente}} \\
+ \textbf{IOP}& $\SI{15}{\mmHg}$ & $\SI{30}{\mmHg}$ & $\SI{15}{\mmHg}$ & $\SI{30}{\mmHg}$ \\
+ \hline
+$R_{2a}$\ $[\si{\mmHg \sec \per \milli \liter}]$ &$\num{4.56e3}$ &$\num{15.00}$ &$ \num{6.00e3}$&$ \num{6.00e3}$ \\
+ Flusso totale $[\si{\milli \liter \per \minute}]$&$38.4554$&$39.6301$ &$36.8429$&$32.4841$\\
+ \hline
+\end{tabular}
+\caption{Valori della resistenza delle arteriole e del flusso totale per diversi IOP e per autoregolazione presente o assente in un soggetto con pressione arteriosa nella norma ($\SI{80}{\mmHg}$ - $\SI{120}{\mmHg}$)}
+\label{riassunto_res1}
+\end{table}
+
+\FloatBarrier
+\subsection{Flusso in funzione dell'IOP}
+%--------------------------------------------------------------------------------
 %	CONCLUSION
 %----------------------------------------------------------------------------------------
 \section{Conclusione}

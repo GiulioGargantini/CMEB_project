@@ -56,6 +56,7 @@ if data.plots == 1
     title('Pressures')
     xlabel('time [s]')
     ylabel('Pressure [mmHg]')
+    ylim([10 100])
 
 
     figure
@@ -65,6 +66,7 @@ if data.plots == 1
     title('CRA')
     xlabel('time [s]')
     ylabel('Resistance [mmHg*s/mL]')
+    ylim([100 1100])
 
     figure
     hold on
@@ -85,6 +87,7 @@ if data.plots == 1
     title('Venules')
     xlabel('time [s]')
     ylabel('Resistance [mmHg*s/mL]')
+    ylim([0 2e4])
 
     figure
     hold on
@@ -95,6 +98,8 @@ if data.plots == 1
     title('CRV')
     xlabel('time [s]')
     ylabel('Resistance [mmHg*s/mL]')
+    ylim([0 4000])
+    
 
     % Blood flow
     figure
@@ -104,6 +109,7 @@ if data.plots == 1
     title('Blood flows')
     xlabel('time [s]')
     ylabel('Flow [mL / s]')
+    ylim([0 1.5e-3])
 
     % Velocity
     % V = (8*Q(t))/(pi * D^2)

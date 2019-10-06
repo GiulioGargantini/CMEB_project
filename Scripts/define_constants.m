@@ -23,18 +23,18 @@ function data = define_constants(data, IOPval, index)
 %                  operation = 0 if not.
 
 %% Settings
-data.plots = 1; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
+data.plots = 0; % set plots = 1 if you want graphs to be plotted. set it to 0 else.
 
 %% Properties
 if nargin <= 2
-    data.AR = 0;    % set AR = 1 if blood flow autoregulation is active
+    data.AR = 1;    % set AR = 1 if blood flow autoregulation is active
                     % set AR = 0 if it is not
            
-    data.operation = 0; % set operation = 0 if the patient has not undergone trabeculectomy
+    data.operation = 1; % set operation = 0 if the patient has not undergone trabeculectomy
                         % set operation = 1 if he has, or if he is healthy
                   
                 
-    data.blood_pressure = 0;    % set blood_pressure = 0 for low pressure
+    data.blood_pressure = 1;    % set blood_pressure = 0 for low pressure
                                 %                    = 1 for medium pressure
                                 %                    = 2 for high pressure
 else
