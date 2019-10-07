@@ -65,7 +65,7 @@ A.A. 2018/2019
 % If you wish to include an abstract, uncomment the lines below
 \begin{abstract}
 In questo progetto si è voluto simulare la microcircolazione nella retina modellandola come un circuito elettrico a resistenze variabili con l'obiettivo di replicare i risultati di \cite{art1}.
-L'attenzione è rivolta in particolare alla stima del flusso sanguigno nella microcircolazione per individui aventi valori diversi di pressione sanguigna e pressione intraoculare.
+L'attenzione è rivolta in particolare alla stima del flusso nella microcircolazione per individui aventi valori diversi di pressione sanguigna e pressione intraoculare.
 \end{abstract}
 
 \tableofcontents
@@ -85,7 +85,7 @@ Ciò permette di prendere in considerazione l'azione della pressione intraocular
 Questo rapporto si articola in quattro parti principali.
 Nella prima si illustra il quadro generale del problema partendo dall'anatomia e fisiologia delle porzioni dell'occhio analizzate, per poi procedere, nella seconda parte, alla deduzione di un modello ridotto della microcircolazione secondo l'analogia fluido-elettrica.
 Nella terza si illustra l'implementazione del modello ricavato nella sezione precedente tramite un codice Matlab e si presentano le relazioni principali tra le diverse funzioni.
-Infine la quarta parte è dedicata ai risultati ottenuti e al confronto con quelli ottenuti in \cite{art1}, discutendone il significato fisico e l'importanza.
+Infine la quarta parte è dedicata ai risultati ottenuti e al confronto con quelli di \cite{art1}, discutendone il significato fisico e l'importanza.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -96,38 +96,36 @@ In questa sezione si descrivono le componenti dell'occhio che vengono studiate n
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{Pictures/occhio.png}
-\caption{Struttura generale dell'occhio \cite{Tesi}}
+\caption{Struttura generale dell'occhio \cite{Tesi}.}
 \label{eyeball}
 \end{center}
 \end{figure}
-L'occhio ha una forma grossomodo sferica, la cui porzione centrale è occupata dall'umore vitreo, una sostanza gelatinosa e trasparente che mantiene la tonicità del globo oculare. 
+L'occhio ha una forma grossomodo sferica, la cui porzione centrale è occupata dall'umor vitreo, una sostanza gelatinosa e trasparente che mantiene la tonicità del globo oculare. 
 L'umor vitreo è completamente racchiuso dalla sclera, una membrana di tessuto fibroso di colore bianco, ad eccezione della parte anteriore in cui esso è limitato dal cristallino.
-Tra il cristallino e la cornea, la membrana trasparente che separa l'occhio dall'esterno, si trovano due sezioni, dette camera anteriore e posteriore, separate dall'iride e contenenti l'umor acqueo.
-
+Tra il cristallino e la cornea, la membrana trasparente che separa l'occhio dall'ambiente esterno, si trovano due sezioni, dette camera anteriore e posteriore, separate dall'iride e contenenti l'umor acqueo.
 Sulla parte posteriore dell'occhio, adagiata sulla sclera, si trova la retina: un tessuto fotosensibile capace di trasformare i segnali luminosi in impulsi nervosi i quali, raccolti dal nervo ottico, vengono inviati al cervello \cite{Tesi}.
 \subsection{Anatomia della retina}
-A differenza della sclera, irrorata da molteplici vasi sanguigni come le arterie e le vene ciliari e le vene vorticose, gli unici collegamenti tra la rete di capillari della retina e il flusso sanguigno sono l'Arteria Retinica Centrale (CRA) e la Vena Retinica Centrale(CRV).
+A differenza della sclera, irrorata da molteplici vasi sanguigni come le arterie e le vene ciliari e le vene vorticose, gli unici collegamenti tra la rete di capillari della retina e il flusso sanguigno sono l'Arteria Retinica Centrale (CRA) e la Vena Retinica Centrale (CRV).
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{Pictures/Optic_nerve.png}
-\caption{Principali vasi retinici \cite{Tesi}}
+\caption{Principali vasi retinici \cite{Tesi}.}
 \label{retina}
 \end{center}
 \end{figure}
-Entrambi i vasi percorrono un tratto all'interno del nervo ottico, circondati dalle fibre nervose e entrano nell'occhio attraverso la Lamina Cribrosa: tale lamina è una porzione della sclera forata in molteplici punti, attraverso la quale passano le fibre innervanti la retina, la CRA e la CRV (cfr. figura \ref{retina}).
-A questo punto l'arteria centrale si divide in molteplici arteriole e capillari, i quali, dopo aver irrorato le cellule della retina, si ricongiungono formando una rete di venule che, a loro volta, si uniscono nella CRV.
+Entrambi i vasi percorrono un tratto all'interno del nervo ottico, circondati dalle fibre nervose, ed entrano nell'occhio attraverso la lamina cribrosa: tale lamina è una porzione della sclera forata in molteplici punti, attraverso la quale passano le fibre innervanti la retina, la CRA e la CRV (cfr. figura \ref{retina}).
+A questo punto, l'arteria centrale si divide in molteplici arteriole e capillari, i quali, dopo aver irrorato le cellule della retina, si ricongiungono formando una rete di venule che, a loro volta, si ricompongono nella CRV.
 
 I vasi sanguigni non hanno pareti rigide, quindi la loro sezione è soggetta a variazioni dovute alla differenza tra la pressione esterna e interna al vaso: nella zona del nervo ottico i vasi sono soggetti alla pressione del tessuto retrolaminare (RLTp) mentre all'interno del bulbo oculare sono esposti alla pressione intraoculare (IOP).
-Vene e arterie sono costituite da tessuti diversi e hanno una diversa struttura: le prime sono generalmente più fini delle seconde e devono sostenere una pressione interna più debole.
-Per questo motivo esse sono più soggette ad ampie variazioni di volume e al rischio di collassare su loro stesse se la pressione interna non è in grado di controbilanciare quella agente sulle pareti della vena.
+Vene e arterie sono costituite da tessuti diversi e hanno una diversa struttura: le prime hanno pareti più fini delle seconde e devono sostenere una pressione interna più debole.
+Per questo motivo le vene sono più soggette ad ampie variazioni di volume e al rischio di collassare su loro stesse se la pressione interna non è in grado di controbilanciare quella agente sulle pareti.
 \subsection{Circolazione dell'umor acqueo}
-La pressione interna dell'occhio (IOP) è mantenuta grazie alla produzione di umor acqueo.
-Questo liquido trasparente simile al plasma è prodotto dal corpo ciliare nella camera posteriore dell'occhio, da cui filtra nella camera anteriore attraverso l'iride e la pupilla.
-Dalla camera anteriore esso passa attraverso il trabecolato, una struttura porosa posta tra la sclera e la cornea, per esser drenato nel canale di Schlemm per disperdersi infine nella circolazione venosa (cfr. figura \ref{umoracqueo}).
+La pressione interna dell'occhio (IOP) è mantenuta grazie alla produzione di umor acqueo: questo liquido trasparente è prodotto dal corpo ciliare nella camera posteriore dell'occhio, e filtra nella camera anteriore attraverso l'iride e la pupilla.
+Dalla camera anteriore esso passa attraverso il trabecolato, una struttura porosa posta tra la sclera e la cornea, per esser drenato nel canale di Schlemm e disperdersi infine nella circolazione venosa (cfr. figura \ref{umoracqueo}).
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{Pictures/umor_acqueo.png}
-\caption{Circolazione dell'umor acqueo nelle camere posteriore e anteriore \cite{Tesimmagine}}
+\caption{Circolazione dell'umor acqueo nelle camere posteriore e anteriore \cite{Tesimmagine}.}
 \label{umoracqueo}
 \end{center}
 \end{figure}
@@ -135,15 +133,15 @@ Nel caso in cui non si verifichi un normale drenaggio dell'umor acqueo, ad esemp
 Tale aumento della pressione esterna può provocare il collasso dei vasi sanguigni della retina, in particolare delle vene, diminuendo l'irrorazione  del tessuto e favorendo l'insorgenza del glaucoma.
 
 Per contrastare gli effetti di un'elevata IOP è stata sviluppata la trabeculectomia: un'operazione chirurgica in cui si effettua un foro nella sclera in corrispondenza della camera anteriore, permettendo all'umor acqueo di drenare in una sacca al di sotto  della congiuntiva.
-Permettendo nuovamente il drenaggio del fluido si osserva una considerevole riduzione del valore dell'OPP nei pazienti, riportandolo ai livelli fisiologici (cfr. tabela 6 di \cite{art1}).
+Permettendo nuovamente il drenaggio del fluido si osserva una considerevole riduzione del valore dell'IOP nei pazienti, riportandolo ai livelli fisiologici (cfr. tabella 6 di \cite{art1}).
 %----------------------------------------------------------------------------------------
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 
 \section{Derivazione del modello}
 \subsection{Analogia fluido - elettrica}
-Nel capitolo 4 di \cite{notes} si presenta in dettaglio l'analogia fluido - elettrica, ovvero come una rete di tubi percorsi da un fluido incomprimibile si possa descrivere con le stesse equazioni cusate per modellare i circuiti elettrici.
-Si consideri il flusso come l'analogo della corrente e la pressione del fluido corrispondente al potenziale elettrico in un punto del circuito.
+Nel capitolo 4 di \cite{notes} si presenta in dettaglio l'analogia fluido - elettrica, ovvero come una rete di tubi percorsi da un fluido incomprimibile possa essere descritta con le stesse equazioni usate per modellare i circuiti elettrici.
+L'equivalenza fluido elettrica considera il flusso come l'analogo della corrente e la pressione del fluido corrispondente al potenziale elettrico in un punto del circuito.
 Sotto quest'analogia si osserva che la caduta di pressione ai due capi di un tubo si può interpretare come l'effetto di una resistenza idraulica e le proprietà elastiche di una sezione della rete, che permettono a una porzione del vaso di accumulare il fluido, si possono ricondurre agli effetti capacitivi di un condensatore.
 Inoltre si può mostrare che le leggi di Kirchhoff per il potenziale e per la corrente sono ugualmente valide in questo contesto.
 
@@ -162,7 +160,7 @@ Resistenza elettrica [\si{\ohm}] & Resistenza idraulica [\si{\mmHg \second \per 
 Capacità elettrica [\si{\farad}] & Capacità idraulica [\si{\milli\liter \per \mmHg}]\\
 \hline
 \end{tabular}
-\caption{Confronto tra grandezze equivalenti nell'analogia fluido - elettrica e corrispondenti unità di misura}
+\caption{Confronto tra grandezze equivalenti nell'analogia fluido - elettrica e corrispondenti unità di misura.}
 \label{tab_analogia}
 \end{center}
 \end{table}
@@ -170,31 +168,28 @@ Capacità elettrica [\si{\farad}] & Capacità idraulica [\si{\milli\liter \per \
 
 \subsection{Deduzione del circuito}
 I vasi della microcircolazione retinica si possono dividere in cinque compartimenti: la CRA, le arteriole, i capillari, le venule e la CRV numerati da $1$ a $5$.
-Ciascun compartimento può essere diviso in sezioni rappresentanti le diverse porzioni dei vasi e ciascuna di esse è modellata come un resistore in un circuito elettrico.
-Ogni resistore è identificato dal numero del compartimento corrispondente e da una lettera.
+Ciascun compartimento può essere diviso in sezioni rappresentanti le diverse porzioni dei vasi e ciascuna di esse è modellata come un resistore in un circuito elettrico: ogni resistore è identificato dal numero del compartimento corrispondente e da una lettera.
 Essendo le pareti dei vasi sanguigni elastiche, vene e arterie possono variare il loro volume e immagazzinare del sangue nel corso del ciclo cardiaco: tale proprietà è descritta da una capacità assegnata ad ogni compartimento ed è rappresetata nel modello circuitale tramite dei condensatori.
 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=1.0\textwidth]{Pictures/circuit1.png}
-\caption{Rappresentazione circuitale della microcircolazione retinica \cite{art1}}
+\caption{Rappresentazione circuitale della microcircolazione retinica \cite{art1}.}
 \label{circuito}
 \end{center}
 \end{figure}
 
 Il modello adottato in \cite{art1} rappresenta la microcircolazione retinica tramite il circuito rappresentato nella figura \ref{circuito}.
-La CRA e la CRV sono gli unici vasi che attraversano la lamina cribrosa passando dal nervo ottico alla regione intraoculare.
-Per questo motivo tali compartimenti sono rappresentati tramite quattro resistori: due per la regione retrobulbare, uno per la porzione di vaso che attraversa la lamina cribrosa e uno per la regione intraoculare.
-Le sezioni dei vasi nella regione retrobulbare sono sottoposte alla pressione del tessuto retrolaminare (RLTp), la porzione all'interno dell'occhio è sottoposta alla pressione intraoculare (IOP) mentre la pressione esercitata dalla lamina cribrosa è modellata seguendo il modello descritto in \cite{art3} e descritta in una sezione dedicata.
-La sezione nella regione retrobulbare è divisa in due resistori per ciascun vaso ($R_{1a}$, $R_{1b}$ e $R_{2a}$, $R_{2b}$ rispettivamente) in modo che i corrispondenti condensatori $C_1$ e $C_5$ agiscano sulla pressione media dei vasi nel nervo ottico.
+La CRA e la CRV sono gli unici vasi che attraversano la lamina cribrosa passando dal nervo ottico alla regione intraoculare: per questo motivo tali compartimenti sono rappresentati tramite quattro resistori, due per la regione retrobulbare, uno per la porzione di vaso che attraversa la lamina cribrosa e uno per la regione intraoculare.
+Le sezioni dei vasi nella regione retrobulbare sono sottoposte alla pressione del tessuto retrolaminare (RLTp) e la porzione all'interno dell'occhio è sottoposta alla pressione intraoculare (IOP), mentre la pressione esercitata dalla lamina cribrosa è modellata seguendo il modello descritto in \cite{art3} e descritta in una sezione dedicata.
+La sezione nella regione retrobulbare è divisa in due resistori per ciascun vaso ($R_{1a}$, $R_{1b}$ e $R_{2a}$, $R_{2b}$ rispettivamente), in modo che i corrispondenti condensatori $C_1$ e $C_5$ agiscano sulla pressione media dei vasi nel nervo ottico.
 
-I compartimenti delle arteriole, capillari e venule sono modellati tramite due resistori ciascuno.
-Arterie e venule sono modellate tramite i condensatori $C_2$ e $C_4$ connessi in modo tale che le proprietà capacitive agiscano sulle pressioni medie in ciascuno dei compartimenti.
+I compartimenti delle arteriole, capillari e venule sono modellati tramite due resistori ciascuno, le proprietà elastiche di arterie e venule sono modellate tramite i condensatori $C_2$ e $C_4$ connessi in modo tale che le capacità agiscano sulle pressioni medie in ciascuno dei compartimenti.
 Non essendo i capillari dotati di pareti elastiche, la sezione corrispondente non è connessa ad alcun condensatore.
 
 Le pressioni $P_{in}$ e $P_{out}$ agli estremi del circuito sono funzioni del tempo  ricavate dalla figura 3c di \cite{art1} e rappresentano le pressioni sanguigne arteriosa e venosa rispettivamente a monte e a valle della microcircolazione; la connessione tra le pressioni in input e il circuito è effettuata tramite i resistori $R_{in}$ e $R_{out}$, rappresentanti i tratti di arteria e di vena prima della CRA e dopo la CRV.
 
-Usando la legge di Kirchhoff per le correnti e la definizione di capacità, dal circuito si può ricavare il seguente sistema di equazioni differenziali ordinarie, la cui soluzione permette di ricavare l'evoluzione delle varie grandezze caratteristiche nel tempo e, in ultima analisi, dedurre il comportamento del sistema fisico.
+Usando la legge di Kirchhoff per le correnti e la definizione di capacità, si può ricavare il seguente sistema di equazioni differenziali ordinarie, la cui soluzione permette di ricavare l'evoluzione delle varie grandezze caratteristiche nel tempo e, in ultima analisi, dedurre il comportamento del sistema fisico.
 
 \begin{equation}
 \begin{dcases}
@@ -211,20 +206,21 @@ In \cite{art1} si possono trovare dei valori standard per i resistori del circui
 Un circuito lineare composto da resistori costanti non è in grado di caratterizzare la natura elastica dei vasi sanguigni e la dipendenza del flusso dal loro diametro e quindi non è indicato per simulare il fenomeno di collasso dei vasi sanguigni in caso di IOP elevata che si riscontra nei pazienti affetti da glaucoma.
 
 L'articolo \cite{art1} propone, oltre ai classici resistori costanti, tre tipi di resistori adatti a modellare particolari sezioni della microcircolazione.
-Tali categorie sono i \textit{compliant resistors}, adatti a modellare vasi la cui pressione media interna è sempre superiore alla pressione esterna (adatti per le sezioni della CRA nella regione intraoculare e in corrispondenza della lamina cribrosa), gli \textit{Starling resistors} o \textit{collapsible resistors} adatti per le vene e le venule, la cui pressione interna può essere inferiore o superiore alla pressione esterna, e infine gli \textit{active resistors} per modellare le arteriole, le quali possono modificare il proprio diametro a seconda delle circostanze secondo il processo di autoregolazione (cfr. \cite{Tesi}). 
-Uno schema che illustra il modello adottato per ciascun resistore del circuito si può trovare alla figura \ref{circuitocolori}.
+Tali categorie sono i \textit{compliant resistors}, adatti a modellare vasi la cui pressione media interna è sempre superiore alla pressione esterna (usati per le sezioni della CRA nella regione intraoculare e in corrispondenza della lamina cribrosa), gli \textit{Starling resistors} o \textit{collapsible resistors} adatti per le vene e le venule, la cui pressione interna può essere inferiore o superiore alla pressione esterna, e infine gli \textit{active resistors} per modellare le arteriole, le quali possono modificare il proprio diametro a seconda delle circostanze secondo il processo di autoregolazione (cfr. \cite{Tesi}). 
+Uno schema che illustra il modello adottato per ciascun resistore del circuito si può trovare in figura \ref{circuitocolori}.
 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=1.0\textwidth]{Pictures/circuit2.png}
-\caption{Resistori variabili \cite{art1}}
+\caption{Resistori variabili \cite{art1}: in rosso le sezioni modellate come \textit{compliant resistors} (CRA), in verde gli \textit{active resistors} (arteriole), e in blu gli \textit{Starling resistors} (venule e CRV).}
 \label{circuitocolori}
 \end{center}
 \end{figure}
 
 \subsubsection*{Compliant resistors}
-Nel modello in esame, il sangue arterioso nella CRA è sempre a pressione maggiore rispetto alla pressione esterna al vaso; perciò le varie sezioni dell'arteria avranno generalmente un diametro superiore a quello dello stato di riposo e ad un aumento della pressione nel vaso corrisponderà un aumento del suo diametro e una conseguente riduzione della resistenza idraulica.
-Tale ipotesi è ragionevole: nella circolazione arteriosa la pressione risente direttamente della pulsazione cardiaca, che viene trasmessa lungo i vasi dalle pareti delle arterie, caratterizzate dalla presenza di fibre muscolari.
+Nel modello in esame, il sangue arterioso nella CRA è sempre a pressione maggiore rispetto alla pressione esterna al vaso.
+Perciò le varie sezioni dell'arteria hanno generalmente un diametro superiore a quello dello stato di riposo e ad un aumento della pressione nel vaso corrisponde un aumento del suo diametro e una conseguente riduzione della resistenza idraulica.
+Tale ipotesi è ragionevole: nella circolazione arteriosa la pressione risente direttamente della pulsazione cardiaca, la quale è trasmessa lungo i vasi dalle pareti delle arterie, caratterizzate dalla presenza di fibre muscolari.
 Nel modello in esame si prende come valore per la pressione d'ingresso  i $2/3$ del valore della pressione in corrispondenza dell'arteria brachiale per tenere conto della distanza di questa dall'occhio.
 
 Dalla legge di Laplace per un cilindro comprimibile e dalla leggge di Poiseuille (cfr. \cite{art1}, capitolo 4 di \cite{notes} e \cite{Libro}) si ricava la seguente formula per il \textit{compliant resistor},
@@ -248,13 +244,14 @@ R = \begin{dcases}
 \end{equation}
 I parametri presenti nella definizione sono definiti come per il \textit{compliant resistor}.
 
-La modellazione della sezione 4 richiede un'attenzione particolare: infatti, essa non corrisponde a un vaso specifico, ma a un reticolo di venule aventi diametro, sezione e spessore differente; inoltre le venule sono i vasi più esposti all'azione dell'IOP e quindi sono le più soggette a fenomeni di ipercompressione, che questo progetto si propone di simulare.
+La modellazione della sezione 4 richiede un'attenzione particolare: infatti, essa non corrisponde a un vaso specifico, ma a un reticolo di venule aventi diametro, sezione e spessore differente; inoltre le venule sono i vasi più esposti all'azione dell'IOP e quindi sono le più soggette a fenomeni di compressione, che questo progetto si propone di simulare.
 Sono stati provati diversi approcci per modellare la struttura complessa della rete di venule; in particolare si segnalano l'approccio gerarchico a due livelli (\textit{small vessels} e \textit{large vessels} adottato in \cite{Libro}), l'approccio mutiscala adottato da \cite{art1} e \cite{Tesi}, dove sono considerati tredici diversi livelli di venule, e l'approccio monolitico in cui la complessità dei vasi è ridotta a un piccolo insieme di parametri mediati (tentativi sono stati fatti con i dati di \cite{art2} e di \cite{Duker}).
-Il metodo ritenuto è una semplificazione del'approccio usato in \cite{art1} usando come valore di base della resistenza per $\Delta P = 0$ il valore di controllo per il resistore riportato nell'articolo, e i parametri $k_r$, $k_p$ e $k_L$ non sono esplicitamente calcolati ma dedotti dai rapporti tra le altre grandezze relative alle venule, come il rapporto tra lume e spessore.
+Il metodo ritenuto è una semplificazione del'approccio usato in \cite{art1} usando come valore di base della resistenza per $\Delta P = 0$ il valore di controllo per il resistore riportato nell'articolo.
+I parametri $k_r$, $k_p$ e $k_L$ non sono esplicitamente calcolati ma dedotti dai rapporti tra le altre grandezze relative alle venule, come il rapporto tra lume e spessore.
 
 \subsubsection*{Active resistors}
 Nella figura \ref{circuitocolori} si può osservare come per le arteriole non si sia adottato lo stesso modello usato per la CRA.
-Infatti esse sono soggette a un fenomeno di autoregolazione che permette una variazione di volume in risposta a stimoli come la pressione esterna, o la concentrazione di diossido di carbonio.
+Infatti esse sono soggette a un fenomeno di autoregolazione che permette una variazione di volume in risposta a stimoli come la pressione esterna, o la concentrazione di diossido di carbonio (cfr. \cite{art1} e \cite{Tesi}).
 Tale meccanismo varia da individuo a individo e talvolta è completamente assente e uno degli obiettivi del progetto è verificarne l'incidenza sul'irrorazione della retina.
 Una trattazione dettagliata dell'autoregolazione nella microcircolazione arteriosa si può trovare in \cite{Tesi}, ma per questo progetto ci si è limitati a un modello semplificato proposto in \cite{art1} che fa dipendere il valore della resistenza delle arteriole $R_{2a}$ e $R_{2b}$ solo dalla pressione di perfusione oculare (OPP) definita come $OPP = 2/3 MAP - IOP$, dove $MAP$ è la pressione arteriosa media.
 Secondo questo modello le resistenze $R_{2a}$ E $R_{2b}$ hanno lo stesso valore e, per individui aventi un meccanismo di autoregulazione funzionale, lo si può calcolare usando la seguente formula.
@@ -272,25 +269,25 @@ Operativamente, i valori assunti da $Q_{noAR}(OPP)$ sono stati estratti dalla fi
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=1.0\textwidth]{Pictures/compare_R2a.png}
-\caption{Confronto tra i risultati della formula (4) di \cite{art1} e il grafico in figura 2A sinistra dello stesso articolo}
+\caption{Confronto tra i risultati della formula (4) di \cite{art1} e il grafico in figura 2A sinistra dello stesso articolo.}
 \label{compare_active}
 \end{center}
 \end{figure}
 
 \subsection{Pressione nella Lamina Cribrosa}
 \label{sez_lamcri}
-Come accennato nella sezione precedente, pre passare dalla regione retrobulbare a quella intraoculare, le fibre del nervo ottico e l'arteria e la vena retiniche centrali devono attraversare una porzione porosa della sclera detta lamina cribrosa che comprime i vasi esercitando una pressione.
+Come accennato nella sezione precedente, per passare dalla regione retrobulbare a quella intraoculare, le fibre del nervo ottico e l'arteria e la vena retiniche centrali devono attraversare una porzione porosa della sclera detta lamina cribrosa che comprime i vasi esercitando una pressione.
 In \cite{art3} si modella la lamina cribrosa come un disco elastico non lineare soggetto all'IOP e all'RLTp sulle sue facce e alla tensione della sclera sul bordo (si veda fig. \ref{laminacribrosa}).
 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=1.0\textwidth]{Pictures/laminacribrosa.png}
-\caption{1.Anatomia della lamina cribrosa, 2.Modellazione tramite disco elastico soggetto all'IOP, RLTp e alla tensione sclerale, 3.Andamento della pressione lungo l'asse del nervo ottico \cite{art3}}
+\caption{1.Anatomia della lamina cribrosa, 2.Modellazione tramite disco elastico soggetto all'IOP, RLTp e alla tensione sclerale, 3.Andamento della pressione lungo l'asse del nervo ottico \cite{art3}.}
 \label{laminacribrosa}
 \end{center}
 \end{figure}
 
-Secondo tale modello si può trovare il valore della pressione esercitato dalla lamina cribrosa sulla CRA, che si suppone passare per il suo centro, calcolando il tensore degli sforzi $\mathbf{S}$ e valutandone la componente $\mathbf{S}_{ss} = u_s \cdot \mathbf{S} u_s$ in $s = 0$, dove $s$ è la coordinata radiale e $u_s$ il vettore unitario associato.
+Secondo tale modello, si può trovare il valore della pressione esercitato dalla lamina cribrosa sulla CRA, che si suppone passare per il suo centro, calcolando il tensore degli sforzi $\mathbf{S}$ e valutandone la componente $\mathbf{S}_{ss} = u_s \cdot \mathbf{S} u_s$ in $s = 0$, dove $s$ è la coordinata radiale e $u_s$ il vettore unitario associato.
 La pressione agente sulle pareti della CRA in ogni punto si ricava quindi tramite la formula
 
 \begin{equation}
@@ -301,7 +298,7 @@ IOP & \mbox{  se  }  z > z_{lc,c}
 \end{dcases}
 \label{cribrosa_alt}
 \end{equation}
-dove $z$ è la coordinata assiale, $z_{lc}$ è lo spessore della lamina cribrosa e $z_{lc,c} = \min\left\lbrace z \in (0,z_{lc} \mbox{tc} -S_{ss}(0,z) \geq RLTp\right\rbrace$.
+dove $z$ è la coordinata assiale, $z_{lc}$ è lo spessore della lamina cribrosa e $z_{lc,c} = \min\left\lbrace z \in \left(0,z_{lc}\right) \mbox{   tale che  } -S_{ss}(0,z) \geq RLTp\right\rbrace$.
 
 I risultati trovati in \cite{art3} risolvendo numericamente il problema sono riportati nella figura \ref{riscribrosa}.
 
@@ -314,7 +311,7 @@ I risultati trovati in \cite{art3} risolvendo numericamente il problema sono rip
 \end{figure}
 
 Tale modello non è compatibile con quello del \textit{compliant resistor} presentato in precedenza, in quanto quello prevede una pressione esterna e interna costanti lungo l'asse del vaso sanguigno.
-Nell'implementazione numerica si è utilizzato come pressione agente sul resistore $R_{3c}$, che corrisponde alla porzione della CRA passante per la lamina cribrosa, la media integrale della funzione (\ref{cribrosa_alt}) lungo l'asse della lamina, ottenuta interpolando i punti della figura \ref{riscribrosa} per l'opportuno valore d'IOP.
+Nell'implementazione numerica si è utilizzato come pressione agente sul resistore $R_{3c}$, che rappresenta la porzione della CRA passante per la lamina cribrosa, la media integrale della funzione (\ref{cribrosa_alt}) lungo l'asse della lamina, ottenuta interpolando i punti della figura \ref{riscribrosa} corrispondenti l'opportuno valore dell'IOP.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -325,11 +322,11 @@ In questa sezione è discussa l'implementazione del modello presentato nella sez
 I metodi Matlab implementati per la simulazione del modello di microcircolazione si possono dividere in quattro gruppi: le funzioni direttamente chiamate dal main, le funzioni di supporto all'inizializzazione dei dati, quelle chiamate all'interno di \texttt{ode15s} per il calcolo della derivata temporale e quelle necessarie per l'update dei resistori variabili.
 \subsubsection*{Funzioni del main}
 Sono stati scritti due diversi main per simulare aspetti diversi del modello.
-Il \texttt{main1.m} permette di plottare, fissati l'OPP, la pressione arteriosa (bassa, media o alta) e la presenza o meno del meccanismo di autoregolazione delle arteriole, l'evoluzione delle pressioni nei quattro nodi $P_1$, $P_2$, $P_4$ e $P_5$ segnati in figura \ref{circuito},il valore dei vari resistori variabili nel tempo e la velocità e il flusso sanguigno nella CRA e nella CRV, oltre che a calcolare il valore totale del flusso di sangue passante per la CRA nel corso di una pulsazione cardiaca.
-Il secondo, \texttt{main2.m} permette di calcolare il valore del flusso complessivo attraverso la CRA nel corso di una pulsazione per un ampio range di valori di OPP, simulando i casi di pazienti con diverse pressioni arteriose e con meccanismo di autoregolazione regolare o disfunzionante.
-
+Il \texttt{main1.m} permette di plottare, fissati l'OPP, la pressione arteriosa (bassa, media o alta) e la presenza o meno del meccanismo di autoregolazione delle arteriole, l'evoluzione delle pressioni nei quattro nodi $P_1$, $P_2$, $P_4$ e $P_5$ segnati in figura \ref{circuito}, il valore dei vari resistori variabili nel tempo, la velocità e il flusso sanguigno nella CRA e nella CRV e a calcolare il valore totale del flusso di sangue passante per la CRA nel corso di una pulsazione cardiaca.
+Il secondo, \texttt{main2.m}, permette di calcolare il valore del flusso complessivo attraverso la CRA nel corso di una pulsazione per un ampio range di valori di IOP, simulando i casi di pazienti con diverse pressioni arteriose e con meccanismo di autoregolazione regolare o disfunzionante.
 Nonostante ciò, \texttt{main1.m} e \texttt{main2.m} presentano una struttura molto simile e chiamano le stesse funzioni nello stesso ordine, quindi è possibile descriverli in un'unica sezione.
-Entrambi i file cominciano con l'introduzione delle variabili globali \texttt{resistors} e \texttt{data}: la prima raccoglie la serie temporale dei valori assunti dai resistori variabili nel tempo e il valore dei flussi sanguigni nella CRA e nella CRV, la seconda riunisce tutti i parametri del problema ed è inizializzata tramite la funzione \texttt{define\char`_constants}, che sarà discussa in dettaglio più avanti.
+
+Entrambi i file cominciano con l'introduzione delle variabili globali \texttt{resistors} e \texttt{data}: la prima raccoglie la serie temporale dei valori assunti dai resistori variabili nel tempo e il valore dei flussi sanguigni nella CRA e nella CRV, la seconda riunisce tutti i parametri del problema ed è inizializzata tramite la funzione \texttt{define\char`_constants}, discussa in dettaglio più avanti.
 È necessario che tali variabili siano globali in quanto devono essere accessibili da tutte le altre funzioni del codice, specialmente dalle funzioni attivate da una chiamata attraverso \texttt{ode15s}.
 Dopo l'inizializzazione, si chiama la funzione \texttt{solve\_circuit\_1245} per ottenere una guess iniziale per il vettore $P_{1245} = [P_1, P_2, P_4, P_5]^T$: per farlo, la funzione \texttt{solve\_circuit\_1245} risolve il circuito elettrico avente le resistenze di controllo costanti al posto dei resistori variabili applicando le leggi di Kirchhoff.
 
@@ -339,40 +336,41 @@ La funzione \texttt{\@time\_deriv\_P1245}, dato un istante di tempo e una situaz
 Una volta integrato il sistema (\ref{sistema}) lungo la durata di una pulsazione, la variabile \texttt{PP1245} contiene l'evoluzione nel tempo di $P_1$, $P_2$, $P_4$ e $P_5$, mentre la struct \texttt{resistors} contiene il valore delle resistenze variabili e del flusso attraverso la CRA e la CRV per ogni istante di tempo.
 In \texttt{main1.m}, Dopo una fase di postprocessing, tali valori sono plottati ed è calcolato il valore del flusso totale.
 
-In \texttt{main2.m} l'intera procedura è ripetuta diverse volte per pazienti aventi bassa, media o alta pressione sanguigna e meccanismo di autoregolazione funzionante o alterato e per diversi valori di OPP
-I plot delle pressioni non vengono effettuati, ma si registra nella variabile \texttt{Qs} il valore del flusso in funzione dell'OPP per ciascuna delle sei classi di paziente.
+In \texttt{main2.m} l'intera procedura è ripetuta diverse volte per pazienti aventi bassa, media e alta pressione sanguigna e meccanismo di autoregolazione funzionante e alterato e per diversi valori di IOP
+I plot delle pressioni non vengono effettuati, ma si registra nella variabile \texttt{Qs} il valore del flusso in funzione dell'IOP per ciascuna delle sei classi di paziente.
 Infine, tali valori sono plottati in un unico grafico che permette di confrontare la dipendenza del flusso sanguigno dalla pressione intraoculare per diversi pazienti.
 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=1.0\textwidth]{Pictures/class_diagram.pdf}
-\caption{Diagramma delle principali funzioni usate nella simulazione}
+\caption{Diagramma delle principali funzioni usate nella simulazione.}
 \label{diagramma_classi}
 \end{center}
 \end{figure}
 \subsubsection*{Inizializzazione dei dati}
 
 Per entrambi i main, una delle prime operazioni da effettuare è l'inizializzazione della variabile globale di tipo struct \texttt{data} con i dati del problema.
-Per farlo, si utilizza la funzione \texttt{define\_constants} che può avere uno, due o tre parametri in input: il primo è sempre la variabile in cui si vogliono immagazzinare i dati del problema (qui la variabile globale \texttt{data}), il secondo e il terzo sono facoltativi e permettono di configurare i dati del problema per un valore di IOP dato e per definire lo stato della pressione e del sistema di autoregolazione del paziente.
+Per farlo, si utilizza la funzione \texttt{define\_constants} che può avere uno, due o tre parametri in input: il primo è sempre la variabile in cui si vogliono immagazzinare i dati del problema (qui la variabile globale \texttt{data}), il secondo e il terzo sono facoltativi e permettono di configurare i dati del problema per un valore di IOP dato e per definire lo stato della pressione e del sistema di autoregolazione dei pazienti.
 
-In primo luogo la funzione \texttt{define\_constants} definisce i parametri generali del paziente, per poi procedere all'inizializzazione dei valori della pressione usati dal programma (IOP, RLTp, pressioni diastolica e sistolica, pressioni all'ingresso e all'uscita del circuito) ad eccezione della pressione nella lamina cribrosa, che è inizializzata a parte in una sezione successiva.
+In primo luogo la funzione \texttt{define\_constants} definisce i parametri generali del soggetto, per poi procedere all'inizializzazione dei valori della pressione usati dal programma (IOP, RLTp, pressioni diastolica e sistolica, pressioni all'ingresso e all'uscita del circuito) ad eccezione della pressione nella lamina cribrosa, che è inizializzata a parte in una sezione successiva.
 Per la definizione della pressione in ingresso si utilizza la funzione \texttt{Pressure\_in} che interpola i dati estratti dalla figura 3 di \cite{art1}.
-In seguito sono inizializzati i valori di controllo per le resistenze e per le capacità usati nella simulazione, per poi procedere con la definizione delle costanti caratteristiche della CRA, CRV, arteriole e venule, usate per il calcolo delle resistenze nelle sezioni variabili.
+In seguito sono inizializzati i valori di controllo per le resistenze e per le capacità usati nella simulazione, e sono definite le costanti caratteristiche della CRA, CRV, arteriole e venule, usate per il calcolo delle resistenze nelle sezioni variabili.
 
 Si procede con il calcolo della pressione nella lamina cribrosa secondo il modello descritto nella sezione \ref{sez_lamcri}: l'interpolazione dei dati della figura \ref{riscribrosa} è effettuata dalla funzione \texttt{LC\_pressure}, mentre \texttt{mean\_LC\_pressure} si occupa di valutare la funzione (\ref{cribrosa_alt}) e integrarla lungo l'asse della lamina per fornire un valore medio della pressione esercitato dalla lamina cribrosa sui vasi sanguigni.
-\texttt{define\_constants} termina con la definizione di alcuni fattori di conversione tra unità di misura e con la definizione dei criteri d'arresto per il ciclo while in \texttt{time\_deriv\_P1245}.
+Il metodo \texttt{define\_constants} termina con la definizione di alcuni fattori di conversione tra unità di misura e dei criteri d'arresto per il ciclo while in \texttt{time\_deriv\_P1245}.
 
 \subsubsection*{Calcolo della derivata temporale}
 L'integrazione del sistema (\ref{sistema}) si effettua nel main tramite il comando \texttt{[ttout, PP1245] = ode15s(\@time\_deriv\_P1245, tspan, P1245,opt)}, dove \texttt{tspan} è l'intervallo di integrazione, \texttt{P1245} la condizione iniziale, \texttt{opt} le opzioni di integrazione (come il livello di accuratezza) e \texttt{time\_deriv\_P1245} la funzione responsabile del calcolo della derivata temporale di $P_{1245}$ in ogni istante di tempo e per ogni valore di $P_{1245}$.
 
-Nella funzione \texttt{time\_deriv\_P1245} sono in primo luogo importate le variabili globali \texttt{data} e \texttt{resistors}, rispettivamente utilizzate e aggiornate dalla funzione.
+Nella funzione \texttt{time\_deriv\_P1245} sono dapprima importate le variabili globali \texttt{data} e \texttt{resistors}, rispettivamente utilizzate e aggiornate dalla funzione.
 Subito dopo si dichiara la variabile permanente \texttt{res}, contenente l'ultimo valore calcolato per i resistori variabili.
 
-Successivamente si esegue un ciclo while in cui ad ogni iterazione si calcolano le pressioni medie nei resistori variabili tramite \texttt{mean\_pressures} e li si aggiornano con la funzione \texttt{update\_resistors} al fine di ricostruire il valore dei resistori che genera una distribuzione delle pressioni conforme all'input.
-Il ciclo while termina se due iterazioni successive danno valori per le resistenze simili a meno di una tolleranza definita in \texttt{data} o se le resistenze superano una certa soglia, indicando una mancata convergenza del ciclo e seguita da un messaggio di errore.
+Successivamente si esegue un ciclo while in cui ad ogni iterazione sono calcolate le pressioni medie nei resistori variabili tramite \texttt{mean\_pressures} e sono aggiornate con la funzione \texttt{update\_resistors}, al fine di ricostruire il valore dei resistori che genera una distribuzione delle pressioni conforme all'input.
+Il ciclo while termina se due iterazioni successive danno valori simili per le resistenze a meno di una tolleranza definita in \texttt{data} o se le resistenze superano una certa soglia, indicando una mancata convergenza del ciclo, seguita da un messaggio di errore.
 
-Al termine del ciclo while si ha quindi nella variabile \texttt{res} un valore per i resistori variabili che genera la distribuzione di pressione attesa $P_{1245}$.
-La funzione procede quindi con il calcolo dei flussi attraverso la CRA e la CRV.
+Al termine del ciclo while si ha nella variabile \texttt{res} un valore per i resistori variabili che genera la distribuzione di pressione attesa $P_{1245}$.
+La funzione procede con il calcolo dei flussi attraverso la CRA e la CRV.
+
 I valori ottenuti per i resistori variabili e per i flussi sanguigni sono registrati nella variabile globale \texttt{resistors}, in modo che essi siano accessibili dal main.
 La funzione \texttt{time\_deriv\_P1245} termina con il calcolo della derivata temporale di $P_{1245}$ secondo il sistema (\ref{sistema}).
 
@@ -380,7 +378,7 @@ La funzione \texttt{time\_deriv\_P1245} termina con il calcolo della derivata te
 Il ciclo while di \texttt{time\_deriv\_P1245} ha lo scopo di trovare il valore delle resistenze variabili che producono le distribuzione delle pressioni desiderata nei nodi $P_1$, $P_2$, $P_4$ e $P_5$: per farlo, ad ogni iterazione calcola le pressioni medie in ogni resistore variabile e aggiorna i valori delle resistenze tramite \texttt{update\_resistors} fino a convergenza.
 
 La funzione \texttt{update\_resistors} prende come input le variabili \texttt{data}, contenente i parametri del modello, \texttt{mp}, contenente le pressioni medie nei resistori variabili, e \texttt{res}, la variabile da aggiornare con i valori delle resistenze.
-La funzione chiama i metodi opportuni per aggiornare i valori delle resistenze secondo la loro natura, come descritto in figura \ref{circuitocolori}: \texttt{compliant\_resistor} per $R_{1c}$ e $R_{1d}$, \texttt{starling\_resistor} per $R_{4a}$, $R_{4b}$, $R_{5a}$ e $R_{5b}$ e \texttt{active\_resistor} per $R_2a$ e $R2b$, che implementano rispettivamente le equazioni (\ref{compliantR}), (\ref{starlingR}) e (\ref{activeR}).
+La funzione chiama i metodi opportuni per aggiornare i valori delle resistenze secondo la loro natura, come descritto in figura \ref{circuitocolori}: \texttt{compliant\_resistor} per $R_{1c}$ e $R_{1d}$, \texttt{starling\_resistor} per $R_{4a}$, $R_{4b}$, $R_{5a}$ e $R_{5b}$ e \texttt{active\_resistor} per $R_{2a}$ e $R_{2b}$, che implementano rispettivamente le equazioni (\ref{compliantR}), (\ref{starlingR}) e (\ref{activeR}).
 Per il calcolo dei resistori attivi è chiamata anche la funzione \texttt{Q\_noAR} che permette di calcolare il valore di flusso attraverso $R_{2a}$ in caso di autoregolazione assente interpolando i valori della figura A2.b di \citep{art1}.
 Come si vede dalla formula (\ref{activeR}), il valore $Q_{noAR}(OPP)$ è necessario per valutare il valore di $R_{2a}$ e $R_{2b}$ in caso di autoregolazione attiva.
 
@@ -391,30 +389,30 @@ Tutti i dati provenienti da grafici sono stati analizzati e convertiti in valori
 
 \subsubsection*{Parametri fisiologici}
 Nelle simulazioni si distinguono tre casi in funzione della pressione sanguigna: pazienti con pressione alta, pressione media e pressione bassa.
-Per ciascuno dei tre casi sono dati i valori della pressione sistolica e diastolica, misurati in millimetri di mercurio
+Per ciascuno dei tre casi sono dati i valori della pressione sistolica e diastolica, misurati in millimetri di mercurio.
 \begin{table}[h!]
 \begin{center}
 \begin{tabular}{| c | c | c |}
 \hline
- - & \textbf{Pressione sistolica (SP)} & \textbf{Pressione diastolica (DP)}\\
+ \textbf{Pressione} & \textbf{Sistolica (SP)} & \textbf{Diastolica (DP)}\\
 \hline
-\textbf{Pressione alta} & $140\ \si{\mmHg}$ & $90\ \si{\mmHg}$\\
-\textbf{Pressione media} & $120\ \si{\mmHg}$ & $80\ \si{\mmHg}$\\
-\textbf{Pressione bassa} & $100\ \si{\mmHg}$ & $70\ \si{\mmHg}$\\
+\textbf{Pressione alta} & $\SI{140}{\mmHg}$ & $\SI{900}{\mmHg}$\\
+\textbf{Pressione media} & $\SI{120}{\mmHg}$ & $\SI{80}{\mmHg}$\\
+\textbf{Pressione bassa} & $\SI{100}{\mmHg}$ & $\SI{70}{\mmHg}$\\
 \hline
 \end{tabular}
-\caption{Valori della pressione sanguigna}
+\caption{Valori della pressione sanguigna.}
 \label{tab_pressione}
 \end{center}
 \end{table}
 
-I valori di $P_{in}$ e di $P_{out}$ sono importati dalla figura 3c di \cite{art1} e riscalati a seconda della pressione sanguigna secondo i rapporti $\max(P_{in}) / SP = 0.7683$ e $\min(P_{in}) / DP = 0.4945$.
+I valori di $P_{in}$ e di $P_{out}$ sono importati dalla figura 3c di \cite{art1} e riscalati a seconda della pressione sanguigna secondo i rapporti $\max(P_{in}) / \mbox{SP} = 0.7683$ e $\min(P_{in}) / \mbox{DP} = 0.4945$.
 
-La pressione nel tessuto retrolaminare è fissata a $RLTp = 7 \si{\mmHg}$ mentre la pressione intraoculare in \texttt{main1} è fissata a $IOP = 15 \si{\mmHg}$ per individui sani o sottopostisi a trabeculectomia, mentre è posta a $30 \si{\mmHg}$ per pazienti con IOP anormale.
-In \texttt{main2} l'IOP è fatto variare uniformemente nell'intervallo $15 \si{\mmHg} - 50 \si{\mmHg}$.
+La pressione nel tessuto retrolaminare è fissata a $RLTp = \SI{7}{\mmHg}$ mentre la pressione intraoculare in \texttt{main1} è fissata a $IOP = \SI{15}{\mmHg}$ per individui sani o sottopostisi a trabeculectomia, mentre è posta a $\SI{30}{\mmHg}$ per pazienti con IOP anormale.
+In \texttt{main2} l'IOP è fatto variare uniformemente nell'intervallo $\SI{15}{\mmHg} - \SI{50}{\mmHg}$.
 
 \subsubsection*{Capacità e resistenze}
-Nell'articolo \cite{Tesi} i valori di controllo per le capacità e le resistenze delle diverse sezioni della microcircolazione sono stati calcolati a partire dai risultati clinici usando la definizione di capacità e la legge di Poiseuille.
+Nell'articolo \cite{art1} i valori di controllo per le capacità e le resistenze delle diverse sezioni della microcircolazione sono stati calcolati a partire dai risultati clinici usando la definizione di capacità e la legge di Poiseuille:
 \begin{center}
 \begin{equation}
 \begin{split}
@@ -425,7 +423,7 @@ R &= 128 \mu\ L / \pi D^2
 \end{equation}
 \end{center}
 dove $Q$ è il flusso passante per il vaso, $\Delta V$ la sua variazione di volume, $\mu$ la viscosità del sangue (diversa per sangue arterioso e venoso), $L$ la lunghezza della sezione del vaso e $D$ il suo diametro.
-I risultati sono i seguenti:
+I risultati sono riportati nelle tabelle \ref{tab_capacita} e \ref{tab_resistori}.
 
 \begin{table}[h!]
 \begin{center}
@@ -439,7 +437,7 @@ Venule & $\SI{1.67e-5}{\milli \liter \per \mmHg}$ \\
 CRV & $\SI{1.07e-5}{\milli \liter \per \mmHg}$ \\
 \hline
 \end{tabular}
-\caption{Valori di riferimento per le capacità}
+\caption{Valori di riferimento per le capacità.}
 \label{tab_capacita}
 \end{center}
 \end{table}
@@ -460,7 +458,7 @@ $R_{2b}$ & $ \SI{6.00e3}{\mmHg \sec \per \milli \liter}$ & $R_{5d}$ & $ \SI{1.35
 $R_{3a}$ & $ \SI{5.68e3}{\mmHg \sec \per \milli \liter}$ & $R_{out}$ & $ \SI{5.74e3}{\mmHg \sec \per \milli \liter}$ \\
 \hline
 \end{tabular}
-\caption{Valori di riferimento per le resistenze}
+\caption{Valori di riferimento per le resistenze.}
 \label{tab_resistori}
 \end{center}
 \end{table}
@@ -484,7 +482,7 @@ Coefficiente di Poisson $\nu$ & $0.49$ & $0.49$\\
 Spessore delle pareti $h$ & $\SI{39.7e-3}{\milli\meter}$ & $\SI{10.7e-3}{\milli\meter}$\\
 \hline
 \end{tabular}
-\caption{Valori di riferimento per CRA e CRV}
+\caption{Valori di riferimento per CRA e CRV.}
 \label{tab_CR}
 \end{center}
 \end{table}
@@ -504,7 +502,7 @@ Sensitività $K$ & $\SI{6.91e4}{\second \per \milli \liter}$\\
 Flusso di controllo $\bar{Q}$ & $\SI{6.8178e-4}{\milli \liter \per \second}$\\
 \hline
 \end{tabular}
-\caption{Valori di riferimento per le arteriole}
+\caption{Valori di riferimento per le arteriole.}
 \label{tab_art}
 \end{center}
 \end{table}
@@ -522,7 +520,7 @@ Modulo di Young $E$ & $\SI{0.66}{\mega\pascal}$\\
 Coefficiente di Poisson $\nu$ & $0.49$\\
 \hline
 \end{tabular}
-\caption{Valori di riferimento per le venule}
+\caption{Valori di riferimento per le venule.}
 \label{tab_ven}
 \end{center}
 \end{table}
@@ -549,7 +547,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
   % include second image
   \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/pressures_15.png}
 \end{subfigure}
-\caption{Evoluzione del valore della pressione nei nodi  $P_1$, $P_2$, $P_4$ e $P_5$ per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\caption{Evoluzione del valore della pressione nei nodi  $P_1$, $P_2$, $P_4$ e $P_5$ per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra.}
 \label{pressioni1530}
 \end{figure}
 
@@ -564,7 +562,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
   % include second image
   \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/CRA_15.png}
 \end{subfigure}
-\caption{Evoluzione della resistenza nella CRA per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\caption{Evoluzione della resistenza nella CRA per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra.}
 \label{CRA1530}
 \end{figure}
 
@@ -579,7 +577,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
   % include second image
   \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/venules_15.png}
 \end{subfigure}
-\caption{Evoluzione della resistenza nelle venule per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\caption{Evoluzione della resistenza nelle venule per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra.}
 \label{venule1530}
 \end{figure}
 
@@ -594,7 +592,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
   % include second image
   \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/CRV_15.png}
 \end{subfigure}
-\caption{Evoluzione della resistenza nella CRV per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\caption{Evoluzione della resistenza nella CRV per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra.}
 \label{CRV1530}
 \end{figure}
 
@@ -609,7 +607,7 @@ Tramite \texttt{main1.m} siamo in grado di simulare l'andamento delle pressioni 
   % include second image
   \includegraphics[width=1.0\linewidth]{Pictures/IOP15_part1/BF_15.png}
 \end{subfigure}
-\caption{Evoluzione della resistenza nelle venule per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra}
+\caption{Evoluzione della resistenza nelle venule per pazienti con $IOP = \SI{30}{\mmHg}$ a sinistra e $IOP = \SI{15}{\mmHg}$ a destra.}
 \label{flusso1530}
 \end{figure}
 
@@ -619,8 +617,8 @@ Ciò non avviene per il soggetto con $IOP = \SI{15}{\mmHg}$ per cui la pressione
 L'effetto della maggior resistenza nelle venule si ripercuote sulla CRV, implicando una maggior caduta di pressione e quindi un valore inferiore all'interno della CRV.
 Il collasso della vena è perciò dovuto sia alla maggior pressione esterna, sia all'insufficiente perssione interna.
 
-In questo caso l'azione dell'autoregolazione nelle arteriole contrasta gli effetti dell'IOP anomalo: si può calcolare infatti che il flusso totale nei due casi nel corso della pulsazione è quasi identico ($\SI{38.4554}{\milli \liter \per \minute}$ per $IOP = \SI{15}{\mmHg}$, e $\SI{39.6301}{\milli \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
-I risultati sono molto diversi in assenza di autoregolazione: se il flusso diminuisce leggermente nel caso di IOP normale ($\SI{36.8429}{\milli \liter \per \minute}$), esso diminuisce drasticamente a fronte di un aumento della pressione intraoculare ($\SI{32.4841}{\milli \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
+In questo caso l'azione dell'autoregolazione nelle arteriole contrasta gli effetti dell'IOP anomalo: si può calcolare infatti che il flusso totale nei due casi nel corso della pulsazione è quasi identico ($\SI{38.4554}{\micro \liter \per \minute}$ per $IOP = \SI{15}{\mmHg}$, e $\SI{39.6301}{\micro \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
+I risultati sono molto diversi in assenza di autoregolazione: se il flusso diminuisce leggermente nel caso di IOP normale ($\SI{36.8429}{\micro \liter \per \minute}$), esso diminuisce drasticamente a fronte di un aumento della pressione intraoculare ($\SI{32.4841}{\micro \liter \per \minute}$ per $IOP = \SI{30}{\mmHg}$).
 Si conferma così l'importanza del meccanismo di autoregolazione nel mantenimento di un adeguato flusso di sangue nella microcircolazione retinica.
 \FloatBarrier
 \begin{table}[h!]
@@ -630,17 +628,17 @@ Si conferma così l'importanza del meccanismo di autoregolazione nel manteniment
  \textbf{IOP}& $\SI{15}{\mmHg}$ & $\SI{30}{\mmHg}$ & $\SI{15}{\mmHg}$ & $\SI{30}{\mmHg}$ \\
  \hline
 $R_{2a}$\ $[\si{\mmHg \sec \per \milli \liter}]$ &$\num{4.56e3}$ &$\num{15.00}$ &$ \num{6.00e3}$&$ \num{6.00e3}$ \\
- Flusso totale $[\si{\milli \liter \per \minute}]$&$38.4554$&$39.6301$ &$36.8429$&$32.4841$\\
+ Flusso totale $[\si{\micro \liter \per \minute}]$&$38.4554$&$39.6301$ &$36.8429$&$32.4841$\\
  \hline
 \end{tabular}
-\caption{Valori della resistenza delle arteriole e del flusso totale per diversi IOP e per autoregolazione presente o assente in un soggetto con pressione arteriosa nella norma ($\SI{80}{\mmHg}$ - $\SI{120}{\mmHg}$)}
+\caption{Valori della resistenza delle arteriole e del flusso totale per diversi IOP e per autoregolazione presente o assente in un soggetto con pressione arteriosa nella norma ($\SI{80}{\mmHg}$ - $\SI{120}{\mmHg}$).}
 \label{riassunto_res1}
 \end{table}
 
 
 \subsection{Flusso in funzione dell'IOP}
 Il codice di \texttt{main2.m} permette di studiare l'evoluzione del flusso sanguigno attraverso la CRA per diversi valori della pressione intraoculare.
-Il risultato è riportato nella figura \ref{fluxiop} per i casi di soggetti con pressione arteriosa bassa, medi e alta e con autoregolazione funzionale o disfunzionale.
+Il risultato è riportato nella figura \ref{fluxiop} per i casi di soggetti con pressione arteriosa bassa, media e alta e con autoregolazione funzionale o disfunzionale.
 
 \begin{figure}[h]
 \begin{center}
@@ -651,31 +649,31 @@ Il risultato è riportato nella figura \ref{fluxiop} per i casi di soggetti con 
 \end{figure}
 
 Si può osservare come i risultati siano compatibili con la figura 5 di \citep{art1}.
-Si osserva innanzitutto un andamento decrescente del flusso al crescere dell'IOP, segno dell'influenza della deformazione delle venule sotto la pressione dell'occhio.
+Innanzitutto si ha un andamento decrescente del flusso al crescere dell'IOP, segno dell'influenza della deformazione delle venule sotto la pressione dell'occhio.
 L'effetto è più marcato per i soggetti a pressione bassa in quanto, in generale, la pressione interna dei vasi è inferiore e non riesce a sostenere le pareti delle venule e della CRV.
 
-Si osserva inoltre come nei casi di autoregolazione funzionale si ha un'inversione di tendenza per bassi valori dell'IOP: ad un'aumento della pressione esterna corrisponde una diminuzione della resistenza nelle arteriole, e quindi un aumento della pressione interna dei vasi venosi che riescono ad evitare il collasso.
+Si osserva inoltre come nei casi di autoregolazione funzionale si ha un'inversione di tendenza per bassi valori dell'IOP: ad un aumento della pressione esterna corrisponde una diminuzione della resistenza nelle arteriole, e quindi un aumento della pressione interna dei vasi venosi evitandone il collasso.
 Gli effetti di tale fenomeno sono tuttavia limitati ai soggetti con pressione sanguigna media o alta e non si osserva alcuna opposizione agli effetti di compressione nel caso di bassa pressione arteriosa.
-Si può notare inoltre che, per IOP sufficientemente elevati, il flusso sanguigno per individui dotati di autoregolazione regolare è sistematicamente superiore a quello di soggetti con meccanismo disfunzionale, rimarcando l'importanza cruciale dell'autoregolazione arteriosa per lo stato di salute della retina.
+Si può notare inoltre che, per IOP sufficientemente elevati, il flusso sanguigno per individui dotati di autoregolazione regolare è sistematicamente superiore a quello di soggetti con meccanismo disfunzionale, rimarcando ancora una volta l'importanza cruciale dell'autoregolazione arteriosa per lo stato di salute della retina.
 
 %--------------------------------------------------------------------------------
 %	CONCLUSION
 %----------------------------------------------------------------------------------------
 \section{Conclusione}
 In questo progetto si è studiato un modello della microcircolazione della retina: tramite l'analogia fludo-elettrica si è rappresentata la microcircolazione sottoforma di circuito, tenendo conto delle proprietà fisiche dei vasi sanguigni tramite condensatori e resistori variabili.
-Le simulazioni hanno messo in luce la relazione tra la pressione sanguigna e la pressione intraoculare nel mantenimento di un corretto afflusso di sangue  ai tessuti della retina, evidenziando in particolare l'influenza esercitata dai meccanismi di autoregolazione.
+Le simulazioni hanno messo in luce la relazione tra la pressione sanguigna e la pressione intraoculare per quanto riguarda il mantenimento di un corretto afflusso di sangue  ai tessuti della retina, evidenziando in particolare l'influenza esercitata dai meccanismi di autoregolazione.
 I risultati delle simulazioni effettuate sono conformi ai risultati di \cite{art1} i quali sono coerenti con le analisi cliniche, dimostrando l'efficacia del modello elettrico-idraulico per lo studio del sistema circolatorio.
 
 Nel progetto sono state effettuate diverse approssimazioni per semplificare il comportamento di alcuni compartimenti e la loro sostituzione con modelli più complessi potrebbe migliorare ulteriormente i risultati.
-Una possibile direzione di sviluppo può essere l'implementazione di un modello più realistico per le porzioni dei vasi che attraversano la lamina cribrosa, rilassando l'ipotesi di pressione uniforme lungo la membrana e utilizzando i risultati di \cite{art3}, varianti lungo la direzione assiale.
-Un'altra possibilità è l'uso di un modello più articolato per il compartimento delle venule, capace di rappresentare l'esistenza di una struttura di vasi saguigni aventi diametro e spessore diverso.
-La direzione che, a mio avviso, necessita di un approfondimento è la ricerca di un modello efficace per l'autoregolazione: in \cite{Tesi} è fornito un modello più complesso per tale fenomeno che può essere un punto di partenza per migliorare il metodo usato in questo progetto per il calcolo della resistenza delle arteriole.
-Avendo mostrato l'importanza di questo meccanismo nella microcircolazione, ritengo che una sua rappresentazione più vicina alla realtà possa mettere in luce ulteriori aspetti della fisiologia della retina e permettere lo sviluppo di nuove strategie per la salute degli occhi.
+Una possibile direzione di sviluppo può essere l'implementazione di un modello più realistico per le porzioni dei vasi che attraversano la lamina cribrosa, rilassando l'ipotesi di pressione uniforme lungo la membrana e utilizzando i risultati di \cite{art3}, variabili lungo la direzione assiale.
+Un'altra possibilità è l'uso di un modello più articolato per il compartimento delle venule conìme fatto in \cite{art1} e \cite{Tesi}, capace di rappresentare l'esistenza di una struttura di vasi saguigni aventi diametro e spessore diverso.
+L'aspetto che, a mio avviso, necessita maggior approfondimento è la ricerca di un modello efficace per l'autoregolazione: in \cite{Tesi} è fornito un modello più complesso per tale fenomeno che può essere un punto di partenza per migliorare il metodo usato in questo progetto.
+Avendo mostrato l'importanza di questo meccanismo nella microcircolazione, ritengo che una sua rappresentazione più vicina alla realtà possa mettere in luce ulteriori aspetti della fisiologia della retina e permettere lo sviluppo di nuove strategie in ambito terapeutico.
 
-\addcontentsline{toc}{section}{Riferimenti bibliografici}
+
 \bibliographystyle{unsrt}
 \bibliography{sample}
-
+\addcontentsline{toc}{section}{Riferimenti bibliografici}
 %----------------------------------------------------------------------------------------
 
 

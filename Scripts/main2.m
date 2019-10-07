@@ -43,4 +43,4 @@ plot(IOPs, Qs(5,:),'r-', IOPs, Qs(6,:), 'r--')
 legend('low BP, AR','low BP, wAR','medium BP, AR','medium BP, wAR','high BP, AR','high BP, wAR');
 title('Blood flows')
 xlabel('IOP [mmHg]')
-ylabel('Blood flow [mL / s]')
+ylabel('Blood flow [μL / min]')

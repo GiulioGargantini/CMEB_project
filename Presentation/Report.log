@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.9.23)  7 OCT 2019 00:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.9.23)  7 OCT 2019 11:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1049,7 +1049,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/Optic_nerve.png, id=15, 900.36375pt x 504.88625pt>
 File: Pictures/Optic_nerve.png Graphic file (type png)
 <use Pictures/Optic_nerve.png>
-Package pdftex.def Info: Pictures/Optic_nerve.png  used on input line 112.
+Package pdftex.def Info: Pictures/Optic_nerve.png  used on input line 111.
 (pdftex.def)             Requested size: 276.00105pt x 154.77202pt.
 [2]
 
@@ -1058,14 +1058,17 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/umor_acqueo.png, id=19, 853.1875pt x 342.27875pt>
 File: Pictures/umor_acqueo.png Graphic file (type png)
 <use Pictures/umor_acqueo.png>
-Package pdftex.def Info: Pictures/umor_acqueo.png  used on input line 129.
+Package pdftex.def Info: Pictures/umor_acqueo.png  used on input line 127.
 (pdftex.def)             Requested size: 276.00105pt x 110.72743pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [3 <./Pictures/occhio.png>] [4 <./Pictures/Optic_nerve.png> <./Pictures/umor_ac
 queo.png>]
 <Pictures/circuit1.png, id=29, 823.075pt x 642.4pt>
 File: Pictures/circuit1.png Graphic file (type png)
 <use Pictures/circuit1.png>
-Package pdftex.def Info: Pictures/circuit1.png  used on input line 179.
+Package pdftex.def Info: Pictures/circuit1.png  used on input line 176.
 (pdftex.def)             Requested size: 345.0pt x 269.26704pt.
 
 
@@ -1075,7 +1078,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/circuit2.png, id=41, 823.075pt x 642.4pt>
 File: Pictures/circuit2.png Graphic file (type png)
 <use Pictures/circuit2.png>
-Package pdftex.def Info: Pictures/circuit2.png  used on input line 219.
+Package pdftex.def Info: Pictures/circuit2.png  used on input line 214.
 (pdftex.def)             Requested size: 345.0pt x 269.26704pt.
 
 
@@ -1085,18 +1088,18 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/compare_R2a.png, id=56, 421.575pt x 316.18124pt>
 File: Pictures/compare_R2a.png Graphic file (type png)
 <use Pictures/compare_R2a.png>
-Package pdftex.def Info: Pictures/compare_R2a.png  used on input line 274.
+Package pdftex.def Info: Pictures/compare_R2a.png  used on input line 271.
 (pdftex.def)             Requested size: 345.0pt x 258.75406pt.
  [10 <./Pictures/compare_R2a.png (PNG copy)>]
 <Pictures/laminacribrosa.png, id=60, 1074.0125pt x 412.54124pt>
 File: Pictures/laminacribrosa.png Graphic file (type png)
 <use Pictures/laminacribrosa.png>
-Package pdftex.def Info: Pictures/laminacribrosa.png  used on input line 287.
+Package pdftex.def Info: Pictures/laminacribrosa.png  used on input line 284.
 (pdftex.def)             Requested size: 345.0pt x 132.51949pt.
 <Pictures/riscribrosa.png, id=61, 858.20625pt x 490.83376pt>
 File: Pictures/riscribrosa.png Graphic file (type png)
 <use Pictures/riscribrosa.png>
-Package pdftex.def Info: Pictures/riscribrosa.png  used on input line 310.
+Package pdftex.def Info: Pictures/riscribrosa.png  used on input line 307.
 (pdftex.def)             Requested size: 345.0pt x 197.31863pt.
 
 
@@ -1106,23 +1109,19 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/class_diagram.pdf, id=71, 933.22192pt x 597.47943pt>
 File: Pictures/class_diagram.pdf Graphic file (type pdf)
 <use Pictures/class_diagram.pdf>
-Package pdftex.def Info: Pictures/class_diagram.pdf  used on input line 348.
+Package pdftex.def Info: Pictures/class_diagram.pdf  used on input line 345.
 (pdftex.def)             Requested size: 345.0pt x 220.87247pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [13]
-Overfull \hbox (4.58522pt too wide) in paragraph at lines 366--367
+Overfull \hbox (4.58522pt too wide) in paragraph at lines 363--364
 \OT1/cmtt/m/n/10 PP1245] = ode15s(time[]deriv[]P1245, tspan, P1245,opt)\OT1/cmr
 /m/n/10 , do-ve \OT1/cmtt/m/n/10 tspan \OT1/cmr/m/n/10 ^^Re l'in-
  []
 
 [14 <./Pictures/class_diagram.pdf>] [15]
-Overfull \hbox (19.84671pt too wide) in paragraph at lines 397--406
- [] 
- []
-
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1144,16 +1143,16 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: Pictures/IOP30_part1/pressures_30.png Graphic file (type png)
 <use Pictures/IOP30_part1/pressures_30.png>
 Package pdftex.def Info: Pictures/IOP30_part1/pressures_30.png  used on input l
-ine 545.
+ine 543.
 (pdftex.def)             Requested size: 172.5pt x 127.10709pt.
 <Pictures/IOP15_part1/pressures_15.png, id=109, 429.10312pt x 316.18124pt>
 File: Pictures/IOP15_part1/pressures_15.png Graphic file (type png)
 <use Pictures/IOP15_part1/pressures_15.png>
 Package pdftex.def Info: Pictures/IOP15_part1/pressures_15.png  used on input l
-ine 550.
+ine 548.
 (pdftex.def)             Requested size: 172.5pt x 127.10709pt.
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 542--552
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 540--550
 []$[]$ $[]$ 
  []
 
@@ -1163,17 +1162,17 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/IOP30_part1/CRA_30.png, id=110, 421.575pt x 316.18124pt>
 File: Pictures/IOP30_part1/CRA_30.png Graphic file (type png)
 <use Pictures/IOP30_part1/CRA_30.png>
-Package pdftex.def Info: Pictures/IOP30_part1/CRA_30.png  used on input line 56
-0.
+Package pdftex.def Info: Pictures/IOP30_part1/CRA_30.png  used on input line 55
+8.
 (pdftex.def)             Requested size: 172.5pt x 129.37462pt.
 <Pictures/IOP15_part1/CRA_15.png, id=111, 421.575pt x 316.18124pt>
 File: Pictures/IOP15_part1/CRA_15.png Graphic file (type png)
 <use Pictures/IOP15_part1/CRA_15.png>
 Package pdftex.def Info: Pictures/IOP15_part1/CRA_15.png  used on input line 56
-5.
+3.
 (pdftex.def)             Requested size: 172.5pt x 129.37462pt.
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 557--567
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 555--565
 []$[]$ $[]$ 
  []
 
@@ -1184,16 +1183,16 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 File: Pictures/IOP30_part1/venules_30.png Graphic file (type png)
 <use Pictures/IOP30_part1/venules_30.png>
 Package pdftex.def Info: Pictures/IOP30_part1/venules_30.png  used on input lin
-e 575.
+e 573.
 (pdftex.def)             Requested size: 172.5pt x 124.91193pt.
 <Pictures/IOP15_part1/venules_15.png, id=113, 436.63126pt x 316.18124pt>
 File: Pictures/IOP15_part1/venules_15.png Graphic file (type png)
 <use Pictures/IOP15_part1/venules_15.png>
 Package pdftex.def Info: Pictures/IOP15_part1/venules_15.png  used on input lin
-e 580.
+e 578.
 (pdftex.def)             Requested size: 172.5pt x 124.91193pt.
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 572--582
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 570--580
 []$[]$ $[]$ 
  []
 
@@ -1203,17 +1202,17 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/IOP30_part1/CRV_30.png, id=114, 436.63126pt x 316.18124pt>
 File: Pictures/IOP30_part1/CRV_30.png Graphic file (type png)
 <use Pictures/IOP30_part1/CRV_30.png>
-Package pdftex.def Info: Pictures/IOP30_part1/CRV_30.png  used on input line 59
-0.
+Package pdftex.def Info: Pictures/IOP30_part1/CRV_30.png  used on input line 58
+8.
 (pdftex.def)             Requested size: 172.5pt x 124.91193pt.
 <Pictures/IOP15_part1/CRV_15.png, id=115, 436.63126pt x 316.18124pt>
 File: Pictures/IOP15_part1/CRV_15.png Graphic file (type png)
 <use Pictures/IOP15_part1/CRV_15.png>
 Package pdftex.def Info: Pictures/IOP15_part1/CRV_15.png  used on input line 59
-5.
+3.
 (pdftex.def)             Requested size: 172.5pt x 124.91193pt.
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 587--597
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 585--595
 []$[]$ $[]$ 
  []
 
@@ -1223,66 +1222,72 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Pictures/IOP30_part1/BF_30.png, id=116, 436.63126pt x 316.18124pt>
 File: Pictures/IOP30_part1/BF_30.png Graphic file (type png)
 <use Pictures/IOP30_part1/BF_30.png>
-Package pdftex.def Info: Pictures/IOP30_part1/BF_30.png  used on input line 605
+Package pdftex.def Info: Pictures/IOP30_part1/BF_30.png  used on input line 603
 .
 (pdftex.def)             Requested size: 172.5pt x 124.91193pt.
 <Pictures/IOP15_part1/BF_15.png, id=117, 436.63126pt x 316.18124pt>
 File: Pictures/IOP15_part1/BF_15.png Graphic file (type png)
 <use Pictures/IOP15_part1/BF_15.png>
-Package pdftex.def Info: Pictures/IOP15_part1/BF_15.png  used on input line 610
+Package pdftex.def Info: Pictures/IOP15_part1/BF_15.png  used on input line 608
 .
 (pdftex.def)             Requested size: 172.5pt x 124.91193pt.
 
-Overfull \hbox (2.22221pt too wide) in paragraph at lines 602--612
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 600--610
 []$[]$ $[]$ 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[18] [19 <./Pictures/IOP30_part1/pressures_30.png (PNG copy)> <./Pictures/IOP15
-_part1/pressures_15.png (PNG copy)> <./Pictures/IOP30_part1/CRA_30.png (PNG cop
-y)> <./Pictures/IOP15_part1/CRA_15.png (PNG copy)>] [20 <./Pictures/IOP30_part1
-/venules_30.png (PNG copy)> <./Pictures/IOP15_part1/venules_15.png (PNG copy)> 
-<./Pictures/IOP30_part1/CRV_30.png (PNG copy)> <./Pictures/IOP15_part1/CRV_15.p
-ng (PNG copy)> <./Pictures/IOP30_part1/BF_30.png (PNG copy)> <./Pictures/IOP15_
-part1/BF_15.png (PNG copy)>]
-<Pictures/bf_iop.png, id=128, 421.575pt x 316.18124pt>
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 620.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+) [18] [19 <./Pictures/IOP30_part1/pressures_30.png (PNG copy)> <./Pictures/IOP
+15_part1/pressures_15.png (PNG copy)> <./Pictures/IOP30_part1/CRA_30.png (PNG c
+opy)> <./Pictures/IOP15_part1/CRA_15.png (PNG copy)>] [20 <./Pictures/IOP30_par
+t1/venules_30.png (PNG copy)> <./Pictures/IOP15_part1/venules_15.png (PNG copy)
+> <./Pictures/IOP30_part1/CRV_30.png (PNG copy)> <./Pictures/IOP15_part1/CRV_15
+.png (PNG copy)> <./Pictures/IOP30_part1/BF_30.png (PNG copy)> <./Pictures/IOP1
+5_part1/BF_15.png (PNG copy)>]
+<Pictures/bf_iop.png, id=129, 421.575pt x 316.18124pt>
 File: Pictures/bf_iop.png Graphic file (type png)
 <use Pictures/bf_iop.png>
-Package pdftex.def Info: Pictures/bf_iop.png  used on input line 647.
+Package pdftex.def Info: Pictures/bf_iop.png  used on input line 645.
 (pdftex.def)             Requested size: 276.00105pt x 207.00615pt.
  [21
 
- <./Pictures/bf_iop.png (PNG copy)>]
-(./Report.bbl [22]) [23] (./Report.aux) ) 
+ <./Pictures/bf_iop.png (PNG copy)>] (./Report.bbl [22]) [23]
+(./Report.aux) ) 
 Here is how much of TeX's memory you used:
- 16168 strings out of 492982
- 318855 string characters out of 6134896
- 368706 words of memory out of 5000000
- 19576 multiletter control sequences out of 15000+600000
- 540048 words of font info for 58 fonts, out of 8000000 for 9000
+ 16197 strings out of 492982
+ 319817 string characters out of 6134896
+ 366706 words of memory out of 5000000
+ 19599 multiletter control sequences out of 15000+600000
+ 541061 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,20n,50p,10417b,1020s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt9.pfb>
-Output written on Report.pdf (23 pages, 2288402 bytes).
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf/fonts/
+type1/public/lm/lmtt9.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm100
+0.pfb>
+Output written on Report.pdf (23 pages, 2296209 bytes).
 PDF statistics:
- 188 PDF objects out of 1000 (max. 8388607)
- 111 compressed objects within 2 object streams
+ 193 PDF objects out of 1000 (max. 8388607)
+ 115 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  101 words of extra memory for PDF output out of 10000 (max. 10000000)
 
